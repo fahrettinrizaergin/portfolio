@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet-async';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -76,22 +78,101 @@ const BlogPost = () => {
         <title>{post.title} - Fahrettin Rıza Ergin</title>
         <meta name="description" content={post.excerpt} />
         <style>
-            {`
-                blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
-                    margin-top: revert !important;
-                    margin-bottom: revert !important;
-                }
-            `}
+          {`
+            .blog-content {
+              color: #1e293b;
+              line-height: 1.8;
+            }
+            .blog-content h1,
+            .blog-content h2,
+            .blog-content h3,
+            .blog-content h4,
+            .blog-content h5,
+            .blog-content h6 {
+              color: #1e293b;
+              font-weight: 600;
+              margin-top: 2em;
+              margin-bottom: 1em;
+            }
+            .blog-content h1 { font-size: 2.25em; }
+            .blog-content h2 { font-size: 1.875em; }
+            .blog-content h3 { font-size: 1.5em; }
+            .blog-content h4 { font-size: 1.25em; }
+            .blog-content p {
+              margin-top: 1.5em;
+              margin-bottom: 1.5em;
+            }
+            .blog-content a {
+              color: #2563eb;
+              text-decoration: underline;
+            }
+            .blog-content ul,
+            .blog-content ol {
+              margin-top: 1.5em;
+              margin-bottom: 1.5em;
+              padding-left: 1.5em;
+            }
+            .blog-content li {
+              margin-top: 0.5em;
+              margin-bottom: 0.5em;
+            }
+            .blog-content blockquote {
+              border-left: 4px solid #2563eb;
+              padding-left: 1em;
+              margin: 1.5em 0;
+              font-style: italic;
+              background: rgba(37, 99, 235, 0.1);
+              padding: 1em;
+              border-radius: 0.375rem;
+            }
+            .blog-content pre {
+              margin: 1.5em 0;
+              padding: 1em;
+              border-radius: 0.375rem;
+              background: #1e293b;
+              overflow-x: auto;
+            }
+            .blog-content code {
+              background: rgba(37, 99, 235, 0.1);
+              padding: 0.2em 0.4em;
+              border-radius: 0.25em;
+              font-size: 0.875em;
+            }
+            .blog-content img {
+              margin: 1.5em 0;
+              border-radius: 0.375rem;
+              max-width: 100%;
+              height: auto;
+            }
+            .blog-content hr {
+              margin: 2em 0;
+              border: 0;
+              border-top: 2px solid rgba(37, 99, 235, 0.1);
+            }
+            .blog-content table {
+              width: 100%;
+              margin: 1.5em 0;
+              border-collapse: collapse;
+            }
+            .blog-content th,
+            .blog-content td {
+              padding: 0.75em;
+              border: 1px solid rgba(37, 99, 235, 0.2);
+            }
+            .blog-content th {
+              background: rgba(37, 99, 235, 0.1);
+              font-weight: 600;
+            }
+          `}
         </style>
       </Helmet>
 
-      <div className="min-h-screen pb-20 pt-40">
-        <div className="container mx-auto px-4 relative">
+      <div className="min-h-screen pb-20 pt-28">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className=''
           >
             {/* Blog Header */}
             <div className="max-w-4xl mx-auto text-center mb-12">
@@ -129,24 +210,23 @@ const BlogPost = () => {
             </div>
 
             {/* Featured Image */}
-            {
-                post.image && (
-                    <div className="max-w-4xl mx-auto mb-12 rounded-xl overflow-hidden relative w-full aspect-video">
-                        <div className="aspect-w-16 aspect-h-9 bg-accent">
-                            <div className="absolute inset-0 bg-secondary/10"></div>
-                            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
-                        </div>
-                    </div>
-                )
-            } 
+            {post.image && (
+              <div className="max-w-4xl mx-auto mb-12 rounded-xl overflow-hidden">
+                <div className="aspect-w-16 aspect-h-9 bg-accent relative">
+                  {/* <div className="absolute inset-0 bg-secondary/10"></div> */}
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            )}
 
             {/* Blog Content */}
-            <article className="max-w-3xl mx-auto prose prose-lg prose-secondary">
+            <article className="max-w-3xl mx-auto blog-content">
               <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
                 components={{
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '');
-                    console.log("inline,",inline, match);
                     return !inline && match ? (
                       <SyntaxHighlighter
                         style={atomDark}

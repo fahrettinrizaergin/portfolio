@@ -18,7 +18,9 @@
     "react-helmet-async": "^2.0.5",
     "react-markdown": "^9.0.3",
     "react-router-dom": "^7.1.5",
-    "react-syntax-highlighter": "^15.6.1"
+    "react-syntax-highlighter": "^15.6.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
