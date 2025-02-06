@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -9,58 +10,84 @@ gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const heroRef = useRef(null);
   const featuredRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [currentText, setCurrentText] = useState('');
+  const [stats, setStats] = useState({
+    commits: '2,500+',
+    projects: '15+',
+    experience: '5+ years',
+    contributions: '500+'
+  });
+  const fullText = "const developer = {\n  name: 'Fahrettin Rıza Ergin',\n  title: 'Full Stack Developer',\n  skills: ['JavaScript', 'React', 'Node.js', 'Go'],\n  passion: 'Building scalable web applications'\n};";
+
+  const [activeTab, setActiveTab] = useState('all');
+  const [isHovered, setIsHovered] = useState(null);
 
   useEffect(() => {
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setCurrentText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 50);
+
+    const loadTimer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+
     const ctx = gsap.context(() => {
-      // Animated background effect
       gsap.to('.hero-gradient', {
         backgroundPosition: '200% center',
-        duration: 15,
+        duration: 20,
         repeat: -1,
-        ease: 'none'
+        ease: 'none',
+        force3D: true
       });
 
-      gsap.to('.floating-particle', {
-        y: 'random(-20, 20)',
-        x: 'random(-20, 20)',
-        scale: 'random(0.8, 1.2)',
+      gsap.to('.matrix-rain', {
+        y: '100%',
+        opacity: 0.3,
         duration: 'random(2, 4)',
         repeat: -1,
-        yoyo: true,
-        ease: 'power1.inOut',
+        ease: 'none',
         stagger: {
-          amount: 4,
+          amount: 2,
           from: 'random'
         }
       });
 
-      // Hero Section Animations
       const heroTl = gsap.timeline({
-        defaults: { ease: 'power4.out', duration: 1 }
+        defaults: { 
+          ease: 'power3.out',
+          duration: 0.8,
+          force3D: true
+        }
       });
 
       heroTl
-        .fromTo('.hero-title',
-          { y: 100, opacity: 0 },
+        .fromTo('.terminal-header',
+          { y: 30, opacity: 0 },
           { y: 0, opacity: 1 }
         )
-        .fromTo('.hero-subtitle',
-          { y: 50, opacity: 0 },
+        .fromTo('.terminal-body',
+          { y: 30, opacity: 0 },
           { y: 0, opacity: 1 },
-          '-=0.5'
+          '-=0.6'
         )
         .fromTo('.hero-description',
-          { y: 50, opacity: 0 },
+          { y: 30, opacity: 0 },
           { y: 0, opacity: 1 },
-          '-=0.5'
+          '-=0.4'
         )
-        .fromTo('.hero-buttons',
-          { y: 50, opacity: 0 },
+        .fromTo('.tech-stack',
+          { y: 30, opacity: 0 },
           { y: 0, opacity: 1 },
-          '-=0.3'
+          '-=0.2'
         );
 
-      // Featured Section Animation
       ScrollTrigger.create({
         trigger: '.featured-section',
         start: 'top center+=100',
@@ -68,142 +95,427 @@ const Home = () => {
           gsap.to('.project-card', {
             y: 0,
             opacity: 1,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: 'power4.out'
+            duration: 0.6,
+            stagger: 0.15,
+            ease: 'power3.out',
+            force3D: true
           });
         },
         once: true
       });
     });
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      clearTimeout(loadTimer);
+      clearInterval(typingInterval);
+    };
   }, []);
+
+  const statsVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const blogPosts = [
+    {
+      id: 1,
+      title: "Modern Web Development with React",
+      date: "March 20, 2024",
+      category: "Frontend",
+      readTime: "5 min read",
+      excerpt: "Exploring the latest features and best practices in React development.",
+      image: "/images/blog1.jpg"
+    },
+    {
+      id: 2,
+      title: "Building Microservices with Go",
+      date: "March 18, 2024",
+      category: "Backend",
+      readTime: "7 min read",
+      excerpt: "A comprehensive guide to building scalable microservices architecture.",
+      image: "/images/blog2.jpg"
+    },
+    {
+      id: 3,
+      title: "DevOps Best Practices",
+      date: "March 15, 2024",
+      category: "DevOps",
+      readTime: "6 min read",
+      excerpt: "Essential DevOps practices for modern development teams.",
+      image: "/images/blog3.jpg"
+    }
+  ];
 
   return (
     <>
       <Helmet>
-        <title>Fahrettin Rıza Ergin</title>
-        <meta name="description" content="Welcome to my portfolio. I'm a full-stack developer specializing in modern web technologies." />
-        <meta name="keywords" content="Fahrettin Rıza Ergin, full-stack developer, web developer, software engineer, portfolio" />
+        <title>Fahrettin Rıza Ergin | Full Stack Developer</title>
+        <meta name="description" content="Full Stack Developer specializing in React, Node.js, and Go. Building scalable web applications with modern technologies." />
+        <meta name="keywords" content="Full Stack Developer, React, Node.js, Go, JavaScript, Web Development, Software Engineer" />
         <meta name="author" content="Fahrettin Rıza Ergin" />
       </Helmet>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="page-section min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Animated gradient background */}
-        <div className="absolute inset-0 hero-gradient bg-gradient-to-r from-secondary/5 via-primary to-secondary/5 bg-[length:200%_100%]"></div>
-        
-        {/* Floating particles */}
-        <div className="absolute inset-0 overflow-hidden">
+      <section 
+        ref={heroRef} 
+        className={`page-section min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-blue-50/30 to-white ${isLoaded ? 'loaded' : 'initial-load'}`}
+      >
+        <div className="absolute inset-0 overflow-hidden opacity-10">
           {[...Array(50)].map((_, i) => (
             <div
               key={i}
-              className={`floating-particle absolute w-2 h-2 rounded-full bg-secondary/10
-                ${i % 2 === 0 ? 'backdrop-blur-sm' : ''}`}
+              className="absolute text-blue-600/20 text-xs"
               style={{
                 left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`
+                top: `-${Math.random() * 100}%`,
+                transform: `rotate(${Math.random() * 360}deg)`
               }}
-            ></div>
+            >
+              {String.fromCharCode(33 + Math.random() * 93)}
+            </div>
           ))}
         </div>
 
-        {/* Radial gradient overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.05)_0%,transparent_70%)] animate-pulse"></div>
+        <div className="container relative z-10 px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-blue-100 overflow-hidden">
+              <div className="terminal-header flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100">
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                <span className="ml-2 text-sm text-gray-600 font-mono">~/developer-profile</span>
+              </div>
+              <div className="p-6 bg-gradient-to-br from-white to-blue-50">
+                <div className="flex items-center text-blue-600 mb-2 font-mono">
+                  <span className="mr-2">$</span>
+                  <span className="typing-cursor">node developer.js</span>
+                </div>
+                <pre className="text-gray-700 whitespace-pre-wrap font-mono">
+                  {currentText}
+                </pre>
+              </div>
+            </div>
 
-        <div className="container relative z-10">
-          <div className="section-content">
-            <span className="text-secondary font-mono mb-4 block opacity-0 hero-subtitle">
-              Hi, my name is
-            </span>
-            <h1 className="hero-title text-2xl md:text-4xl lg:text-6xl font-bold mb-6 opacity-0">
-              <span className="gradient-text">Fahrettin Rıza Ergin</span>
-            </h1>
-            <h2 className="hero-subtitle text-3xl md:text-4xl text-textSecondary mb-8 opacity-0 font-semibold">
-              I build things for the web
-            </h2>
-            <p className="hero-description text-lg md:text-xl text-textSecondary mb-12 max-w-2xl mx-auto opacity-0">
-              Hello!!! I am a full-stack web developer. I use modern technologies to create a user-friendly and 
-              I develop web applications with high performance. I like to learn new things and create projects.
-            </p>
-            <div className="hero-buttons flex justify-center space-x-6 opacity-0">
-              <a href="/contact" className="btn btn-primary hover-translate focus-ring">
-                Get in Touch
-              </a>
-              <a
-                href="/projects"
-                className="btn glass-effect text-textPrimary hover-translate focus-ring"
-              >
-                View Projects
-              </a>
+            <div className="mt-12 text-center">
+              <p className="hero-description text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                Passionate about creating efficient, scalable, and maintainable code. 
+                Specializing in full-stack development with modern technologies.
+              </p>
+
+              <div className="tech-stack space-y-6">
+                <h3 className="text-gray-800 font-semibold mb-4">Some of the Technology Stack I Use</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { title: 'Frontend', tech: 'React, Vue, Next.js', color: 'blue' },
+                    { title: 'Backend', tech: 'Node.js, Go, Python', color: 'indigo' },
+                    { title: 'Database', tech: 'PostgreSQL, MongoDB', color: 'purple' },
+                    { title: 'DevOps', tech: 'Docker, K8s, CI/CD', color: 'green' }
+                  ].map((stack, index) => (
+                    <motion.div
+                      key={index}
+                      className={`p-4 rounded-lg bg-white shadow-sm border border-${stack.color}-100 hover:shadow-md transition-all duration-300`}
+                      whileHover={{ y: -5 }}
+                    >
+                      <h4 className={`text-${stack.color}-600 mb-2 font-semibold`}>{stack.title}</h4>
+                      <div className="text-sm text-gray-600">{stack.tech}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+ 
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Section */}
-      <section ref={featuredRef} className="page-section bg-tertiary/30 relative">
-        <div className="container relative z-10">
-          <h2 className="section-title mb-16">Featured Projects</h2>
-          <div className="grid-container grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-blue-50/50">
+        <div className="container px-4">
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              visible: {
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+          >
+            {[
+              { key: 'commits', value: '2,500+', icon: '📝', color: 'blue' },
+              { key: 'projects', value: '15+', icon: '🚀', color: 'indigo' },
+              { key: 'experience', value: '5+ years', icon: '⚡', color: 'purple' },
+              { key: 'contributions', value: '500+', icon: '🌟', color: 'green' }
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.key}
+                variants={statsVariants}
+                className={`relative bg-white rounded-xl p-6 shadow-sm border border-${stat.color}-100 hover:shadow-md transition-all duration-300`}
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <div className="relative z-10">
+                  <div className={`text-4xl font-bold text-${stat.color}-600 mb-2`}>{stat.value}</div>
+                  <div className="text-gray-600 capitalize">{stat.key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                </div>
+                <div className="absolute -right-4 -bottom-4 text-8xl opacity-10">
+                  {stat.icon}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
+      {/* Blog Posts Section */}
+      <section className="py-20 bg-gradient-to-b from-blue-50/50 to-white">
+        <div className="container px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              <span className="gradient-text">Latest Blog Posts</span>
+            </h2> 
+          </div>
 
-            <motion.div
-              className="project-card card opacity-0 translate-y-10 relative"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ 
-                y: -10,
-                transition: { duration: 0.2, ease: "easeOut" }
-              }}
-              whileTap={{ scale: 0.98 }}
-              transition={{
-                duration: 0.5,
-                ease: "easeOut"
-              }}
-            >
-              <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden bg-accent mb-6">
-                <div className="absolute inset-0 bg-secondary/5 transition-colors duration-300 hover:bg-secondary/10 rounded-lg"></div>
-              </div>
-              <h3 className="text-xl font-semibold mb-3 gradient-text">FTA - Proxy & Gateway System</h3>
-              <p className="text-textSecondary mb-6">
-                FTA - Proxy & Gateway System is a system that allows you to proxy and gateway your requests.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                <span className="text-xs bg-accent/50 px-3 py-1 rounded-full text-secondary">Golang</span>
-                <span className="text-xs bg-accent/50 px-3 py-1 rounded-full text-secondary">PostgreSQL</span>
-                <span className="text-xs bg-accent/50 px-3 py-1 rounded-full text-secondary">Docker</span>
-                <span className="text-xs bg-accent/50 px-3 py-1 rounded-full text-secondary">ReactJS</span>
-              </div>
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="text-secondary hover:text-secondary/80 transition-colors duration-300 hover-translate flex items-center"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {blogPosts 
+              .map((post, index) => (
+                <motion.article
+                  key={post.id}
+                  className="group bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  onHoverStart={() => setIsHovered(post.id)}
+                  onHoverEnd={() => setIsHovered(null)}
                 >
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  Live Demo
-                </a>
-                <a
-                  href="#"
-                  className="text-secondary hover:text-secondary/80 transition-colors duration-300 hover-translate flex items-center"
-                >
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                  </svg>
-                  Source Code
-                </a>
-              </div>
-            </motion.div>
-
-
+                  <div className="aspect-w-16 aspect-h-9 bg-gradient-to-br from-blue-100 to-purple-100 group-hover:scale-105 transition-transform duration-300">
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-5xl transform group-hover:scale-110 transition-transform duration-300">
+                        {post.category === 'Frontend' ? '🎨' : post.category === 'Backend' ? '⚙️' : '🚀'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-blue-600 font-semibold">{post.date}</span>
+                      <span className="text-xs bg-blue-50 px-3 py-1 rounded-lg text-blue-600 border border-blue-100 font-medium">
+                        {post.readTime}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+                    <Link
+                      to="/blogs"
+                      className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all duration-300"
+                    >
+                      Read More
+                      <motion.svg
+                        className="w-5 h-5 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        animate={{ x: isHovered === post.id ? 5 : 0 }}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </motion.svg>
+                    </Link>
+                  </div>
+                </motion.article>
+              ))}
           </div>
         </div>
       </section>
+
+      {/* My Services */}
+      <section className="py-20 bg-gradient-to-b from-white to-blue-50/50">
+        <div className="container px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            <span className="gradient-text">My Services</span>
+          </h2>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Web Development",
+                  description: "Building modern, responsive, and scalable web applications with cutting-edge technologies",
+                  features: ["Custom Web Apps", "E-commerce Solutions", "Progressive Web Apps", "API Development"],
+                  color: "blue",
+                  icon: "💻",
+                  gradient: "from-blue-500 to-blue-600"
+                },
+                {
+                  title: "Mobile Solutions",
+                  description: "Creating cross-platform mobile applications that provide seamless user experiences",
+                  features: ["React Native Apps", "iOS & Android", "App Optimization", "Mobile UI/UX"],
+                  color: "purple",
+                  icon: "📱",
+                  gradient: "from-purple-500 to-purple-600"
+                },
+                {
+                  title: "Cloud & DevOps",
+                  description: "Implementing cloud solutions and streamlining development operations",
+                  features: ["Docker"],
+                  color: "indigo",
+                  icon: "☁️",
+                  gradient: "from-indigo-500 to-indigo-600"
+                },
+                {
+                  title: "UI/UX Design",
+                  description: "Designing intuitive and beautiful user interfaces with modern design principles",
+                  features: ["Responsive Design", "User Research", "Prototyping", "Design Systems"],
+                  color: "green",
+                  icon: "🎨",
+                  gradient: "from-green-500 to-green-600"
+                },
+                {
+                  title: "Backend Development",
+                  description: "Building robust and scalable server-side applications and APIs",
+                  features: ["API Design", "Database Design", "Microservices", "Performance Optimization"],
+                  color: "red",
+                  icon: "⚙️",
+                  gradient: "from-red-500 to-red-600"
+                },
+                {
+                  title: "Consulting",
+                  description: "Providing technical expertise and solutions for your development needs",
+                  features: ["Tech Consulting", "Code Review", "Architecture Design", "Team Training"],
+                  color: "yellow",
+                  icon: "💡",
+                  gradient: "from-yellow-500 to-yellow-600"
+                }
+              ].map((service, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className={`h-2 bg-gradient-to-r ${service.gradient}`} />
+                  <div className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className={`flex-shrink-0 w-12 h-12 rounded-lg bg-${service.color}-50 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300`}>
+                        {service.icon}
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-800">{service.title}</h3>
+                    </div>
+                    <p className="text-gray-600 mb-4">{service.description}</p>
+                    <div className="space-y-2">
+                      {service.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <svg
+                            className={`w-5 h-5 text-${service.color}-500`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          <span className="text-gray-600">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-6">
+                      <motion.button
+                        className={`w-full py-2 px-4 rounded-lg bg-gradient-to-r ${service.gradient} text-white font-semibold hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        Learn More
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <style jsx>{`
+        .typing-cursor::after {
+          content: '|';
+          animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+          from, to { opacity: 1; }
+          50% { opacity: 0; }
+        }
+
+        .tech-card {
+          transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-text {
+          @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary via-primary to-secondary;
+          background-size: 200% auto;
+          animation: shine 8s linear infinite;
+        }
+
+        @keyframes shine {
+          to {
+            background-position: 200% center;
+          }
+        }
+
+        .stat-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(circle at top right, var(--color-secondary), transparent 70%);
+          opacity: 0.1;
+          transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::before {
+          opacity: 0.2;
+        }
+      `}</style>
     </>
   );
 };

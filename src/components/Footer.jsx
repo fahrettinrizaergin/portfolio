@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
+import { socials } from '../utils/socials';
 
 const Footer = () => {
   const socialLinks = [
     {
       name: 'GitHub',
-      url: 'https://github.com/yourusername',
+      url: socials.github.url,
       icon: (
         <svg
           className="w-5 h-5"
@@ -22,7 +23,7 @@ const Footer = () => {
     },
     {
       name: 'LinkedIn',
-      url: 'https://linkedin.com/in/yourusername',
+      url: socials.linkedin.url,
       icon: (
         <svg
           className="w-5 h-5"
@@ -40,7 +41,7 @@ const Footer = () => {
     },
     {
       name: 'Twitter',
-      url: 'https://twitter.com/yourusername',
+      url: socials.twitter.url,
       icon: (
         <svg
           className="w-5 h-5"

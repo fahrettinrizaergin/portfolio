@@ -54,7 +54,7 @@ const BlogPost = () => {
           end: 'bottom center',
         },
         y: 30,
-        opacity: 0,
+        opacity: 1,
         duration: 0.8,
         stagger: 0.1,
         ease: 'power4.out',
@@ -171,8 +171,8 @@ const BlogPost = () => {
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            animate={{ opacity: 1, y: 20 }}
+            transition={{ duration: 0.2 }}
           >
             {/* Blog Header */}
             <div className="max-w-4xl mx-auto text-center mb-12">

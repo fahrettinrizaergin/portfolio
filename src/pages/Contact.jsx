@@ -1,176 +1,175 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { socials } from '../utils/socials';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isHovered, setIsHovered] = useState(null);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  useEffect(() => {
+    const loadTimer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+    return () => clearTimeout(loadTimer);
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      // Here you would typically send the form data to your backend
-      // For now, we'll simulate a successful submission
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
+  const contactInfo = [
+    {
+      title: 'Email',
+      value: 'fahrettinriza@gmail.com',
+      icon: '📧',
+      gradient: 'from-blue-400 to-blue-600',
+      link: 'mailto:fahrettinriza@gmail.com'
+    },
+    {
+      title: 'Location',
+      value: 'Antalya, Turkey',
+      icon: '📍',
+      gradient: 'from-red-400 to-red-600',
+      link: 'https://maps.google.com/?q=Antalya,Turkey'
+    },
+    {
+      title: 'Availability',
+      value: 'Open to opportunities',
+      icon: '🌟',
+      gradient: 'from-green-400 to-green-600'
     }
-  };
+  ];
 
   return (
     <>
       <Helmet>
-        <title>Contact - Your Name</title>
+        <title>Contact - Fahrettin Rıza Ergin</title>
         <meta
           name="description"
-          content="Get in touch with me for collaboration, job opportunities, or any questions you may have."
+          content="Get in touch with me for collaboration, opportunities, or just to say hello!"
         />
       </Helmet>
 
-      <div className="min-h-screen py-20">
+      <div className={`min-h-screen pb-20 pt-32 bg-gradient-to-b from-blue-50/30 to-white ${isLoaded ? 'loaded' : 'initial-load'}`}>
         <div className="container mx-auto px-4">
-          <motion.div
-            className="max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="section-title text-center mb-12">Get in Touch</h1>
-            <p className="text-textSecondary text-lg text-center max-w-2xl mx-auto mb-16">
-              I'm always interested in hearing about new projects and opportunities.
-              Whether you have a question or just want to say hi, feel free to drop
-              me a message!
-            </p>
+          <div className="max-w-6xl mx-auto">
+            {/* Hero Section */}
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <h1 className="text-5xl font-bold mb-6">
+                <span className="gradient-text">Let's Connect</span>
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                I'm always interested in hearing about new opportunities, collaborations,
+                or just having a friendly chat about technology and development.
+              </p>
+            </motion.div>
 
-            <div className="">
-              {/* Contact Information */}
-              <div className="bg-tertiary rounded-lg p-8">
-                <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <svg
-                      className="w-6 h-6 text-secondary mr-4 mt-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+            {/* Contact Info Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              {contactInfo.map((info, index) => (
+                <motion.div
+                  key={index}
+                  className="relative bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 group"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  {info.link ? (
+                    <a
+                      href={info.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <div>
-                      <h3 className="text-lg font-medium mb-1">Email</h3>
-                      <a
-                        href="mailto:fahrettinrizaergin@gmail.com"
-                        className="text-textSecondary hover:text-secondary transition-colors duration-300"
-                      >
-                        fahrettinrizaergin@gmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <svg
-                      className="w-6 h-6 text-secondary mr-4 mt-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    <div>
-                      <h3 className="text-lg font-medium mb-1">Location</h3>
-                      <p className="text-textSecondary">Antalya, Türkiye</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <svg
-                      className="w-6 h-6 text-secondary mr-4 mt-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                      />
-                    </svg>
-                    <div>
-                      <h3 className="text-lg font-medium mb-1">Social Media</h3>
-                      <div className="flex space-x-4">
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-textSecondary hover:text-secondary transition-colors duration-300"
-                        >
-                          LinkedIn
-                        </a>
-                        <a
-                          href="#"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-textSecondary hover:text-secondary transition-colors duration-300"
-                        >
-                          Twitter
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
- 
+                      <ContactCard info={info} />
+                    </a>
+                  ) : (
+                    <ContactCard info={info} />
+                  )}
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-blue-100"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <h2 className="text-2xl font-bold mb-8 text-center">
+                <span className="gradient-text">Connect with Me</span>
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {Object.values(socials).map((social, index) => (
+                  <motion.a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative bg-gradient-to-br from-white to-blue-50 rounded-xl p-6 shadow-sm border border-blue-100 hover:shadow-md transition-all duration-300 flex flex-col items-center gap-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -5 }}
+                    onHoverStart={() => setIsHovered(social.name)}
+                    onHoverEnd={() => setIsHovered(null)}
+                  >
+                    <div className="relative">
+                      <div className={`absolute inset-0 bg-gradient-to-r ${social.gradient} blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300`} />
+                      <div className="relative text-4xl">{social.icon}</div>
+                    </div>
+                    <div className="text-center">
+                      <h3 className="font-semibold text-gray-800 mb-1">{social.name}</h3>
+                      <p className="text-sm text-gray-600">{social.username}</p>
+                    </div>
+                    <motion.div
+                      className="absolute bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-blue-600"
+                      animate={{ x: isHovered === social.name ? 5 : 0 }}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </motion.div>
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .gradient-text {
+          @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600;
+          background-size: 200% auto;
+          animation: shine 8s linear infinite;
+        }
+
+        @keyframes shine {
+          to {
+            background-position: 200% center;
+          }
+        }
+      `}</style>
     </>
   );
 };
+
+const ContactCard = ({ info }) => (
+  <div className="relative">
+    <div className={`absolute inset-0 bg-gradient-to-r ${info.gradient} blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300 rounded-xl`} />
+    <div className="relative">
+      <div className="text-4xl mb-4">{info.icon}</div>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">{info.title}</h3>
+      <p className="text-gray-600">{info.value}</p>
+    </div>
+  </div>
+);
 
 export default Contact; 

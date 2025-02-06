@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
+import global from '../assets/global.module.css';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -31,8 +33,8 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-secondary">
-          Portfolio
+        <Link to="/" className={`text-2xl font-bold text-secondary ${global.robotoRegular}`}>
+          F. R. Ergin
         </Link>
 
         {/* Desktop Menu */}
