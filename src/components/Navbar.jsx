@@ -33,7 +33,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className={`text-2xl font-bold text-secondary ${global.robotoRegular}`}>
+        <Link to="/" className={`text-3xl font-bold text-secondary ${global.robotoRegular}`}>
           F. R. Ergin
         </Link>
 

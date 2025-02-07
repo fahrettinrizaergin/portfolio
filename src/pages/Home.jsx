@@ -217,7 +217,7 @@ const Home = () => {
                     { title: 'Frontend', tech: 'React, Vue, Next.js', color: 'blue' },
                     { title: 'Backend', tech: 'Node.js, Go, Python', color: 'indigo' },
                     { title: 'Database', tech: 'PostgreSQL, MongoDB', color: 'purple' },
-                    { title: 'DevOps', tech: 'Docker, K8s, CI/CD', color: 'green' }
+                    { title: 'DevOps', tech: 'Docker', color: 'green' }
                   ].map((stack, index) => (
                     <motion.div
                       key={index}
@@ -258,11 +258,11 @@ const Home = () => {
               { key: 'experience', value: '5+ years', icon: '⚡', color: 'purple' },
               { key: 'contributions', value: '500+', icon: '🌟', color: 'green' }
             ].map((stat, index) => (
-              <motion.div
+            <motion.div
                 key={stat.key}
                 variants={statsVariants}
                 className={`relative bg-white rounded-xl p-6 shadow-sm border border-${stat.color}-100 hover:shadow-md transition-all duration-300`}
-                whileHover={{
+              whileHover={{ 
                   scale: 1.05,
                   transition: { duration: 0.2 }
                 }}
@@ -277,7 +277,7 @@ const Home = () => {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+              </div>
       </section>
 
       {/* Blog Posts Section */}
@@ -287,7 +287,7 @@ const Home = () => {
             <h2 className="text-3xl font-bold mb-4">
               <span className="gradient-text">Latest Blog Posts</span>
             </h2> 
-          </div>
+              </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {blogPosts 
@@ -457,11 +457,11 @@ const Home = () => {
                             strokeWidth={2}
                             d="M17 8l4 4m0 0l-4 4m4-4H3"
                           />
-                        </svg>
+                  </svg>
                       </motion.button>
                     </div>
-                  </div>
-                </motion.div>
+              </div>
+            </motion.div>
               ))}
             </div>
           </div>
