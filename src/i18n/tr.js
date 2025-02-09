@@ -77,6 +77,13 @@ export default {
             title: "Blog Bulunamadı",
             description: "Aradığınız sayfada içerik bulunamadı.",
         }
+    },
+    blog_post: {
+        meta: {
+            title: "{{val, string}} - Blog yazısı ",
+            description: "",
+            keywords: "",
+        },
     }
   }
 }

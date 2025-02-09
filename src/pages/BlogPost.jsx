@@ -86,7 +86,7 @@ const BlogPost = () => {
   return (
     <>
       <Helmet>
-        <title>{post.title} - Fahrettin Rıza Ergin</title>
+        <title>{t('blog_post.meta.title', {val: post.title})} - Fahrettin Rıza Ergin</title>
         <meta name="description" content={post.excerpt} />
         <style>
           {`

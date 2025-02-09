@@ -1,3 +1,5 @@
+import { meta } from "@eslint/js";
+
 export default {
   translation: {
     nav: {
@@ -77,6 +79,13 @@ export default {
             title: "Not Found",
             description: "The page you are looking for could not be found.",
         }
+    },
+    blog_post: {
+        meta: {
+            title: "{{val, string}} - Blog Post ",
+            description: "",
+            keywords: "",
+        },
     }
   }
 }
