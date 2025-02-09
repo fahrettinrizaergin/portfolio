@@ -10,11 +10,16 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['react-helmet-async']
+    include: ['react-helmet-async', 'i18next', 'react-i18next']
   },
   build: {
     commonjsOptions: {
       transformMixedEsModules: true
+    }
+  },
+  server: {
+    fs: {
+      strict: false
     }
   }
 })

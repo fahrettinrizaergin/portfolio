@@ -23,8 +23,8 @@ const BlogPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try { 
-        // get lang
-        const lang = i18n.language || 'en';
+        // get lang and normalize it to base language code
+        const lang = (i18n.language || 'en').split('-')[0];
         console.log(lang)
         const blogs = await import('../../public/contents/blogs.json');
         const foundPost = blogs.default[lang].find(p => p.slug === slug);
