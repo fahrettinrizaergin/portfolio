@@ -1,0 +1,214 @@
+# JavaScript'te Asenkron Programlama: Promises ve Async/Await 🚀
+
+Merhaba! Bu rehberde JavaScript'in en önemli konularından biri olan asenkron programlamayı öğreneceğiz. Callback'lerden modern async/await yapısına kadar her şeyi dostça bir dille ve pratik örneklerle ele alacağız. Haydi başlayalım! 👋
+
+## Callback Fonksiyonlarına Giriş 📞
+
+Callback fonksiyonları, asenkron işlemlerin temelini oluşturur. Bir işlem tamamlandığında çağrılan fonksiyonlardır:
+
+```javascript
+// Basit bir callback örneği
+function veriGetir(callback) {
+    setTimeout(() => {
+        const veri = "İşte verileriniz!";
+        callback(veri);
+    }, 2000);
+}
+
+veriGetir((veri) => {
+    console.log(veri); // 2 saniye sonra: "İşte verileriniz!"
+});
+
+// Callback Hell örneği 😱
+veriGetir((veri1) => {
+    console.log(veri1);
+    veriGetir((veri2) => {
+        console.log(veri2);
+        veriGetir((veri3) => {
+            console.log(veri3);
+        });
+    });
+});
+```
+
+## Promise (Söz) 🤝
+
+Promise'ler, callback hell'den kurtulmamızı sağlayan modern bir yapıdır:
+
+```javascript
+// Promise oluşturma
+const veriGetirPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        const basarili = true;
+        if (basarili) {
+            resolve("Veri başarıyla getirildi!");
+        } else {
+            reject("Veri getirilemedi!");
+        }
+    }, 2000);
+});
+
+// Promise kullanımı
+veriGetirPromise
+    .then(veri => console.log(veri))
+    .catch(hata => console.error(hata));
+```
+
+## Promise Zinciri ⛓️
+
+Promise'leri birbirine bağlayarak sıralı işlemler yapabiliriz:
+
+```javascript
+function kullaniciGetir(id) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve({ id: id, ad: "Ayşe" });
+        }, 1000);
+    });
+}
+
+function siparisGetir(kullanici) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve({
+                kullaniciId: kullanici.id,
+                urunler: ["Laptop", "Mouse"]
+            });
+        }, 1000);
+    });
+}
+
+// Promise zinciri
+kullaniciGetir(1)
+    .then(kullanici => siparisGetir(kullanici))
+    .then(siparis => console.log(siparis))
+    .catch(hata => console.error(hata));
+```
+
+## Promise'lerde Hata Yönetimi 🚨
+
+Promise'lerde hataları yakalamak ve yönetmek önemlidir:
+
+```javascript
+function guvenliVeriGetir() {
+    return new Promise((resolve, reject) => {
+        // Rastgele hata üretme
+        if (Math.random() > 0.5) {
+            resolve("Veri başarıyla alındı");
+        } else {
+            reject(new Error("Veri alınamadı!"));
+        }
+    });
+}
+
+guvenliVeriGetir()
+    .then(veri => console.log(veri))
+    .catch(hata => {
+        console.error("Hata yakalandı:", hata.message);
+        // Hata durumunda yedek veriyi döndür
+        return "Yedek veri";
+    })
+    .finally(() => {
+        console.log("İşlem tamamlandı");
+    });
+```
+
+## Promise API 🛠️
+
+Promise sınıfının kullanışlı metodları:
+
+```javascript
+// Promise.all - tüm promise'lerin tamamlanmasını bekler
+Promise.all([
+    Promise.resolve(1),
+    Promise.resolve(2),
+    Promise.resolve(3)
+]).then(sonuclar => console.log(sonuclar)); // [1, 2, 3]
+
+// Promise.race - ilk tamamlanan promise'i döndürür
+Promise.race([
+    new Promise(r => setTimeout(() => r(1), 1000)),
+    new Promise(r => setTimeout(() => r(2), 500))
+]).then(sonuc => console.log(sonuc)); // 2
+
+// Promise.allSettled - tüm promise'lerin durumunu bekler
+Promise.allSettled([
+    Promise.resolve(1),
+    Promise.reject("hata")
+]).then(sonuclar => console.log(sonuclar));
+```
+
+## Promisification 🔄
+
+Callback tabanlı fonksiyonları Promise'e dönüştürme:
+
+```javascript
+// Callback tabanlı fonksiyon
+function gelenekselVeriGetir(callback) {
+    setTimeout(() => callback(null, "veri"), 1000);
+}
+
+// Promise'e dönüştürme
+function promiseVeriGetir() {
+    return new Promise((resolve, reject) => {
+        gelenekselVeriGetir((hata, veri) => {
+            if (hata) reject(hata);
+            else resolve(veri);
+        });
+    });
+}
+
+// Kullanım
+promiseVeriGetir().then(console.log);
+```
+
+## Microtasks ve Event Loop 🔄
+
+Promise'ler microtask kuyruğunda çalışır:
+
+```javascript
+console.log("1");
+
+setTimeout(() => console.log("2"), 0);
+
+Promise.resolve().then(() => console.log("3"));
+
+console.log("4");
+
+// Çıktı: 1, 4, 3, 2
+```
+
+## Async/Await 🌟
+
+Promise'leri daha okunabilir hale getiren modern sözdizimi:
+
+```javascript
+async function kullaniciVerileriniGetir(id) {
+    try {
+        const kullanici = await kullaniciGetir(id);
+        const siparis = await siparisGetir(kullanici);
+        return siparis;
+    } catch (hata) {
+        console.error("Hata:", hata);
+        throw hata;
+    }
+}
+
+// Async fonksiyon kullanımı
+kullaniciVerileriniGetir(1)
+    .then(sonuc => console.log(sonuc))
+    .catch(hata => console.error(hata));
+
+// Paralel işlemler
+async function parallelVeriGetir() {
+    const [kullanici, urunler] = await Promise.all([
+        kullaniciGetir(1),
+        siparisGetir({ id: 1 })
+    ]);
+    return { kullanici, urunler };
+}
+```
+
+Bu rehberde JavaScript'in asenkron programlama özelliklerini öğrendik. Callback'lerden başlayıp modern async/await yapısına kadar ilerledik. Bu bilgiler, modern web uygulamaları geliştirirken size çok yardımcı olacak! 🚀
+
+Başarılar! 👋

@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useEffect } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/i18n';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-
+ 
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
@@ -25,8 +27,9 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <Router>
-      <HelmetProvider>
+    <I18nextProvider i18n={i18n}>
+      <Router>
+        <HelmetProvider>
         <div className="min-h-screen flex flex-col">
           <ScrollToTop />
           <Navbar />
@@ -41,10 +44,11 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
-          <Footer />
+          <Footer /> 
         </div>
-      </HelmetProvider>
-    </Router>
+        </HelmetProvider>
+      </Router>
+    </I18nextProvider>
   );
 }
 

@@ -4,50 +4,7 @@ import { socials } from '../utils/socials';
 
 const Footer = () => {
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { type: 'ai', content: 'Hello! How can I help you today? Please select an option below.' }
-  ]);
-
-  const menuOptions = [
-    {
-      id: 'about',
-      title: 'About Me',
-      icon: '👨‍💻',
-      response: "I'm Fahrettin Rıza Ergin, a Full Stack Developer with expertise in React, Node.js, and Go. I'm passionate about creating efficient and scalable web applications."
-    },
-    {
-      id: 'skills',
-      title: 'My Skills',
-      icon: '🚀',
-      response: "I specialize in:\n• Frontend: React, Vue, Next.js\n• Backend: Node.js, Go, Python\n• Database: PostgreSQL, MongoDB\n• DevOps: Docker, Kubernetes"
-    },
-    {
-      id: 'contact',
-      title: 'Contact Info',
-      icon: '📧',
-      response: "You can reach me at:\n• Email: fahrettinrizaergin@gmail.com\n• Location: Antalya, Turkey\n• LinkedIn: Check my profile in the social links below"
-    },
-    {
-      id: 'projects',
-      title: 'View Projects',
-      icon: '💼',
-      response: "Check out my projects section to see my work in:\n• Web Development\n• Mobile Solutions\n• Cloud & DevOps\n• And more! \n• You can also check my projects on my <a href='https://github.com/fahrettinriza'>GitHub</a> page."
-    },
-    {
-      id: 'availability',
-      title: 'Availability',
-      icon: '📅',
-      response: "I'm currently open to:\n• Full-time opportunities\n• Freelance projects\n• Technical consulting\n• Interesting collaborations"
-    }
-  ];
-
-  const handleOptionSelect = (option) => {
-    setMessages([
-      ...messages,
-      { type: 'user', content: option.title },
-      { type: 'ai', content: option.response }
-    ]);
-  };
+    
 
   const socialLinks = [
     {
@@ -134,95 +91,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Fahrettin Rıza Ergin. All rights reserved.
           </motion.p>
         </div>
-      </div>
-
-      {/* AI Chat Button */}
-      <motion.div
-        className="fixed bottom-4 right-4 z-50"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      >
-        <button
-          onClick={() => setIsAIChatOpen(!isAIChatOpen)}
-          className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
-        >
-          <span className="text-2xl transform group-hover:scale-110 transition-transform duration-300">
-            {isAIChatOpen ? '✕' : '🤖'}
-          </span>
-        </button>
-      </motion.div>
-
-      {/* AI Chat Window */}
-      <AnimatePresence>
-        {isAIChatOpen && (
-          <motion.div
-            className="fixed bottom-20 right-4 w-96 bg-white rounded-xl shadow-2xl overflow-hidden z-40"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          >
-            {/* Chat Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                  <span className="text-xl">🤖</span>
-                </div>
-                <div>
-                  <h3 className="text-white font-semibold">AI Assistant</h3>
-                  <p className="text-blue-100 text-sm">Online</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Chat Messages */}
-            <div className="h-96 overflow-y-auto p-4 bg-gray-50">
-              {messages.map((message, index) => (
-                <motion.div
-                  key={index}
-                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} mb-4`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div
-                    className={`max-w-[80%] p-3 rounded-xl ${
-                      message.type === 'user'
-                        ? 'bg-blue-500 text-white rounded-br-none'
-                        : 'bg-white shadow-md rounded-bl-none'
-                    }`}
-                  >
-                    <p className={`${message.type === 'user' ? 'text-white' : 'text-gray-700'} whitespace-pre-line`} dangerouslySetInnerHTML={{ __html: message.content }} />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Menu Options */}
-            <div className="p-4 bg-white border-t">
-              <div className="grid grid-cols-2 gap-2">
-                {menuOptions.map((option) => (
-                  <motion.button
-                    key={option.id}
-                    onClick={() => handleOptionSelect(option)}
-                    className="p-3 rounded-lg bg-gray-50 hover:bg-blue-50 border border-gray-200 transition-colors duration-300 flex flex-col items-center gap-2 group"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
-                      {option.icon}
-                    </span>
-                    <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 text-center">
-                      {option.title}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div> 
     </footer>
   );
 };

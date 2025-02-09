@@ -1,0 +1,203 @@
+# JavaScript'te Sınıflar: Nesne Yönelimli Programlama 🎓
+
+Merhaba! Bu rehberde JavaScript'te sınıfları (classes) ve nesne yönelimli programlamanın temellerini öğreneceğiz. Konuyu pratik örneklerle ve dostça bir dille ele alacağız. Haydi başlayalım! 👋
+
+## Temel Sınıf Sözdizimi 📝
+
+JavaScript'te bir sınıf oluşturmak oldukça basittir:
+
+```javascript
+class Araba {
+    constructor(marka, model) {
+        this.marka = marka;
+        this.model = model;
+    }
+
+    bilgiGoster() {
+        return `${this.marka} ${this.model}`;
+    }
+}
+
+// Sınıfı kullanma
+let arabam = new Araba("Toyota", "Corolla");
+console.log(arabam.bilgiGoster()); // "Toyota Corolla"
+```
+
+## Sınıf Kalıtımı ve Super 🔄
+
+Kalıtım, bir sınıfın başka bir sınıftan özelliklerini ve metodlarını devralmasıdır:
+
+```javascript
+class Arac {
+    constructor(marka) {
+        this.marka = marka;
+    }
+
+    calistir() {
+        return `${this.marka} çalışıyor`;
+    }
+}
+
+class Otomobil extends Arac {
+    constructor(marka, model) {
+        super(marka); // Üst sınıfın constructor'ını çağırır
+        this.model = model;
+    }
+
+    bilgiGoster() {
+        return `${this.marka} ${this.model} - ${this.calistir()}`;
+    }
+}
+
+let otomobilim = new Otomobil("Honda", "Civic");
+console.log(otomobilim.bilgiGoster()); // "Honda Civic - Honda çalışıyor"
+```
+
+## Static Özellikler ve Metodlar 🏢
+
+Static üyeler, sınıfın kendisine aittir ve örnek oluşturmadan kullanılabilir:
+
+```javascript
+class Matematik {
+    static PI = 3.14159;
+
+    static alanHesapla(yaricap) {
+        return this.PI * yaricap * yaricap;
+    }
+
+    static topla(a, b) {
+        return a + b;
+    }
+}
+
+console.log(Matematik.PI); // 3.14159
+console.log(Matematik.alanHesapla(5)); // 78.53975
+console.log(Matematik.topla(3, 4)); // 7
+```
+
+## Private ve Protected Özellikler ve Metodlar 🔒
+
+Modern JavaScript'te private alanları # işareti ile tanımlayabiliriz:
+
+```javascript
+class BankaHesabi {
+    #bakiye; // Private alan
+
+    constructor(baslangicBakiye) {
+        this.#bakiye = baslangicBakiye;
+    }
+
+    paraYatir(miktar) {
+        this.#bakiye += miktar;
+        this.#logIslem(`${miktar} TL yatırıldı`);
+    }
+
+    #logIslem(mesaj) { // Private metod
+        console.log(`İşlem: ${mesaj}`);
+    }
+
+    getBakiye() {
+        return this.#bakiye;
+    }
+}
+
+let hesabim = new BankaHesabi(1000);
+hesabim.paraYatir(500);
+console.log(hesabim.getBakiye()); // 1500
+// console.log(hesabim.#bakiye); // Hata! Private alana erişilemez
+```
+
+## Yerleşik Sınıfları Genişletme 🔧
+
+JavaScript'in yerleşik sınıflarını da genişletebiliriz:
+
+```javascript
+class GelistirilmisDizi extends Array {
+    ilkEleman() {
+        return this[0];
+    }
+
+    sonEleman() {
+        return this[this.length - 1];
+    }
+
+    topla() {
+        return this.reduce((a, b) => a + b, 0);
+    }
+}
+
+let sayilar = new GelistirilmisDizi(1, 2, 3, 4, 5);
+console.log(sayilar.ilkEleman()); // 1
+console.log(sayilar.sonEleman()); // 5
+console.log(sayilar.topla()); // 15
+```
+
+## Sınıf Kontrolü: "instanceof" 🔍
+
+Bir nesnenin hangi sınıfa ait olduğunu kontrol edebiliriz:
+
+```javascript
+class Hayvan {
+    constructor(isim) {
+        this.isim = isim;
+    }
+}
+
+class Kopek extends Hayvan {
+    havla() {
+        return "Hav hav!";
+    }
+}
+
+let boncuk = new Kopek("Boncuk");
+
+console.log(boncuk instanceof Kopek);    // true
+console.log(boncuk instanceof Hayvan);   // true
+console.log(boncuk instanceof Object);   // true
+console.log(boncuk instanceof Array);    // false
+```
+
+## Mixinler 🎨
+
+Mixinler, sınıflara ek özellikler eklemek için kullanılan bir yöntemdir:
+
+```javascript
+// Mixin tanımlama
+let sayacMixin = {
+    sayac: 0,
+    arttir() {
+        this.sayac++;
+        console.log(`Sayaç: ${this.sayac}`);
+    },
+    azalt() {
+        this.sayac--;
+        console.log(`Sayaç: ${this.sayac}`);
+    }
+};
+
+let renkMixin = {
+    renkAyarla(renk) {
+        this.renk = renk;
+        console.log(`Renk ${renk} olarak ayarlandı`);
+    }
+};
+
+class Oyuncu {
+    constructor(isim) {
+        this.isim = isim;
+    }
+}
+
+// Mixinleri uygulama
+Object.assign(Oyuncu.prototype, sayacMixin, renkMixin);
+
+let oyuncu = new Oyuncu("Ahmet");
+oyuncu.arttir();        // "Sayaç: 1"
+oyuncu.renkAyarla("kırmızı"); // "Renk kırmızı olarak ayarlandı"
+```
+
+## Sonuç 🎉
+
+Tebrikler! Artık JavaScript'te sınıfların temellerini öğrendiniz. Sınıflar, kodunuzu daha düzenli ve yeniden kullanılabilir hale getirmenin harika bir yoludur. Pratik yaparak bu kavramları daha iyi anlayabilirsiniz.
+
+Başarılar! 🚀

@@ -1,0 +1,196 @@
+# JavaScript'te Hata Yönetimi: Güvenli ve Sağlam Kod Yazma Rehberi 🛡️
+
+Merhaba sevgili geliştirici! Bugün JavaScript'te hata yönetimini, yani kodunuzda oluşabilecek sorunları nasıl ele alabileceğimizi öğreneceğiz. Hadi başlayalım! 🚀
+
+## Hatalar Nedir? 🤔
+
+Hatalar, programımızın çalışması sırasında karşılaşabileceğimiz beklenmedik durumlardır. Örneğin:
+
+```javascript
+// Tanımsız bir değişkene erişmeye çalışmak
+console.log(tanımsızDeğişken); // ReferenceError
+
+// Sayı olmayan değerlerle matematik işlemleri
+console.log("abc" * 5); // NaN
+
+// Tanımsız bir fonksiyonu çağırmak
+bilinmeyenFonksiyon(); // ReferenceError
+```
+
+## Try...Catch ile Hata Yakalama 🎯
+
+Hataları yakalamak ve uygun şekilde yönetmek için `try...catch` bloklarını kullanırız:
+
+```javascript
+try {
+    // Hata oluşabilecek kod buraya yazılır
+    let sonuc = tanımsızFonksiyon();
+} catch (hata) {
+    // Hata oluşursa bu blok çalışır
+    console.log("Bir hata oluştu:", hata.message);
+} finally {
+    // Bu blok her durumda çalışır
+    console.log("İşlem tamamlandı");
+}
+```
+
+### Pratik Bir Örnek: Kullanıcı Verisi Çekme 📱
+
+```javascript
+async function kullaniciVerisiGetir(id) {
+    try {
+        const yanit = await fetch(`https://api.ornek.com/kullanicilar/${id}`);
+        
+        if (!yanit.ok) {
+            throw new Error("Kullanıcı bulunamadı!");
+        }
+        
+        const veri = await yanit.json();
+        return veri;
+    } catch (hata) {
+        if (hata.name === "TypeError") {
+            console.log("Ağ hatası:", hata.message);
+        } else {
+            console.log("Veri çekme hatası:", hata.message);
+        }
+        // Hatayı üst katmana iletebiliriz
+        throw hata;
+    }
+}
+```
+
+## Özel Hatalar Oluşturma 🛠️
+
+Kendi hata sınıflarımızı oluşturabiliriz:
+
+```javascript
+class DoğrulamaHatası extends Error {
+    constructor(mesaj) {
+        super(mesaj);
+        this.name = "DoğrulamaHatası";
+    }
+}
+
+function yaşKontrol(yaş) {
+    if (yaş < 0) {
+        throw new DoğrulamaHatası("Yaş negatif olamaz!");
+    }
+    if (yaş > 120) {
+        throw new DoğrulamaHatası("Geçersiz yaş değeri!");
+    }
+    return true;
+}
+
+try {
+    yaşKontrol(-5);
+} catch (hata) {
+    if (hata instanceof DoğrulamaHatası) {
+        console.log("Doğrulama hatası:", hata.message);
+    } else {
+        console.log("Beklenmeyen hata:", hata.message);
+    }
+}
+```
+
+## Hata Zincirleme 🔗
+
+Hataları farklı katmanlarda yakalayıp işleyebiliriz:
+
+```javascript
+function veriDoğrula(veri) {
+    if (!veri) {
+        throw new Error("Veri boş olamaz!");
+    }
+    return true;
+}
+
+function veriİşle(veri) {
+    try {
+        veriDoğrula(veri);
+        // Veri işleme kodları...
+    } catch (hata) {
+        console.log("Veri işleme hatası:", hata.message);
+        throw new Error(`Veri işlenemedi: ${hata.message}`);
+    }
+}
+
+function anaFonksiyon() {
+    try {
+        veriİşle(null);
+    } catch (hata) {
+        console.log("Ana fonksiyon hatası:", hata.message);
+    }
+}
+
+anaFonksiyon();
+```
+
+## Async/Await ile Hata Yönetimi ⚡
+
+Asenkron işlemlerde hata yönetimi:
+
+```javascript
+async function veriYükle() {
+    try {
+        const veri1 = await fetch("https://api.ornek.com/veri1");
+        const veri2 = await fetch("https://api.ornek.com/veri2");
+        
+        return [await veri1.json(), await veri2.json()];
+    } catch (hata) {
+        console.log("Veri yükleme hatası:", hata.message);
+        // Alternatif veri kaynağını dene
+        return yedekVeriYükle();
+    }
+}
+```
+
+## En İyi Uygulamalar 🌟
+
+1. Her zaman spesifik hataları yakalayın:
+
+```javascript
+try {
+    // Riskli kod
+} catch (hata) {
+    if (hata instanceof TypeError) {
+        // Tip hatalarını ele al
+    } else if (hata instanceof ReferenceError) {
+        // Referans hatalarını ele al
+    } else {
+        // Diğer hataları ele al
+    }
+}
+```
+
+2. Hata mesajlarını anlamlı yapın:
+
+```javascript
+class VeriTabanıHatası extends Error {
+    constructor(işlem, detay) {
+        super(`${işlem} sırasında hata: ${detay}`);
+        this.name = "VeriTabanıHatası";
+        this.işlem = işlem;
+    }
+}
+
+try {
+    throw new VeriTabanıHatası(
+        "veri ekleme",
+        "bağlantı zaman aşımına uğradı"
+    );
+} catch (hata) {
+    console.log(`${hata.name}: ${hata.message}`);
+}
+```
+
+## Sonuç 🎉
+
+Hata yönetimi, sağlam ve güvenilir uygulamalar geliştirmek için çok önemlidir. İyi bir hata yönetimi stratejisi:
+
+- Uygulamanızın beklenmedik durumlarla başa çıkmasını sağlar
+- Hata ayıklamayı kolaylaştırır
+- Kullanıcı deneyimini iyileştirir
+
+Bu konuları pratik yaparak pekiştirmeyi unutmayın! Bol bol kod yazın ve hatalardan korkmayın - onlar bizim en iyi öğretmenlerimizdir! 🚀
+
+Başarılar! 💪

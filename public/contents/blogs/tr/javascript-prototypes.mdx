@@ -1,0 +1,205 @@
+# JavaScript'te Prototipler ve Kalıtım 🧬
+
+Merhaba değerli geliştirici arkadaşlar! Bugün JavaScript'in en güçlü özelliklerinden biri olan prototip tabanlı kalıtımı inceleyeceğiz. Bu konuyu pratik örneklerle ve dostça bir dille ele alacağız. Haydi başlayalım! 👋
+
+## Prototipler ve Kalıtım Temelleri 🌱
+
+JavaScript'te her nesne, başka bir nesneye bağlıdır ve onun özelliklerini miras alır. Bu bağlantıya "prototip" denir:
+
+```javascript
+// Basit bir nesne oluşturalım
+let hayvan = {
+    canliMi: true,
+    yemekYe() {
+        console.log("Yemek yiyor...");
+    }
+};
+
+// Prototip olarak hayvan nesnesini kullanan yeni bir nesne
+let kedi = Object.create(hayvan);
+kedi.miyavla = function() {
+    console.log("Miyav!");
+};
+
+kedi.yemekYe(); // "Yemek yiyor..." (hayvan'dan miras alındı)
+kedi.miyavla(); // "Miyav!"
+console.log(kedi.canliMi); // true (hayvan'dan miras alındı)
+```
+
+## Prototipsel Kalıtım 🔄
+
+Nesneler arasında prototip zinciri oluşturarak kalıtımı gerçekleştirebiliriz:
+
+```javascript
+// Temel sınıf
+let Arac = {
+    tekerlekSayisi: 4,
+    calistir() {
+        console.log("Motor çalıştırıldı!");
+    }
+};
+
+// Araba nesnesi Arac'tan miras alır
+let Araba = Object.create(Arac);
+Araba.yolcuKapasitesi = 5;
+Araba.bagajAc = function() {
+    console.log("Bagaj açıldı!");
+};
+
+// Spor araba Araba'dan miras alır
+let SporAraba = Object.create(Araba);
+SporAraba.maksHiz = 300;
+SporAraba.turboAc = function() {
+    console.log("Turbo devrede!");
+};
+
+// Prototip zinciri çalışıyor
+SporAraba.calistir(); // "Motor çalıştırıldı!" (Arac'tan)
+SporAraba.bagajAc(); // "Bagaj açıldı!" (Araba'dan)
+SporAraba.turboAc(); // "Turbo devrede!" (kendi metodu)
+```
+
+## F.prototype 🏗️
+
+Konstruktör fonksiyonlar ve prototype özelliği:
+
+```javascript
+// Konstruktör fonksiyon
+function Kullanici(isim) {
+    this.isim = isim;
+}
+
+// Prototype'a metod ekleme
+Kullanici.prototype.selamVer = function() {
+    console.log(`Merhaba, ben ${this.isim}!`);
+};
+
+// Yeni nesneler oluşturma
+let kullanici1 = new Kullanici("Ayşe");
+let kullanici2 = new Kullanici("Mehmet");
+
+kullanici1.selamVer(); // "Merhaba, ben Ayşe!"
+kullanici2.selamVer(); // "Merhaba, ben Mehmet!"
+
+// Prototype zincirini kontrol etme
+console.log(kullanici1.__proto__ === Kullanici.prototype); // true
+```
+
+## Doğal Prototipler 🌳
+
+JavaScript'in yerleşik nesnelerinin prototipleri:
+
+```javascript
+// Array prototipi
+let dizi = [1, 2, 3];
+console.log(dizi.__proto__ === Array.prototype); // true
+
+// String prototipi
+let metin = "Merhaba";
+console.log(metin.__proto__ === String.prototype); // true
+
+// Doğal prototipleri genişletme (dikkatli kullanılmalı!)
+String.prototype.selamVer = function() {
+    return `${this}, Hoş geldiniz!`;
+};
+
+console.log("Ahmet".selamVer()); // "Ahmet, Hoş geldiniz!"
+```
+
+## Metodlar ve Prototipler 🛠️
+
+Prototipleri kullanarak metodları paylaşma ve özelleştirme:
+
+```javascript
+// Temel hesap makinesi
+function HesapMakinesi(baslangicDeger = 0) {
+    this.deger = baslangicDeger;
+}
+
+// Prototype'a metodlar ekleme
+HesapMakinesi.prototype = {
+    topla(x) {
+        this.deger += x;
+        return this;
+    },
+    cikar(x) {
+        this.deger -= x;
+        return this;
+    },
+    carpma(x) {
+        this.deger *= x;
+        return this;
+    },
+    sonucGoster() {
+        console.log(`Sonuç: ${this.deger}`);
+        return this;
+    }
+};
+
+// Zincirleme metod kullanımı
+let hesap = new HesapMakinesi(10);
+hesap.topla(5)
+     .carpma(2)
+     .cikar(3)
+     .sonucGoster(); // "Sonuç: 27"
+
+// Gelişmiş hesap makinesi
+function GelismisHesapMakinesi(baslangicDeger) {
+    HesapMakinesi.call(this, baslangicDeger);
+}
+
+// HesapMakinesi'nden miras alma
+GelismisHesapMakinesi.prototype = Object.create(HesapMakinesi.prototype);
+
+// Yeni metodlar ekleme
+GelismisHesapMakinesi.prototype.kareAl = function() {
+    this.deger = this.deger ** 2;
+    return this;
+};
+
+let gelismisHesap = new GelismisHesapMakinesi(4);
+gelismisHesap.kareAl()
+             .topla(16)
+             .sonucGoster(); // "Sonuç: 32"
+```
+
+## Pratik İpuçları 💡
+
+1. Prototip Zincirini İnceleme:
+
+```javascript
+function prototipZinciriniGoster(nesne) {
+    let zincir = [];
+    let current = nesne;
+    
+    while (current) {
+        zincir.push(current);
+        current = Object.getPrototypeOf(current);
+    }
+    
+    console.log("Prototip Zinciri:", zincir);
+}
+
+// Kullanım örneği
+let dizi = [1, 2, 3];
+prototipZinciriniGoster(dizi);
+// Array → Array.prototype → Object.prototype → null
+```
+
+2. Özel Metodlar Ekleme:
+
+```javascript
+// Tüm dizilere yeni bir metod ekleme
+Array.prototype.toplamAl = function() {
+    return this.reduce((toplam, sayi) => toplam + sayi, 0);
+};
+
+let sayilar = [1, 2, 3, 4, 5];
+console.log(sayilar.toplamAl()); // 15
+```
+
+## Sonuç 🎉
+
+Prototipler ve kalıtım, JavaScript'in en güçlü özelliklerinden biridir. Bu yapıları anlamak ve doğru kullanmak, kodunuzu daha organize ve yeniden kullanılabilir hale getirir. Örnekleri deneyerek ve kendi prototiplerinizi oluşturarak pratik yapmanızı öneririm!
+
+Kodlamaya devam! 🚀

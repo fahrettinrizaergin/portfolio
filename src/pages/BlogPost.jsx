@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,21 +18,31 @@ const BlogPost = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        // get lang
+        const lang = i18n.language;
+        console.log(lang)
         const blogs = await import('../../public/contents/blogs.json');
-        const foundPost = blogs.default.find(p => p.slug === slug);
-        
+        const foundPost = blogs.default[lang].find(p => p.slug === slug);
+
         if (!foundPost) {
           navigate('/404');
           return;
         }
-
+ 
         // Fetch the markdown content
-        const response = await fetch(`/contents/blogs/${foundPost.contentFile}`);
+        const response = await fetch(`/contents/blogs/${lang}/${foundPost.contentFile}`);
         const content = await response.text();
+
+        if (content.startsWith('<!DOCTYPE html>')) {
+          navigate('/404');
+          return;
+        }
+
         setPost({ ...foundPost, content });
       } catch (error) {
         console.error('Error loading blog post:', error);
@@ -42,7 +53,7 @@ const BlogPost = () => {
     };
 
     fetchPost();
-  }, [slug, navigate]);
+  }, [slug, navigate, i18n.language]);
 
   useEffect(() => {
     if (!loading && post) {

@@ -1,0 +1,203 @@
+# JavaScript Classes: Object-Oriented Programming 🎓
+
+Hello! In this guide, we'll learn about classes and the fundamentals of object-oriented programming in JavaScript. We'll cover the topic with practical examples and a friendly approach. Let's get started! 👋
+
+## Basic Class Syntax 📝
+
+Creating a class in JavaScript is quite simple:
+
+```javascript
+class Car {
+    constructor(brand, model) {
+        this.brand = brand;
+        this.model = model;
+    }
+
+    showInfo() {
+        return `${this.brand} ${this.model}`;
+    }
+}
+
+// Using the class
+let myCar = new Car("Toyota", "Corolla");
+console.log(myCar.showInfo()); // "Toyota Corolla"
+```
+
+## Class Inheritance and Super 🔄
+
+Inheritance is when a class inherits properties and methods from another class:
+
+```javascript
+class Vehicle {
+    constructor(brand) {
+        this.brand = brand;
+    }
+
+    start() {
+        return `${this.brand} is running`;
+    }
+}
+
+class Automobile extends Vehicle {
+    constructor(brand, model) {
+        super(brand); // Calls the parent class's constructor
+        this.model = model;
+    }
+
+    showInfo() {
+        return `${this.brand} ${this.model} - ${this.start()}`;
+    }
+}
+
+let myAuto = new Automobile("Honda", "Civic");
+console.log(myAuto.showInfo()); // "Honda Civic - Honda is running"
+```
+
+## Static Properties and Methods 🏢
+
+Static members belong to the class itself and can be used without creating an instance:
+
+```javascript
+class Mathematics {
+    static PI = 3.14159;
+
+    static calculateArea(radius) {
+        return this.PI * radius * radius;
+    }
+
+    static add(a, b) {
+        return a + b;
+    }
+}
+
+console.log(Mathematics.PI); // 3.14159
+console.log(Mathematics.calculateArea(5)); // 78.53975
+console.log(Mathematics.add(3, 4)); // 7
+```
+
+## Private and Protected Properties and Methods 🔒
+
+In modern JavaScript, we can define private fields using the # symbol:
+
+```javascript
+class BankAccount {
+    #balance; // Private field
+
+    constructor(initialBalance) {
+        this.#balance = initialBalance;
+    }
+
+    deposit(amount) {
+        this.#balance += amount;
+        this.#logTransaction(`${amount} USD deposited`);
+    }
+
+    #logTransaction(message) { // Private method
+        console.log(`Transaction: ${message}`);
+    }
+
+    getBalance() {
+        return this.#balance;
+    }
+}
+
+let myAccount = new BankAccount(1000);
+myAccount.deposit(500);
+console.log(myAccount.getBalance()); // 1500
+// console.log(myAccount.#balance); // Error! Cannot access private field
+```
+
+## Extending Built-in Classes 🔧
+
+We can also extend JavaScript's built-in classes:
+
+```javascript
+class EnhancedArray extends Array {
+    firstElement() {
+        return this[0];
+    }
+
+    lastElement() {
+        return this[this.length - 1];
+    }
+
+    sum() {
+        return this.reduce((a, b) => a + b, 0);
+    }
+}
+
+let numbers = new EnhancedArray(1, 2, 3, 4, 5);
+console.log(numbers.firstElement()); // 1
+console.log(numbers.lastElement()); // 5
+console.log(numbers.sum()); // 15
+```
+
+## Class Checking: "instanceof" 🔍
+
+We can check which class an object belongs to:
+
+```javascript
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        return "Woof woof!";
+    }
+}
+
+let buddy = new Dog("Buddy");
+
+console.log(buddy instanceof Dog);     // true
+console.log(buddy instanceof Animal);   // true
+console.log(buddy instanceof Object);   // true
+console.log(buddy instanceof Array);    // false
+```
+
+## Mixins 🎨
+
+Mixins are a way to add additional properties to classes:
+
+```javascript
+// Defining a mixin
+let counterMixin = {
+    counter: 0,
+    increment() {
+        this.counter++;
+        console.log(`Counter: ${this.counter}`);
+    },
+    decrement() {
+        this.counter--;
+        console.log(`Counter: ${this.counter}`);
+    }
+};
+
+let colorMixin = {
+    setColor(color) {
+        this.color = color;
+        console.log(`Color set to ${color}`);
+    }
+};
+
+class Player {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+// Applying mixins
+Object.assign(Player.prototype, counterMixin, colorMixin);
+
+let player = new Player("John");
+player.increment();        // "Counter: 1"
+player.setColor("red"); // "Color set to red"
+```
+
+## Conclusion 🎉
+
+Congratulations! You've now learned the basics of classes in JavaScript. Classes are a great way to make your code more organized and reusable. You can better understand these concepts by practicing them.
+
+Good luck! 🚀

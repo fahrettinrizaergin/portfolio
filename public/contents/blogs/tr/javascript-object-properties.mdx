@@ -1,0 +1,184 @@
+# JavaScript'te Nesne Özellikleri ve Yapılandırma 🔧
+
+Merhaba değerli geliştirici arkadaşlar! Bugün JavaScript'te nesne özelliklerinin derinliklerine dalacağız. Nesnelerin özelliklerini nasıl düzenleyebileceğimizi, özellik bayraklarını ve getter/setter'ları öğreneceğiz. Haydi başlayalım! 👋
+
+## Nesne Özelliklerinin Düzenlenmesi 📝
+
+JavaScript'te nesnelerin özellikleri sandığınızdan daha güçlüdür. Basit değer atamalarının ötesinde, özelliklerin davranışlarını özelleştirebiliriz:
+
+```javascript
+let kullanici = {
+    ad: "Ahmet",
+    yas: 25
+};
+
+// Özellik tanımını görüntüleme
+console.log(Object.getOwnPropertyDescriptor(kullanici, "ad"));
+/* Çıktı:
+{
+    value: "Ahmet",
+    writable: true,
+    enumerable: true,
+    configurable: true
+}
+*/
+```
+
+## Özellik Bayrakları ve Tanımlayıcılar 🚩
+
+Her nesne özelliği aslında üç önemli bayrağa sahiptir:
+
+- **writable**: Değerin değiştirilebilir olup olmadığını belirtir
+- **enumerable**: Özelliğin döngülerde listelenip listelenemeyeceğini belirtir
+- **configurable**: Özelliğin silinebilir ve bayraklarının değiştirilebilir olup olmadığını belirtir
+
+Bu bayrakları `Object.defineProperty()` ile ayarlayabiliriz:
+
+```javascript
+let urun = {};
+
+// Değiştirilemez bir özellik tanımlama
+Object.defineProperty(urun, "fiyat", {
+    value: 100,
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+// Değiştirmeye çalışalım
+urun.fiyat = 200; // Hata! (strict modda)
+console.log(urun.fiyat); // 100
+
+// Birden fazla özellik tanımlama
+Object.defineProperties(urun, {
+    kod: { value: "P123", writable: false },
+    stok: { value: 50, writable: true }
+});
+```
+
+## Getter ve Setter Özellikleri 🔄
+
+Getter ve setter'lar, nesne özelliklerine erişimi ve değişimi kontrol etmemizi sağlayan özel fonksiyonlardır:
+
+```javascript
+let hesap = {
+    _bakiye: 1000, // Alt çizgi özel bir değişken olduğunu belirtir
+    
+    // Getter - Bakiyeyi okuma
+    get bakiye() {
+        return this._bakiye;
+    },
+    
+    // Setter - Bakiyeyi güncelleme
+    set bakiye(yeniDeger) {
+        if (yeniDeger < 0) {
+            throw new Error("Bakiye negatif olamaz!");
+        }
+        this._bakiye = yeniDeger;
+    }
+};
+
+// Getter kullanımı
+console.log(hesap.bakiye); // 1000
+
+// Setter kullanımı
+hesap.bakiye = 1500;
+console.log(hesap.bakiye); // 1500
+
+// Hatalı değer
+try {
+    hesap.bakiye = -500; // Hata fırlatır!
+} catch (e) {
+    console.log(e.message); // "Bakiye negatif olamaz!"
+}
+```
+
+### Hesaplanmış Özellikler 🧮
+
+Getter'ları kullanarak hesaplanmış özellikler de oluşturabiliriz:
+
+```javascript
+let daire = {
+    yaricap: 5,
+    
+    get cap() {
+        return this.yaricap * 2;
+    },
+    
+    get alan() {
+        return Math.PI * this.yaricap ** 2;
+    },
+    
+    get cevre() {
+        return 2 * Math.PI * this.yaricap;
+    }
+};
+
+console.log(daire.cap);   // 10
+console.log(daire.alan);  // 78.54...
+console.log(daire.cevre); // 31.42...
+```
+
+## Pratik Örnekler 💡
+
+### 1. Doğum Tarihi ve Yaş Hesaplama
+
+```javascript
+let kisi = {
+    ad: "Ayşe",
+    _dogumYili: 1990,
+    
+    get dogumYili() {
+        return this._dogumYili;
+    },
+    
+    set dogumYili(yil) {
+        if (yil > new Date().getFullYear()) {
+            throw new Error("Gelecekte bir tarih giremezsiniz!");
+        }
+        this._dogumYili = yil;
+    },
+    
+    get yas() {
+        return new Date().getFullYear() - this._dogumYili;
+    }
+};
+
+console.log(kisi.yas); // Güncel yaşı gösterir
+```
+
+### 2. Güvenli Veri Saklama
+
+```javascript
+let guvenliNesne = {
+    _veri: null,
+    _sifre: "1234",
+    
+    set veri(yeniVeri) {
+        if (!this.yetkiKontrol()) {
+            throw new Error("Erişim reddedildi!");
+        }
+        this._veri = yeniVeri;
+    },
+    
+    get veri() {
+        if (!this.yetkiKontrol()) {
+            throw new Error("Erişim reddedildi!");
+        }
+        return this._veri;
+    },
+    
+    yetkiKontrol() {
+        // Gerçek uygulamada daha güvenli bir yöntem kullanılmalı
+        return true; // Örnek için her zaman true dönüyor
+    }
+};
+```
+
+## Sonuç 🎉
+
+Nesne özelliklerini özelleştirmek, JavaScript'te güçlü ve güvenli kod yazmanın önemli bir parçasıdır. Özellik bayrakları ile verilerinizi koruyabilir, getter ve setter'lar ile veri erişimini kontrol edebilirsiniz.
+
+Bu özellikleri kullanarak daha güvenli, bakımı kolay ve esnek uygulamalar geliştirebilirsiniz. Pratik yaparak bu kavramları daha iyi anlayacak ve projelerinizde etkili bir şekilde kullanabileceksiniz.
+
+Kodlamaya devam! 🚀

@@ -1,0 +1,220 @@
+# JavaScript'te Generator'lar ve İleri Düzey İterasyon 🔄
+
+Merhaba! Bu rehberde JavaScript'in güçlü özelliklerinden olan Generator'ları ve ileri düzey iterasyon yöntemlerini öğreneceğiz. Karmaşık görünebilir, ama beraber adım adım ilerleyeceğiz! 🚀
+
+## Generator Nedir? 🌱
+
+Generator'lar, fonksiyonun çalışmasını istediğimiz noktada duraklatıp daha sonra kaldığı yerden devam etmesini sağlayan özel fonksiyonlardır:
+
+```javascript
+// Generator fonksiyonu tanımlama
+function* sayiUret() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+
+// Generator'ı kullanma
+const generator = sayiUret();
+
+console.log(generator.next()); // { value: 1, done: false }
+console.log(generator.next()); // { value: 2, done: false }
+console.log(generator.next()); // { value: 3, done: false }
+console.log(generator.next()); // { value: undefined, done: true }
+```
+
+## Generator'ların Temel Özellikleri 🎯
+
+### 1. Yield Kullanımı
+
+```javascript
+function* renkUret() {
+    yield "kırmızı";
+    console.log("Kırmızıdan sonra");
+    yield "mavi";
+    console.log("Maviden sonra");
+    yield "yeşil";
+}
+
+const renkler = renkUret();
+
+console.log(renkler.next().value); // "kırmızı"
+// "Kırmızıdan sonra" yazdırılır
+console.log(renkler.next().value); // "mavi"
+// "Maviden sonra" yazdırılır
+console.log(renkler.next().value); // "yeşil"
+```
+
+### 2. İki Yönlü İletişim
+
+```javascript
+function* sohbet() {
+    const cevap1 = yield "Nasılsın?";
+    console.log("Kullanıcı:", cevap1);
+    const cevap2 = yield "Bugün hava nasıl?";
+    console.log("Kullanıcı:", cevap2);
+}
+
+const konusma = sohbet();
+console.log("Bot:", konusma.next().value);      // "Nasılsın?"
+console.log("Bot:", konusma.next("İyiyim").value); // "Bugün hava nasıl?"
+konusma.next("Güneşli");
+```
+
+## İleri Düzey İterasyon 🔄
+
+### For...of ile Generator Kullanımı
+
+```javascript
+function* fibonacci() {
+    let prev = 0, curr = 1;
+    while (true) {
+        yield curr;
+        [prev, curr] = [curr, prev + curr];
+    }
+}
+
+// İlk 5 Fibonacci sayısını alma
+const fib = fibonacci();
+for (let i = 0; i < 5; i++) {
+    console.log(fib.next().value);
+}
+```
+
+### Generator Kompozisyonu
+
+```javascript
+function* sayilar() {
+    yield 1;
+    yield 2;
+}
+
+function* harfler() {
+    yield 'a';
+    yield 'b';
+}
+
+function* hepsi() {
+    yield* sayilar();
+    yield* harfler();
+}
+
+for (let deger of hepsi()) {
+    console.log(deger); // 1, 2, 'a', 'b'
+}
+```
+
+## Async Generator'lar ve İteratörler 🔄
+
+### Async Generator Örneği
+
+```javascript
+async function* veriGetir() {
+    try {
+        const veri1 = await fetch('https://api.ornek.com/veri1');
+        yield await veri1.json();
+        
+        const veri2 = await fetch('https://api.ornek.com/veri2');
+        yield await veri2.json();
+    } catch (hata) {
+        console.error("Hata:", hata);
+    }
+}
+
+// Async generator'ı kullanma
+(async () => {
+    const veriler = veriGetir();
+    
+    for await (const veri of veriler) {
+        console.log(veri);
+    }
+})();
+```
+
+### Async İteratör Örneği
+
+```javascript
+class VeriAkisi {
+    async *[Symbol.asyncIterator]() {
+        const veriler = ['Veri 1', 'Veri 2', 'Veri 3'];
+        
+        for (const veri of veriler) {
+            // Her veri için 1 saniye bekle
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            yield veri;
+        }
+    }
+}
+
+// Async iteratörü kullanma
+async function veriIsle() {
+    const akis = new VeriAkisi();
+    
+    for await (const veri of akis) {
+        console.log(veri);
+    }
+}
+
+veriIsle();
+```
+
+## Pratik Kullanım Örnekleri 🛠️
+
+### Sayfa Sayfa Veri Yükleme
+
+```javascript
+async function* sayfaGetir() {
+    let sayfa = 1;
+    
+    while (true) {
+        const yanit = await fetch(`https://api.ornek.com/veriler?sayfa=${sayfa}`);
+        const veri = await yanit.json();
+        
+        if (veri.length === 0) break;
+        
+        yield veri;
+        sayfa++;
+    }
+}
+
+// Kullanım
+async function veriYukle() {
+    const sayfalar = sayfaGetir();
+    
+    for await (const sayfa of sayfalar) {
+        console.log('Yeni sayfa yüklendi:', sayfa);
+    }
+}
+```
+
+### Bellek Dostu Büyük Veri İşleme
+
+```javascript
+function* buyukVeriIsle(veri) {
+    const PAKET_BOYUTU = 1000;
+    
+    for (let i = 0; i < veri.length; i += PAKET_BOYUTU) {
+        yield veri.slice(i, i + PAKET_BOYUTU);
+    }
+}
+
+// Kullanım
+const buyukVeri = new Array(10000).fill('veri');
+const isleyici = buyukVeriIsle(buyukVeri);
+
+for (const paket of isleyici) {
+    console.log('Paket işleniyor:', paket.length);
+}
+```
+
+## Sonuç 🎉
+
+Generator'lar ve async iteratörler, JavaScript'te karmaşık veri akışlarını yönetmek için güçlü araçlardır. Bu yapıları kullanarak:
+
+- Bellek kullanımını optimize edebilir
+- Asenkron işlemleri daha temiz bir şekilde yönetebilir
+- Karmaşık iterasyon senaryolarını basitleştirebilirsiniz
+
+Unutmayın, her güçlü özellik gibi bunları da yerinde ve ihtiyaç duyulduğunda kullanmak önemlidir. Generator'ları projelerinizde kullanmaya başladıkça, onların gücünü daha iyi anlayacaksınız! 💪
+
+Kodlamaya devam! 🚀

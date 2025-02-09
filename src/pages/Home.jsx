@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,13 +13,14 @@ const Home = () => {
   const featuredRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentText, setCurrentText] = useState('');
+  const { t, i18n } = useTranslation();
   const [stats, setStats] = useState({
     commits: '2,500+',
     projects: '15+',
     experience: '5+ years',
     contributions: '500+'
   });
-  const fullText = "const developer = {\n  name: 'Fahrettin Rıza Ergin',\n  title: 'Full Stack Developer',\n  skills: ['JavaScript', 'React', 'Node.js', 'Go'],\n  passion: 'Building scalable web applications'\n};";
+  const fullText = "const developer = {\n  name: 'Fahrettin Rıza Ergin',\n  title: '"+t('home.title')+"',\n  skills: ['JavaScript', 'React', 'Node.js', 'Go'],\n  passion: '"+t('home.description')+"'\n};";
 
   const [activeTab, setActiveTab] = useState('all');
   const [isHovered, setIsHovered] = useState(null);
@@ -205,19 +207,21 @@ const Home = () => {
             </div>
 
             <div className="mt-12 text-center">
-              <p className="hero-description text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                Passionate about creating efficient, scalable, and maintainable code. 
-                Specializing in full-stack development with modern technologies.
+              <p className="hero-description text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">  
+                {t('home.hero_descs.0')}
+              </p>
+              <p className="hero-description text-lg md:text-xl text-gray-600 mb-20 max-w-2xl mx-auto">  
+                {t('home.hero_descs.1')}
               </p>
 
               <div className="tech-stack space-y-6">
-                <h3 className="text-gray-800 font-semibold mb-4">Some of the Technology Stack I Use</h3>
+                <h3 className="text-gray-800 font-semibold mb-4">{t('home.some_use_the_techs.title')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { title: 'Frontend', tech: 'React, Vue, Next.js', color: 'blue' },
-                    { title: 'Backend', tech: 'Node.js, Go, Python', color: 'indigo' },
-                    { title: 'Database', tech: 'PostgreSQL, MongoDB', color: 'purple' },
-                    { title: 'DevOps', tech: 'Docker', color: 'green' }
+                    { title: t('home.some_use_the_techs.frontend'), tech: 'React, Vue, Next.js', color: 'blue' },
+                    { title: t('home.some_use_the_techs.backend'), tech: 'Node.js, Go, Python', color: 'indigo' },
+                    { title: t('home.some_use_the_techs.database'), tech: 'PostgreSQL, MongoDB', color: 'purple' },
+                    { title: t('home.some_use_the_techs.devops'), tech: 'Docker', color: 'green' }
                   ].map((stack, index) => (
                     <motion.div
                       key={index}
@@ -237,7 +241,7 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-blue-50/50">
+      <section className="pb-20 bg-gradient-to-b from-white to-blue-50/50">
         <div className="container px-4">
           <motion.div 
             className="grid grid-cols-2 md:grid-cols-4 gap-8"
@@ -253,19 +257,16 @@ const Home = () => {
             }}
           >
             {[
-              { key: 'commits', value: '2,500+', icon: '📝', color: 'blue' },
-              { key: 'projects', value: '15+', icon: '🚀', color: 'indigo' },
-              { key: 'experience', value: '5+ years', icon: '⚡', color: 'purple' },
-              { key: 'contributions', value: '500+', icon: '🌟', color: 'green' }
+              { key: t('home.others.commits.title'), value: t('home.others.commits.value'), icon: '📝', color: 'blue' },
+              { key: t('home.others.projects.title'), value: t('home.others.projects.value'), icon: '🚀', color: 'green' },
+              { key: t('home.others.experience.title'), value: t('home.others.experience.value'), icon: '⚡', color: 'purple' },
+              { key: t('home.others.contributions.title'), value: t('home.others.contributions.value'), icon: '🌟', color: 'green' }
             ].map((stat, index) => (
-            <motion.div
-                key={stat.key}
+              <motion.div
+                key={index}
                 variants={statsVariants}
                 className={`relative bg-white rounded-xl p-6 shadow-sm border border-${stat.color}-100 hover:shadow-md transition-all duration-300`}
-              whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.2 }
-                }}
+                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
               >
                 <div className="relative z-10">
                   <div className={`text-4xl font-bold text-${stat.color}-600 mb-2`}>{stat.value}</div>

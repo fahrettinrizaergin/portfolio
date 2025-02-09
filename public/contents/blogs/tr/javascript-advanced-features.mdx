@@ -1,0 +1,161 @@
+# JavaScript'te İleri Düzey Özellikler: Proxy, Reflect ve Eval 🚀
+
+Merhaba sevgili geliştirici! 👋 Bugün JavaScript'in bazı güçlü ve ileri düzey özelliklerini keşfedeceğiz. Proxy ve Reflect ile nesneleri nasıl manipüle edebileceğimizi ve eval() fonksiyonunu güvenli bir şekilde nasıl kullanabileceğimizi öğreneceğiz.
+
+## Proxy: Nesneleri Özelleştirme 🎭
+
+Proxy, nesneler üzerinde özel davranışlar tanımlamamızı sağlar. Bir nesnenin temel işlemlerini (okuma, yazma, silme vb.) özelleştirebiliriz:
+
+```javascript
+// Basit bir nesne
+const kullanici = {
+    ad: "Ahmet",
+    yas: 25
+};
+
+// Proxy ile nesneyi sarmalama
+const kullaniciProxy = new Proxy(kullanici, {
+    // Değer okuma işlemini özelleştirme
+    get(hedef, ozellik) {
+        console.log(`${ozellik} özelliği okunuyor`);
+        return hedef[ozellik];
+    },
+
+    // Değer yazma işlemini özelleştirme
+    set(hedef, ozellik, deger) {
+        console.log(`${ozellik} özelliği ${deger} olarak değiştiriliyor`);
+        hedef[ozellik] = deger;
+        return true;
+    }
+});
+
+// Proxy'yi kullanma
+console.log(kullaniciProxy.ad);  // "ad özelliği okunuyor"
+kullaniciProxy.yas = 26;         // "yas özelliği 26 olarak değiştiriliyor"
+```
+
+### Proxy ile Doğrulama 🛡️
+
+Proxy'leri veri doğrulama için kullanabiliriz:
+
+```javascript
+const dogrulamaProxy = new Proxy({}, {
+    set(hedef, ozellik, deger) {
+        if (ozellik === 'yas' && typeof deger !== 'number') {
+            throw new TypeError('Yaş bir sayı olmalıdır!');
+        }
+        if (ozellik === 'email' && !deger.includes('@')) {
+            throw new TypeError('Geçersiz email adresi!');
+        }
+        hedef[ozellik] = deger;
+        return true;
+    }
+});
+
+// Doğrulama testi
+try {
+    dogrulamaProxy.yas = "yirmibes";  // Hata fırlatır
+} catch (e) {
+    console.log(e.message);  // "Yaş bir sayı olmalıdır!"
+}
+```
+
+## Reflect: Nesne İşlemleri için API 🪞
+
+Reflect, nesneler üzerinde işlem yapmak için temiz bir API sağlar:
+
+```javascript
+const nesne = {
+    isim: "Ayşe",
+    selamVer() {
+        return `Merhaba, ben ${this.isim}`;
+    }
+};
+
+// Özellik okuma
+console.log(Reflect.get(nesne, 'isim'));  // "Ayşe"
+
+// Özellik yazma
+Reflect.set(nesne, 'yas', 30);
+
+// Metot çağırma
+console.log(Reflect.apply(nesne.selamVer, nesne, []));  // "Merhaba, ben Ayşe"
+
+// Özellik silme
+Reflect.deleteProperty(nesne, 'yas');
+
+// Özellik kontrolü
+console.log(Reflect.has(nesne, 'isim'));  // true
+```
+
+### Proxy ve Reflect Birlikte Kullanımı 🤝
+
+```javascript
+const izlenenNesne = new Proxy({}, {
+    get(hedef, ozellik, alici) {
+        console.log(`${ozellik} özelliği okunuyor`);
+        return Reflect.get(hedef, ozellik, alici);
+    },
+    set(hedef, ozellik, deger, alici) {
+        console.log(`${ozellik} özelliği ayarlanıyor`);
+        return Reflect.set(hedef, ozellik, deger, alici);
+    }
+});
+```
+
+## Eval: Kod Çalıştırma ⚡
+
+eval() fonksiyonu, string olarak verilen JavaScript kodunu çalıştırır. Ancak güvenlik riskleri nedeniyle dikkatli kullanılmalıdır:
+
+```javascript
+// Basit matematik işlemleri
+const hesapla = (ifade) => {
+    try {
+        // Sadece güvenli matematik işlemlerini kabul et
+        if (!/^[0-9+\-*/()\s.]+$/.test(ifade)) {
+            throw new Error('Sadece matematik işlemleri kabul edilir!');
+        }
+        return eval(ifade);
+    } catch (e) {
+        return `Hata: ${e.message}`;
+    }
+};
+
+console.log(hesapla('2 + 2'));           // 4
+console.log(hesapla('(3 * 4) / 2'));     // 6
+console.log(hesapla('alert("Hack!")'));  // Hata: Sadece matematik işlemleri kabul edilir!
+```
+
+### Eval Alternatifleri 🔄
+
+eval() yerine daha güvenli alternatifler:
+
+```javascript
+// Function constructor kullanımı
+const guvenliHesapla = (x, y) => {
+    const hesaplayici = new Function('x', 'y', 'return x + y');
+    return hesaplayici(x, y);
+};
+
+// JSON.parse kullanımı
+const jsonVeriAyrıstır = (jsonString) => {
+    try {
+        return JSON.parse(jsonString);
+    } catch (e) {
+        return `Hata: Geçersiz JSON formatı`;
+    }
+};
+```
+
+## Güvenlik Önerileri 🔒
+
+1. eval() kullanımından mümkün olduğunca kaçının
+2. Kullanıcı girdilerini asla doğrudan eval() ile çalıştırmayın
+3. Proxy'leri hassas veriler için güvenlik katmanı olarak kullanın
+4. Reflect metodlarını nesne manipülasyonları için tercih edin
+
+## Sonuç 🎉
+
+Proxy ve Reflect, JavaScript'te nesne davranışlarını özelleştirmek ve kontrol etmek için güçlü araçlardır. eval() ise dikkatli kullanılması gereken, ama bazı durumlarda faydalı olabilecek bir özelliktir. Bu araçları doğru şekilde kullanarak daha güvenli ve esnek uygulamalar geliştirebilirsiniz.
+
+Kodlarınız bol olsun! 🚀

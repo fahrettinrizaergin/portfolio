@@ -1,0 +1,173 @@
+# JavaScript'te Objeler ve Detaylı İnceleme 🎯
+
+Merhaba! Bu yazımızda JavaScript'in en önemli konularından biri olan objeler hakkında detaylı bilgi edinecek ve örneklerle pekiştireceğiz. Haydi başlayalım! 👋
+
+## Objeler: Temel Bilgiler 📦
+
+JavaScript'te objeler, farklı türdeki verileri bir arada tutmamızı sağlayan yapılardır:
+
+```javascript
+// Temel obje oluşturma
+let kullanici = {
+    isim: "Ahmet",
+    yas: 25,
+    meslek: "Yazılımcı",
+    selamla() {
+        console.log("Merhaba!")
+    }
+};
+
+// Obje özelliklerine erişim
+console.log(kullanici.isim);    // "Ahmet"
+console.log(kullanici["yas"]);  // 25
+
+// Özellik ekleme ve silme
+kullanici.sehir = "İstanbul";
+delete kullanici.meslek;
+```
+
+## Objeler ve Referanslar 🔄
+
+Objeler referans tipinde değişkenlerdir:
+
+```javascript
+let a = { isim: "Ali" };
+let b = a;  // Referans kopyalanır
+
+b.isim = "Veli";
+console.log(a.isim);  // "Veli" (a da değişti!)
+
+// Objeleri kopyalama
+let kopya = Object.assign({}, kullanici);
+// veya
+let derin_kopya = JSON.parse(JSON.stringify(kullanici));
+```
+
+## Çöp Toplama (Garbage Collection) 🗑️
+
+JavaScript'te bellek yönetimi otomatiktir. Erişilemeyen objeler otomatik olarak temizlenir:
+
+```javascript
+let kullanici = { isim: "Ahmet" };
+kullanici = null;  // Obje artık erişilemez
+
+// Garbage collector bu objeyi temizleyecek
+
+// İç içe referanslar
+function ornek() {
+    let obj1 = { ref: null };
+    let obj2 = { ref: null };
+    
+    obj1.ref = obj2;  // obj2'ye referans
+    obj2.ref = obj1;  // obj1'e referans
+    
+    return;
+    // Fonksiyon bitince iki obje de erişilemez olur
+    // ve garbage collector tarafından temizlenir
+}
+```
+
+## Sembol Tipi 🔰
+
+Semboller, benzersiz tanımlayıcılar oluşturmak için kullanılır:
+
+```javascript
+// Sembol oluşturma
+let id = Symbol("id");
+let id2 = Symbol("id");
+
+console.log(id === id2);  // false
+
+// Objelerde sembol kullanımı
+let kullanici = {
+    isim: "Ayşe",
+    [id]: 123  // Sembol özellik
+};
+
+// Gizli özellikler
+for (let key in kullanici) {
+    console.log(key);  // Sadece "isim" görünür
+}
+```
+
+## Objelerin Metodları ve "this" Kelimesi 🔧
+
+Objeler içinde metodlar tanımlayabilir ve "this" ile objeye erişebiliriz:
+
+```javascript
+let hesap = {
+    bakiye: 1000,
+    sahibi: "Mehmet",
+    
+    paraYatir(miktar) {
+        this.bakiye += miktar;
+        console.log(`${miktar} TL yatırıldı. Yeni bakiye: ${this.bakiye} TL`);
+    },
+    
+    paraCek(miktar) {
+        if (miktar > this.bakiye) {
+            console.log("Yetersiz bakiye!");
+            return;
+        }
+        this.bakiye -= miktar;
+        console.log(`${miktar} TL çekildi. Yeni bakiye: ${this.bakiye} TL`);
+    }
+};
+
+hesap.paraYatir(500);  // "500 TL yatırıldı. Yeni bakiye: 1500 TL"
+hesap.paraCek(2000);   // "Yetersiz bakiye!"
+```
+
+## Objelerin İlkel Çevirileri 🔄
+
+Objeler farklı tiplere otomatik dönüştürülebilir:
+
+```javascript
+let sayac = {
+    sayi: 5,
+    toString() {
+        return String(this.sayi);
+    },
+    valueOf() {
+        return this.sayi;
+    }
+};
+
+alert(sayac);     // toString() çağrılır: "5"
+let toplam = sayac + 10;  // valueOf() çağrılır: 15
+```
+
+## Yapıcı ve "new" Operatörü 🏗️
+
+Benzer objeleri kolayca oluşturmak için yapıcı fonksiyonlar kullanabiliriz:
+
+```javascript
+// Yapıcı fonksiyon
+function Kullanici(isim, yas) {
+    this.isim = isim;
+    this.yas = yas;
+    
+    this.selamla = function() {
+        console.log(`Merhaba, ben ${this.isim}!`);
+    };
+}
+
+// new operatörü ile obje oluşturma
+let kullanici1 = new Kullanici("Ayşe", 25);
+let kullanici2 = new Kullanici("Mehmet", 30);
+
+kullanici1.selamla();  // "Merhaba, ben Ayşe!"
+kullanici2.selamla();  // "Merhaba, ben Mehmet!"
+
+// Optional chaining ile güvenli erişim
+let kullanici3 = {};
+console.log(kullanici3?.adres?.sokak);  // undefined
+```
+
+## Sonuç 🎉
+
+Tebrikler! JavaScript'te objelerin temellerini, çöp toplama mekanizmasını, sembolleri, metodları, this kelimesini, tip dönüşümlerini ve yapıcı fonksiyonları öğrendiniz. Bu bilgiler, JavaScript'te nesne tabanlı programlama yapmanız için güzel bir temel oluşturacak.
+
+Unutmayın, pratik yapmak öğrenmenin en iyi yoludur. Bu örnekleri deneyip üzerinde oynamayı unutmayın!
+
+Başarılar! 🚀

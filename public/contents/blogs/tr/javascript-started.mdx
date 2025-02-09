@@ -1,0 +1,312 @@
+# JavaScript'e Giriş: Temel Kavramlar ve Örnekler 🚀
+
+Merhaba! JavaScript öğrenme yolculuğunuza hoş geldiniz. Bu rehberde, JavaScript'in temel kavramlarını dostça bir dille ve bol örneklerle öğreneceğiz. Haydi başlayalım! 👋
+
+## Merhaba Dünya! 👋
+
+Her programlama dilinde olduğu gibi, JavaScript öğrenmeye de klasik "Merhaba Dünya" örneği ile başlayalım:
+
+```javascript
+console.log("Merhaba Dünya!");
+alert("Merhaba Dünya!");
+```
+
+## Kod Yapısı 📝
+
+JavaScript kodları satır satır yukarıdan aşağıya doğru çalışır. Her ifade noktalı virgül (;) ile ayrılabilir:
+
+```javascript
+let mesaj = "Merhaba";
+console.log(mesaj);
+
+// Birden fazla ifadeyi tek satırda yazabilirsiniz
+let isim = "Ahmet"; let yas = 25;
+```
+
+## Modern Mod: "use strict" 🎯
+
+Modern JavaScript'te daha güvenli kod yazmak için "use strict" direktifini kullanırız:
+
+```javascript
+"use strict";
+
+// Şimdi daha sıkı kurallara sahip modern moddasınız
+let test = 123; // ✅ Doğru
+test = 456;     // ❌ Hata: değişken tanımlanmamış
+```
+
+## Değişkenler 📦
+
+Değişkenler, verileri saklamak için kullandığımız "kutular" gibidir:
+
+```javascript
+// let ile değişken tanımlama
+let isim = "Ayşe";
+let yas = 30;
+let ogrenciMi = true;
+
+// const ile sabit tanımlama
+const PI = 3.14;
+const DOGUM_YILI = 1990;
+
+// var ile değişken tanımlama (eski yöntem)
+var eskiDegisken = "eski yöntem";
+```
+
+## Veri Tipleri 🏷️
+
+JavaScript'te temel veri tipleri:
+
+```javascript
+// Number (Sayı)
+let sayi = 42;
+let ondalik = 3.14;
+
+// String (Metin)
+let metin = "Merhaba";
+let isim = 'Ahmet';
+
+// Boolean (Mantıksal)
+let dogruMu = true;
+let yanlisMi = false;
+
+// Null ve Undefined
+let bos = null;
+let tanimsiz;
+
+// Object (Nesne)
+let kisi = {
+    ad: "Mehmet",
+    yas: 25
+};
+
+// Array (Dizi)
+let renkler = ["kırmızı", "mavi", "yeşil"];
+```
+
+## Tip Dönüşümleri 🔄
+
+Bir veri tipini başka bir tipe dönüştürebilirsiniz:
+
+```javascript
+// String'e dönüştürme
+let deger = 123;
+let metinDeger = String(deger); // "123"
+
+// Number'a dönüştürme
+let metinSayi = "456";
+let sayi = Number(metinSayi); // 456
+
+// Boolean'a dönüştürme
+let sayiBoolean = Boolean(1);     // true
+let metinBoolean = Boolean("");   // false
+```
+
+## Operatörler ➕
+
+Temel matematiksel ve atama operatörleri:
+
+```javascript
+// Aritmetik operatörler
+let a = 5 + 3;  // Toplama
+let b = 10 - 4; // Çıkarma
+let c = 3 * 4;  // Çarpma
+let d = 15 / 3; // Bölme
+let e = 10 % 3; // Mod (kalan)
+
+// Atama operatörleri
+let x = 5;
+x += 3;  // x = x + 3
+x -= 2;  // x = x - 2
+x *= 4;  // x = x * 4
+x /= 2;  // x = x / 2
+```
+
+## Karşılaştırmalar 🤔
+
+Değerleri karşılaştırmak için kullanılan operatörler:
+
+```javascript
+let a = 5;
+let b = 10;
+
+console.log(a < b);   // true
+console.log(a > b);   // false
+console.log(a <= 5);  // true
+console.log(b >= 10); // true
+console.log(a === 5); // true (değer ve tip kontrolü)
+console.log(a !== b); // true
+```
+
+## Etkileşim: Alert, Prompt ve Confirm 💬
+
+Kullanıcı ile etkileşim kurmak için kullanılan metodlar:
+
+```javascript
+// Bilgi gösterme
+alert("Merhaba! Bu bir uyarı mesajıdır.");
+
+// Kullanıcıdan bilgi alma
+let isim = prompt("Adınız nedir?", "Misafir");
+console.log("Merhaba, " + isim);
+
+// Onay alma
+let onay = confirm("Devam etmek istiyor musunuz?");
+if (onay) {
+    console.log("İşlem onaylandı!");
+} else {
+    console.log("İşlem iptal edildi!");
+}
+```
+
+## Koşul Operatörleri: if ve ? 🔍
+
+Koşullu işlemler için kullanılan yapılar:
+
+```javascript
+// if-else yapısı
+let yas = 18;
+
+if (yas >= 18) {
+    console.log("Reşitsiniz!");
+} else {
+    console.log("Reşit değilsiniz!");
+}
+
+// Ternary operatör (?)
+let durum = yas >= 18 ? "Reşit" : "Reşit değil";
+```
+
+## Mantıksal Operatörler 🧮
+
+Koşulları birleştirmek için kullanılan operatörler:
+
+```javascript
+let yas = 25;
+let ehliyetVar = true;
+
+// VE (&&)
+if (yas >= 18 && ehliyetVar) {
+    console.log("Araba kullanabilirsiniz!");
+}
+
+// VEYA (||)
+let tatil = true;
+let hafta_sonu = false;
+
+if (tatil || hafta_sonu) {
+    console.log("Bugün dinlenebilirsiniz!");
+}
+
+// DEĞİL (!)
+let calisiyor = false;
+console.log(!calisiyor); // true
+```
+
+## Döngüler: while ve for 🔄
+
+Kodu tekrar tekrar çalıştırmak için kullanılan yapılar:
+
+```javascript
+// while döngüsü
+let i = 0;
+while (i < 5) {
+    console.log(i);
+    i++;
+}
+
+// for döngüsü
+for (let j = 0; j < 5; j++) {
+    console.log(j);
+}
+
+// Dizi üzerinde döngü
+let meyveler = ["elma", "armut", "muz"];
+for (let meyve of meyveler) {
+    console.log(meyve);
+}
+```
+
+## Switch Cümleleri 🔀
+
+Çoklu koşul durumları için kullanılan yapı:
+
+```javascript
+let gun = "Pazartesi";
+
+switch (gun) {
+    case "Pazartesi":
+        console.log("Haftanın ilk günü");
+        break;
+    case "Cuma":
+        console.log("Hafta sonu yaklaşıyor");
+        break;
+    case "Cumartesi":
+    case "Pazar":
+        console.log("Hafta sonu!");
+        break;
+    default:
+        console.log("Sıradan bir gün");
+}
+```
+
+## Fonksiyonlar 🛠️
+
+Kodu yeniden kullanılabilir parçalara ayırmak için kullanılan yapılar:
+
+```javascript
+// Basit fonksiyon
+function selamla(isim) {
+    return "Merhaba, " + isim + "!";
+}
+
+console.log(selamla("Ayşe")); // "Merhaba, Ayşe!"
+
+// Parametreli fonksiyon
+function topla(a, b) {
+    return a + b;
+}
+
+console.log(topla(5, 3)); // 8
+```
+
+## Fonksiyon İfadeleri 📝
+
+Fonksiyonları değişkenlere atayabilirsiniz:
+
+```javascript
+// Fonksiyon ifadesi
+let selamla = function(isim) {
+    return "Merhaba, " + isim + "!";
+};
+
+console.log(selamla("Mehmet")); // "Merhaba, Mehmet!"
+```
+
+## Ok Fonksiyonları ➡️
+
+Modern JavaScript'te kullanılan kısa fonksiyon yazım şekli:
+
+```javascript
+// Tek satırlık ok fonksiyonu
+let kare = x => x * x;
+console.log(kare(4)); // 16
+
+// Çok satırlı ok fonksiyonu
+let topla = (a, b) => {
+    let sonuc = a + b;
+    return sonuc;
+};
+
+console.log(topla(5, 3)); // 8
+
+// Parametresiz ok fonksiyonu
+let selamla = () => "Merhaba!";
+console.log(selamla()); // "Merhaba!"
+```
+
+## Sonuç 🎉
+
+Tebrikler! JavaScript'in temel kavramlarını öğrendiniz. Bu bilgiler ile artık kendi programlarınızı yazmaya başlayabilirsiniz. Unutmayın, programlama öğrenmek bir yolculuktur ve pratik yapmak çok önemlidir. Bol bol kod yazarak kendinizi geliştirmeye devam edin!
+
+Başarılar! 🚀

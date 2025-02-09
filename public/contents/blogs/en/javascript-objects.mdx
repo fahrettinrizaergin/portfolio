@@ -1,0 +1,173 @@
+# Objects and Detailed Examination in JavaScript 🎯
+
+Hello! In this article, we'll learn about objects, one of the most important topics in JavaScript, and reinforce our understanding with examples. Let's get started! 👋
+
+## Objects: Basic Information 📦
+
+In JavaScript, objects are structures that allow us to store different types of data together:
+
+```javascript
+// Basic object creation
+let user = {
+    name: "John",
+    age: 25,
+    profession: "Developer",
+    greet() {
+        console.log("Hello!")
+    }
+};
+
+// Accessing object properties
+console.log(user.name);    // "John"
+console.log(user["age"]);  // 25
+
+// Adding and removing properties
+user.city = "London";
+delete user.profession;
+```
+
+## Objects and References 🔄
+
+Objects are reference type variables:
+
+```javascript
+let a = { name: "Alex" };
+let b = a;  // Reference is copied
+
+b.name = "Bob";
+console.log(a.name);  // "Bob" (a changed too!)
+
+// Copying objects
+let copy = Object.assign({}, user);
+// or
+let deep_copy = JSON.parse(JSON.stringify(user));
+```
+
+## Garbage Collection 🗑️
+
+Memory management in JavaScript is automatic. Objects that become unreachable are automatically cleaned up:
+
+```javascript
+let user = { name: "John" };
+user = null;  // Object becomes unreachable
+
+// Garbage collector will clean this up
+
+// Nested references
+function example() {
+    let obj1 = { ref: null };
+    let obj2 = { ref: null };
+    
+    obj1.ref = obj2;  // reference to obj2
+    obj2.ref = obj1;  // reference to obj1
+    
+    return;
+    // When function ends, both objects become unreachable
+    // and are cleaned up by garbage collector
+}
+```
+
+## Symbol Type 🔰
+
+Symbols are used to create unique identifiers:
+
+```javascript
+// Creating symbols
+let id = Symbol("id");
+let id2 = Symbol("id");
+
+console.log(id === id2);  // false
+
+// Using symbols in objects
+let user = {
+    name: "Alice",
+    [id]: 123  // Symbol property
+};
+
+// Hidden properties
+for (let key in user) {
+    console.log(key);  // Only "name" is visible
+}
+```
+
+## Object Methods and "this" Keyword 🔧
+
+We can define methods in objects and access the object using "this":
+
+```javascript
+let account = {
+    balance: 1000,
+    owner: "Michael",
+    
+    deposit(amount) {
+        this.balance += amount;
+        console.log(`$${amount} deposited. New balance: $${this.balance}`);
+    },
+    
+    withdraw(amount) {
+        if (amount > this.balance) {
+            console.log("Insufficient balance!");
+            return;
+        }
+        this.balance -= amount;
+        console.log(`$${amount} withdrawn. New balance: $${this.balance}`);
+    }
+};
+
+account.deposit(500);  // "$500 deposited. New balance: $1500"
+account.withdraw(2000);   // "Insufficient balance!"
+```
+
+## Object Type Conversions 🔄
+
+Objects can be automatically converted to different types:
+
+```javascript
+let counter = {
+    number: 5,
+    toString() {
+        return String(this.number);
+    },
+    valueOf() {
+        return this.number;
+    }
+};
+
+alert(counter);     // toString() is called: "5"
+let sum = counter + 10;  // valueOf() is called: 15
+```
+
+## Constructor and "new" Operator 🏗️
+
+We can use constructor functions to easily create similar objects:
+
+```javascript
+// Constructor function
+function User(name, age) {
+    this.name = name;
+    this.age = age;
+    
+    this.greet = function() {
+        console.log(`Hello, I'm ${this.name}!`);
+    };
+}
+
+// Creating objects with new operator
+let user1 = new User("Alice", 25);
+let user2 = new User("Michael", 30);
+
+user1.greet();  // "Hello, I'm Alice!"
+user2.greet();  // "Hello, I'm Michael!"
+
+// Optional chaining for safe access
+let user3 = {};
+console.log(user3?.address?.street);  // undefined
+```
+
+## Conclusion 🎉
+
+Congratulations! You've learned about the basics of objects in JavaScript, garbage collection mechanism, symbols, methods, this keyword, type conversions, and constructor functions. This knowledge will provide a good foundation for object-oriented programming in JavaScript.
+
+Remember, practice is the best way to learn. Don't forget to try these examples and experiment with them!
+
+Good luck! 🚀

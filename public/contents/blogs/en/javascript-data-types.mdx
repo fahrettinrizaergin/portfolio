@@ -1,0 +1,306 @@
+# JavaScript Data Types and Built-in Objects 🎯
+
+Hello! In this article, we'll explore data types and built-in objects in JavaScript in detail. We'll cover these topics with plenty of examples and a friendly approach. Let's get started! 👋
+
+## Data Types 📦
+
+There are two main categories of data types in JavaScript:
+
+### 1. Primitive Types
+
+```javascript
+// Number
+let number = 42;
+let pi = 3.14;
+
+// String
+let text = "Hello";
+
+// Boolean
+let isTrue = true;
+
+// null
+let empty = null;
+
+// undefined
+let undefined;
+
+// Symbol
+let unique = Symbol("id");
+
+// BigInt
+let bigNumber = 9007199254740991n;
+```
+
+### 2. Reference Types
+
+```javascript
+// Object
+let person = {
+    name: "Alice",
+    age: 25
+};
+
+// Array
+let colors = ["red", "blue", "green"];
+
+// Function
+let greet = function() {
+    return "Hello!";
+};
+```
+
+## Methods of Primitive Types 🛠️
+
+Primitive types can be temporarily converted to objects to use methods:
+
+```javascript
+let name = "john";
+console.log(name.toUpperCase()); // "JOHN"
+
+let number = 42;
+console.log(number.toString()); // "42"
+```
+
+## Numbers 🔢
+
+Properties you can use when working with numbers:
+
+```javascript
+// Mathematical operations
+let sum = 5 + 3;       // 8
+let product = 4 * 2;   // 8
+let division = 10 / 2; // 5
+let remainder = 7 % 3; // 1
+
+// Special numbers
+console.log(Infinity);           // Infinity
+console.log(-Infinity);          // Negative infinity
+console.log(NaN);                // Not a Number
+
+// Math object
+console.log(Math.PI);           // 3.141592653589793
+console.log(Math.round(3.6));   // 4
+console.log(Math.random());      // Random number between 0-1
+```
+
+## Strings 📝
+
+Useful methods for working with text:
+
+```javascript
+let text = "Hello World";
+
+// Length
+console.log(text.length);  // 11
+
+// Accessing characters
+console.log(text[0]);      // "H"
+
+// Methods
+console.log(text.toUpperCase());           // "HELLO WORLD"
+console.log(text.toLowerCase());           // "hello world"
+console.log(text.includes("World"));      // true
+console.log(text.split(" "));             // ["Hello", "World"]
+console.log(text.trim());                 // Removes whitespace from start and end
+```
+
+## Arrays 📚
+
+Arrays are ordered collections of data:
+
+```javascript
+// Creating an array
+let fruits = ["apple", "pear", "banana"];
+
+// Accessing elements
+console.log(fruits[0]);     // "apple"
+
+// Array length
+console.log(fruits.length); // 3
+
+// Adding/removing elements
+fruits.push("cherry");       // Adds to end
+fruits.pop();               // Removes from end
+fruits.unshift("grape");    // Adds to start
+fruits.shift();             // Removes from start
+```
+
+## Array Methods 🔧
+
+Useful methods for working with arrays:
+
+```javascript
+let numbers = [1, 2, 3, 4, 5];
+
+// map: Transforms each element
+let squares = numbers.map(x => x * x);
+// [1, 4, 9, 16, 25]
+
+// filter: Filters elements that meet the condition
+let evenNumbers = numbers.filter(x => x % 2 === 0);
+// [2, 4]
+
+// reduce: Reduces array to a single value
+let sum = numbers.reduce((acc, curr) => acc + curr, 0);
+// 15
+
+// find: Finds first element meeting condition
+let firstEven = numbers.find(x => x % 2 === 0);
+// 2
+
+// some: Checks if at least one element meets condition
+let hasGreaterThanFive = numbers.some(x => x > 5);
+// false
+
+// every: Checks if all elements meet condition
+let allPositive = numbers.every(x => x > 0);
+// true
+```
+
+## Iteration (Iterable) 🔄
+
+You can iterate using for...of loop:
+
+```javascript
+// Iterating over array
+let colors = ["red", "blue", "green"];
+for (let color of colors) {
+    console.log(color);
+}
+
+// Iterating over string
+let word = "Hello";
+for (let letter of word) {
+    console.log(letter);
+}
+```
+
+## Map, Set, WeakMap and WeakSet 🗺️
+
+Modern JavaScript's collection types:
+
+```javascript
+// Map: Key-value pairs
+let phones = new Map();
+phones.set("Alice", "555-1234");
+phones.set("Bob", "555-5678");
+
+console.log(phones.get("Alice")); // "555-1234"
+
+// Set: Collection of unique values
+let uniqueNumbers = new Set([1, 2, 2, 3, 3, 4]);
+console.log([...uniqueNumbers]); // [1, 2, 3, 4]
+
+// WeakMap and WeakSet
+// Used for weak references
+let weakMap = new WeakMap();
+let obj = {};
+weakMap.set(obj, "data");
+```
+
+## Object.keys, values, entries 🔑
+
+Useful methods for working with objects:
+
+```javascript
+let user = {
+    name: "Alice",
+    age: 25,
+    city: "London"
+};
+
+// Getting keys
+console.log(Object.keys(user));
+// ["name", "age", "city"]
+
+// Getting values
+console.log(Object.values(user));
+// ["Alice", 25, "London"]
+
+// Getting pairs
+console.log(Object.entries(user));
+// [["name", "Alice"], ["age", 25], ["city", "London"]]
+```
+
+## Destructuring Assignment 📦
+
+Assigning array and object elements to variables:
+
+```javascript
+// Array destructuring
+let [x, y] = [1, 2];
+console.log(x); // 1
+console.log(y); // 2
+
+// Object destructuring
+let {name, age} = {
+    name: "Bob",
+    age: 30
+};
+console.log(name);  // "Bob"
+console.log(age); // 30
+
+// Default values
+let [a = 1, b = 2] = [5];
+console.log(a); // 5
+console.log(b); // 2
+```
+
+## Date and Time ⏰
+
+Date and time operations with the Date object:
+
+```javascript
+// Current date
+let now = new Date();
+
+// Specific date
+let birthday = new Date("1990-05-15");
+
+// Date components
+console.log(now.getFullYear());    // Year
+console.log(now.getMonth());       // Month (0-11)
+console.log(now.getDate());        // Day
+console.log(now.getHours());       // Hour
+console.log(now.getMinutes());     // Minute
+console.log(now.getTime());        // Timestamp
+
+// Date formatting
+console.log(now.toLocaleDateString("en-US"));
+// Example: "01/15/2024"
+```
+
+## JSON Methods and toJSON 📋
+
+Converting and parsing data in JSON format:
+
+```javascript
+// Converting object to JSON
+let user = {
+    name: "Alice",
+    age: 25,
+    hobbies: ["reading", "swimming"],
+    toJSON() {
+        return this.name;
+    }
+};
+
+// JSON.stringify
+let jsonString = JSON.stringify(user);
+console.log(jsonString);
+// {"name":"Alice","age":25,"hobbies":["reading","swimming"]}
+
+// JSON.parse
+let parsedObj = JSON.parse(jsonString);
+console.log(parsedObj.name); // "Alice"
+
+// Custom toJSON method
+console.log(JSON.stringify(user)); // "Alice"
+```
+
+## Conclusion 🎉
+
+In this article, we've explored JavaScript data types and built-in objects in detail. This knowledge will help you write more effective programs in JavaScript. Don't forget to practice these concepts to reinforce your understanding!
+
+Good luck! 🚀

@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
+  const { t, i18n } = useTranslation();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -59,10 +61,27 @@ const About = () => {
     }
   ];
 
+  const professionalExperience = [
+    {
+      company: t('about.experiences.experience_one.company'),
+      position: 'Full Stack Developer',
+      duration: t('about.experiences.experience_one.date'),
+      description: t('about.experiences.experience_one.description'),
+      technologies: ['ReactJS', 'Laravel', 'PostgreSQL', 'MariaDB', 'Linux', 'PHP', ]
+    },
+    {
+      company: t('about.experiences.experience_two.company'),
+      position: 'Full Stack Developer',
+      duration: t('about.experiences.experience_two.date'),
+      description: t('about.experiences.experience_two.description'),
+      technologies: ['VueJS', 'ReactJS', 'Laravel', 'PostgreSQL', 'MariaDB', 'Linux', 'PHP', ]
+    }
+  ]
+
   return (
     <>
       <Helmet>
-        <title>About Me - Fahrettin Rıza Ergin</title>
+        <title>{t('about.title')} - Fahrettin Rıza Ergin</title>
         <meta
           name="description"
           content="Learn more about my background, skills, and experience as a full-stack developer."
@@ -80,7 +99,7 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h1 className="text-3xl font-bold text-center mb-12">
-                <span className="gradient-text">About Me</span>
+                <span className="gradient-text">{t('about.title')}</span>
               </h1>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -104,10 +123,7 @@ const About = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                   >
-                    Hello! I'm a passionate full-stack developer with a strong
-                    foundation in modern web technologies. I love creating beautiful,
-                    functional, and user-friendly applications that solve real-world
-                    problems.
+                    {t('about.desc_sections.section_one')}
                   </motion.p>
                   <motion.p
                     className="text-lg text-gray-600"
@@ -116,9 +132,7 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
                   >
-                    With several years of experience in the industry, I've had the
-                    opportunity to work on diverse projects ranging from small
-                    business websites to large-scale enterprise applications.
+                    {t('about.desc_sections.section_two')}
                   </motion.p>
                   <motion.p
                     className="text-lg text-gray-600"
@@ -127,9 +141,7 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
                   >
-                    When I'm not coding, you can find me exploring new technologies,
-                    contributing to open-source projects, or sharing my knowledge
-                    through technical writing and mentoring.
+                    {t('about.desc_sections.section_tree')}
                   </motion.p>
                 </div>
               </div>
@@ -144,37 +156,43 @@ const About = () => {
             >
               <h2 className="text-2xl font-bold mb-8 flex items-center gap-2 text-gray-800">
                 <span className="text-3xl">💼</span>
-                Professional Experience
+                {t('about.experience')}
               </h2>
 
               <div className="relative">
                 <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 to-purple-400"></div>
                 <div className="space-y-8">
-                  <motion.div
-                    className="relative pl-8"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="absolute left-0 top-2 w-4 h-4 rounded-full bg-blue-100 border-2 border-blue-400 shadow-md"></div>
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-white to-blue-50 shadow-sm border border-blue-50 hover:shadow-md transition-all duration-300">
-                      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                        <span className="text-blue-600 font-mono font-bold">2020 - Present</span>
-                        <h3 className="text-lg font-semibold text-gray-800">Full Stack Developer</h3>
-                        <span className="text-gray-600">@ EticSoft A.Ş.</span>
-                      </div>
-                      <p className="text-gray-600 mt-2 mb-3">
-                        Developed and maintained full-stack applications using React, Laravel and PostgreSQL.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {['React', 'Laravel', 'PostgreSQL', 'Docker'].map((tech, i) => (
-                          <span key={i} className="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
+                  {
+                    professionalExperience.map((experience, index) => (
+                      <motion.div
+                        key={index}
+                        className="relative pl-8"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                      >
+                        <div className="absolute left-0 top-2 w-4 h-4 rounded-full bg-blue-100 border-2 border-blue-400 shadow-md"></div>
+                        <div className="p-4 rounded-lg bg-gradient-to-br from-white to-blue-50 shadow-sm border border-blue-50 hover:shadow-md transition-all duration-300">
+                          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                            <span className="text-blue-600 font-mono font-bold">{experience.duration}</span>
+                            <h3 className="text-lg font-semibold text-gray-800">{experience.position}</h3>
+                            <span className="text-gray-600">@ {experience.company}</span>
+                          </div>
+                          <p className="text-gray-600 mt-2 mb-3">
+                            {experience.description}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {experience.technologies.map((tech, i) => (
+                              <span key={i} className="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-600 border border-blue-100">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                  } 
+ 
                 </div>
               </div>
             </motion.div>
@@ -188,7 +206,7 @@ const About = () => {
             >
               <h2 className="text-2xl font-bold mb-8 flex items-center gap-2 text-gray-800">
                 <span className="text-3xl">⚡</span>
-                Skills & Technologies
+                {t('about.skills')}
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

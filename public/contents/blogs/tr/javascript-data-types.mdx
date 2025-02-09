@@ -1,0 +1,306 @@
+# JavaScript Veri Tipleri ve Yerleşik Objeler 🎯
+
+Merhaba! Bu yazımızda JavaScript'teki veri tiplerini ve yerleşik objeleri detaylıca inceleyeceğiz. Bol örneklerle ve dostça bir dille bu konuları ele alacağız. Haydi başlayalım! 👋
+
+## Veri Tipleri 📦
+
+JavaScript'te iki ana veri tipi kategorisi vardır:
+
+### 1. İlkel (Primitive) Tipler
+
+```javascript
+// Number
+let sayi = 42;
+let pi = 3.14;
+
+// String
+let metin = "Merhaba";
+
+// Boolean
+let dogruMu = true;
+
+// null
+let bos = null;
+
+// undefined
+let tanimsiz;
+
+// Symbol
+let benzersiz = Symbol("id");
+
+// BigInt
+let buyukSayi = 9007199254740991n;
+```
+
+### 2. Referans Tipleri
+
+```javascript
+// Object
+let kisi = {
+    ad: "Ayşe",
+    yas: 25
+};
+
+// Array
+let renkler = ["kırmızı", "mavi", "yeşil"];
+
+// Function
+let selamla = function() {
+    return "Merhaba!";
+};
+```
+
+## İlkel Tiplerin Metodları 🛠️
+
+İlkel tipler, geçici olarak objeye dönüştürülüp metodlar kullanılabilir:
+
+```javascript
+let isim = "ahmet";
+console.log(isim.toUpperCase()); // "AHMET"
+
+let sayi = 42;
+console.log(sayi.toString()); // "42"
+```
+
+## Sayılar 🔢
+
+Sayılarla çalışırken kullanabileceğiniz özellikler:
+
+```javascript
+// Matematiksel işlemler
+let toplam = 5 + 3;      // 8
+let carpim = 4 * 2;      // 8
+let bolum = 10 / 2;      // 5
+let kalan = 7 % 3;       // 1
+
+// Özel sayılar
+console.log(Infinity);           // Sonsuz
+console.log(-Infinity);          // Negatif sonsuz
+console.log(NaN);                // Sayı değil
+
+// Math objesi
+console.log(Math.PI);           // 3.141592653589793
+console.log(Math.round(3.6));   // 4
+console.log(Math.random());      // 0-1 arası rastgele sayı
+```
+
+## Karakter Dizisi - Strings 📝
+
+Metinlerle çalışmak için kullanışlı metodlar:
+
+```javascript
+let metin = "Merhaba Dünya";
+
+// Uzunluk
+console.log(metin.length);  // 12
+
+// Karaktere erişim
+console.log(metin[0]);      // "M"
+
+// Metodlar
+console.log(metin.toUpperCase());           // "MERHABA DÜNYA"
+console.log(metin.toLowerCase());           // "merhaba dünya"
+console.log(metin.includes("Dünya"));      // true
+console.log(metin.split(" "));             // ["Merhaba", "Dünya"]
+console.log(metin.trim());                 // Baştaki ve sondaki boşlukları siler
+```
+
+## Diziler 📚
+
+Diziler, sıralı veri koleksiyonlarıdır:
+
+```javascript
+// Dizi oluşturma
+let meyveler = ["elma", "armut", "muz"];
+
+// Elemanlara erişim
+console.log(meyveler[0]);     // "elma"
+
+// Dizi uzunluğu
+console.log(meyveler.length); // 3
+
+// Eleman ekleme/çıkarma
+meyveler.push("kiraz");       // Sona ekler
+meyveler.pop();               // Sondan çıkarır
+meyveler.unshift("üzüm");    // Başa ekler
+meyveler.shift();             // Baştan çıkarır
+```
+
+## Dizi Metodları 🔧
+
+Dizilerle çalışırken kullanabileceğiniz faydalı metodlar:
+
+```javascript
+let sayilar = [1, 2, 3, 4, 5];
+
+// map: Her elemanı dönüştürür
+let kareler = sayilar.map(x => x * x);
+// [1, 4, 9, 16, 25]
+
+// filter: Koşulu sağlayan elemanları filtreler
+let ciftSayilar = sayilar.filter(x => x % 2 === 0);
+// [2, 4]
+
+// reduce: Diziyi tek bir değere indirger
+let toplam = sayilar.reduce((acc, curr) => acc + curr, 0);
+// 15
+
+// find: Koşulu sağlayan ilk elemanı bulur
+let ilkCift = sayilar.find(x => x % 2 === 0);
+// 2
+
+// some: En az bir eleman koşulu sağlıyor mu?
+let bestenBuyukVarMi = sayilar.some(x => x > 5);
+// false
+
+// every: Tüm elemanlar koşulu sağlıyor mu?
+let hepsiPozitifMi = sayilar.every(x => x > 0);
+// true
+```
+
+## Sıralı Erişim (Iterable) 🔄
+
+For...of döngüsü ile sıralı erişim yapabilirsiniz:
+
+```javascript
+// Dizi üzerinde döngü
+let renkler = ["kırmızı", "mavi", "yeşil"];
+for (let renk of renkler) {
+    console.log(renk);
+}
+
+// String üzerinde döngü
+let kelime = "Merhaba";
+for (let harf of kelime) {
+    console.log(harf);
+}
+```
+
+## Map, Set, WeakMap ve WeakSet 🗺️
+
+Modern JavaScript'in koleksiyon tipleri:
+
+```javascript
+// Map: Anahtar-değer çiftleri
+let telefonlar = new Map();
+telefonlar.set("Ayşe", "555-1234");
+telefonlar.set("Mehmet", "555-5678");
+
+console.log(telefonlar.get("Ayşe")); // "555-1234"
+
+// Set: Benzersiz değerler koleksiyonu
+let benzersizSayilar = new Set([1, 2, 2, 3, 3, 4]);
+console.log([...benzersizSayilar]); // [1, 2, 3, 4]
+
+// WeakMap ve WeakSet
+// Zayıf referanslar için kullanılır
+let weakMap = new WeakMap();
+let obj = {};
+weakMap.set(obj, "veri");
+```
+
+## Object.keys, values, entries 🔑
+
+Objelerle çalışmak için kullanışlı metodlar:
+
+```javascript
+let kullanici = {
+    ad: "Ayşe",
+    yas: 25,
+    sehir: "İstanbul"
+};
+
+// Anahtarları alma
+console.log(Object.keys(kullanici));
+// ["ad", "yas", "sehir"]
+
+// Değerleri alma
+console.log(Object.values(kullanici));
+// ["Ayşe", 25, "İstanbul"]
+
+// Çiftleri alma
+console.log(Object.entries(kullanici));
+// [["ad", "Ayşe"], ["yas", 25], ["sehir", "İstanbul"]]
+```
+
+## Destructuring Assignment 📦
+
+Dizi ve obje elemanlarını değişkenlere atama:
+
+```javascript
+// Dizi destructuring
+let [x, y] = [1, 2];
+console.log(x); // 1
+console.log(y); // 2
+
+// Obje destructuring
+let {ad, yas} = {
+    ad: "Mehmet",
+    yas: 30
+};
+console.log(ad);  // "Mehmet"
+console.log(yas); // 30
+
+// Varsayılan değerler
+let [a = 1, b = 2] = [5];
+console.log(a); // 5
+console.log(b); // 2
+```
+
+## Tarih ve Zaman ⏰
+
+Date objesi ile tarih ve zaman işlemleri:
+
+```javascript
+// Şu anki tarih
+let simdi = new Date();
+
+// Belirli bir tarih
+let dogumGunu = new Date("1990-05-15");
+
+// Tarih bileşenleri
+console.log(simdi.getFullYear());    // Yıl
+console.log(simdi.getMonth());       // Ay (0-11)
+console.log(simdi.getDate());        // Gün
+console.log(simdi.getHours());       // Saat
+console.log(simdi.getMinutes());     // Dakika
+console.log(simdi.getTime());        // Timestamp
+
+// Tarih formatlama
+console.log(simdi.toLocaleDateString("tr-TR"));
+// Örnek: "15.01.2024"
+```
+
+## JSON Metodları ve toJSON 📋
+
+Verileri JSON formatına dönüştürme ve parse etme:
+
+```javascript
+// Objeyi JSON'a dönüştürme
+let kullanici = {
+    ad: "Ayşe",
+    yas: 25,
+    hobiler: ["okuma", "yüzme"],
+    toJSON() {
+        return this.ad;
+    }
+};
+
+// JSON.stringify
+let jsonString = JSON.stringify(kullanici);
+console.log(jsonString);
+// {"ad":"Ayşe","yas":25,"hobiler":["okuma","yüzme"]}
+
+// JSON.parse
+let parsedObj = JSON.parse(jsonString);
+console.log(parsedObj.ad); // "Ayşe"
+
+// Özel toJSON metodu
+console.log(JSON.stringify(kullanici)); // "Ayşe"
+```
+
+## Sonuç 🎉
+
+Bu yazıda JavaScript'teki veri tiplerini ve yerleşik objeleri detaylıca inceledik. Bu bilgiler, JavaScript'te daha etkili programlar yazmanıza yardımcı olacaktır. Pratik yaparak bu kavramları pekiştirmeyi unutmayın!
+
+Başarılar! 🚀

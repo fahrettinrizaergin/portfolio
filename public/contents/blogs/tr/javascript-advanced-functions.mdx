@@ -1,0 +1,280 @@
+# JavaScript'te İleri Seviye Fonksiyonlar: Kapsamlı Rehber 🚀
+
+Merhaba! Bu rehberde JavaScript'te ileri seviye fonksiyon kavramlarını, pratik örneklerle ve dostça bir dille inceleyeceğiz. Hazırsanız başlayalım! 👋
+
+## Kendini Tekrarlayan (Özyinelemeli) Fonksiyonlar 🔄
+
+Özyinelemeli fonksiyonlar, kendilerini çağıran fonksiyonlardır. Karmaşık problemleri daha küçük parçalara bölerek çözmemize yardımcı olurlar:
+
+```javascript
+// Faktöriyel hesaplama örneği
+function faktoriyel(n) {
+    if (n === 0 || n === 1) return 1;
+    return n * faktoriyel(n - 1);
+}
+
+console.log(faktoriyel(5)); // 120
+
+// Fibonacci dizisi örneği
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(6)); // 8
+```
+
+## Gerisi Parametreleri ve Yayma Operatörleri 📦
+
+Gerisi parametreleri (...) ve yayma operatörleri, fonksiyonlarla çalışırken esneklik sağlar:
+
+```javascript
+// Gerisi parametreleri
+function topla(...sayilar) {
+    return sayilar.reduce((toplam, sayi) => toplam + sayi, 0);
+}
+
+console.log(topla(1, 2, 3, 4)); // 10
+
+// Yayma operatörü
+const dizi1 = [1, 2, 3];
+const dizi2 = [4, 5, 6];
+const birlesikDizi = [...dizi1, ...dizi2];
+
+console.log(birlesikDizi); // [1, 2, 3, 4, 5, 6]
+```
+
+## Closure (Kapanış) 🔒
+
+Closure, bir fonksiyonun kendi kapsamı dışındaki değişkenlere erişebilme özelliğidir:
+
+```javascript
+function sayacOlustur() {
+    let sayac = 0;
+    
+    return {
+        artir: function() {
+            return ++sayac;
+        },
+        azalt: function() {
+            return --sayac;
+        },
+        degerAl: function() {
+            return sayac;
+        }
+    };
+}
+
+const sayac = sayacOlustur();
+console.log(sayac.artir()); // 1
+console.log(sayac.artir()); // 2
+console.log(sayac.azalt()); // 1
+```
+
+## Eski Tip "var" Değişkenleri ⚠️
+
+"var" değişkenlerinin özel davranışları ve modern alternatifleri:
+
+```javascript
+// var'ın fonksiyon kapsamı
+function eskiOrnek() {
+    var x = 1;
+    if (true) {
+        var x = 2; // Aynı x'i değiştirir
+        console.log(x); // 2
+    }
+    console.log(x); // 2
+}
+
+// Modern let kullanımı
+function yeniOrnek() {
+    let x = 1;
+    if (true) {
+        let x = 2; // Farklı bir x
+        console.log(x); // 2
+    }
+    console.log(x); // 1
+}
+```
+
+## Evrensel Objeler 🌍
+
+JavaScript'in yerleşik global objeleri:
+
+```javascript
+// Math objesi
+console.log(Math.PI); // 3.141592653589793
+console.log(Math.random()); // 0-1 arası rastgele sayı
+
+// Date objesi
+const simdi = new Date();
+console.log(simdi.toLocaleString()); // Yerel tarih ve saat
+
+// JSON objesi
+const obj = { ad: "Ahmet", yas: 25 };
+const jsonStr = JSON.stringify(obj);
+const parsedObj = JSON.parse(jsonStr);
+```
+
+## Fonksiyon Objeleri ve NFE 🎯
+
+Fonksiyonlar JavaScript'te birer objedir ve özel özelliklere sahiptir:
+
+```javascript
+// Named Function Expression (NFE)
+const faktoriyelHesapla = function fakt(n) {
+    return n <= 1 ? 1 : n * fakt(n - 1);
+};
+
+console.log(faktoriyelHesapla(5)); // 120
+
+// Fonksiyon özellikleri
+function selamla(isim) {
+    console.log(`Merhaba ${isim}!`);
+}
+
+console.log(selamla.name); // "selamla"
+console.log(selamla.length); // 1 (parametre sayısı)
+```
+
+## "new Function" Yazımı 🏗️
+
+Dinamik olarak fonksiyon oluşturma:
+
+```javascript
+const toplama = new Function('a', 'b', 'return a + b');
+console.log(toplama(2, 3)); // 5
+
+const selamla = new Function('isim',
+    'return `Merhaba ${isim}!`'
+);
+console.log(selamla("Ayşe")); // "Merhaba Ayşe!"
+```
+
+## Zamanlama: setTimeout ve setInterval ⏰
+
+Kodun belirli aralıklarla veya gecikmeli çalıştırılması:
+
+```javascript
+// setTimeout örneği
+console.log("Başlıyor...");
+setTimeout(() => {
+    console.log("3 saniye geçti!");
+}, 3000);
+
+// setInterval örneği
+let sayac = 0;
+const interval = setInterval(() => {
+    console.log(++sayac);
+    if (sayac === 5) {
+        clearInterval(interval);
+    }
+}, 1000);
+```
+
+## Dekoratörler ve İletilme (call/apply) 🎨
+
+Fonksiyonları değiştiren ve genişleten yapılar:
+
+```javascript
+// Dekoratör örneği
+function loglamaDekoratoru(fn) {
+    return function(...args) {
+        console.log("Fonksiyon çağrıldı:", fn.name);
+        console.log("Parametreler:", args);
+        const sonuc = fn.apply(this, args);
+        console.log("Sonuç:", sonuc);
+        return sonuc;
+    };
+}
+
+function topla(a, b) {
+    return a + b;
+}
+
+const loglananTopla = loglamaDekoratoru(topla);
+loglananTopla(3, 5); // Detaylı log çıktısı ile 8
+```
+
+## Fonksiyon Bağlama 🔗
+
+`bind` metodu ile fonksiyonları belirli bir bağlama sabitleme:
+
+```javascript
+const kullanici = {
+    ad: "Mehmet",
+    selamla() {
+        console.log(`Merhaba, ben ${this.ad}!`);
+    }
+};
+
+const selamla = kullanici.selamla.bind(kullanici);
+setTimeout(selamla, 1000); // "Merhaba, ben Mehmet!"
+```
+
+## Tımarlama ve Kısmi Fonksiyonlar 🔧
+
+Fonksiyonları özelleştirme ve yeniden kullanma:
+
+```javascript
+// Kısmi uygulama
+function topla(a, b, c) {
+    return a + b + c;
+}
+
+const ikiEkle = topla.bind(null, 2);
+console.log(ikiEkle(3, 4)); // 9
+
+// Tımarlama (Currying)
+function curry(fn) {
+    return function curried(...args) {
+        if (args.length >= fn.length) {
+            return fn.apply(this, args);
+        }
+        return function(...args2) {
+            return curried.apply(this, args.concat(args2));
+        };
+    };
+}
+
+const curriedTopla = curry(topla);
+console.log(curriedTopla(1)(2)(3)); // 6
+```
+
+## Ok Fonksiyonları ➡️
+
+Modern JavaScript'in kısa ve öz fonksiyon yazım şekli:
+
+```javascript
+// Temel ok fonksiyonu
+const kare = x => x * x;
+console.log(kare(4)); // 16
+
+// Çoklu parametre
+const topla = (a, b) => a + b;
+
+// Çok satırlı ok fonksiyonu
+const hesapla = (x, y) => {
+    const carpim = x * y;
+    const toplam = x + y;
+    return { carpim, toplam };
+};
+
+// Ok fonksiyonları ve this
+const nesne = {
+    sayac: 0,
+    artir: function() {
+        setInterval(() => {
+            console.log(++this.sayac);
+        }, 1000);
+    }
+};
+```
+
+## Sonuç 🎉
+
+Tebrikler! JavaScript'te ileri seviye fonksiyon kavramlarını başarıyla öğrendiniz. Bu bilgiler, daha karmaşık ve güçlü uygulamalar geliştirmenize yardımcı olacaktır.
+
+Unutmayın, pratik yapmak öğrenmenin en iyi yoludur. Bu örnekleri kendi projelerinizde uygulamaya çalışın!
+
+Başarılar! 🚀

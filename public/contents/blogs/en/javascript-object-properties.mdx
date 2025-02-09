@@ -1,0 +1,184 @@
+# Object Properties and Configuration in JavaScript 🔧
+
+Hello fellow developers! Today we'll dive deep into object properties in JavaScript. We'll learn how to configure object properties, property flags, and getters/setters. Let's begin! 👋
+
+## Configuring Object Properties 📝
+
+Object properties in JavaScript are more powerful than you might think. Beyond simple value assignments, we can customize property behaviors:
+
+```javascript
+let user = {
+    name: "John",
+    age: 25
+};
+
+// View property descriptor
+console.log(Object.getOwnPropertyDescriptor(user, "name"));
+/* Output:
+{
+    value: "John",
+    writable: true,
+    enumerable: true,
+    configurable: true
+}
+*/
+```
+
+## Property Flags and Descriptors 🚩
+
+Each object property has three important flags:
+
+- **writable**: Indicates if the value can be changed
+- **enumerable**: Indicates if the property can be listed in loops
+- **configurable**: Indicates if the property can be deleted and its flags can be modified
+
+We can set these flags using `Object.defineProperty()`:
+
+```javascript
+let product = {};
+
+// Define a non-modifiable property
+Object.defineProperty(product, "price", {
+    value: 100,
+    writable: false,
+    enumerable: true,
+    configurable: false
+});
+
+// Try to modify
+product.price = 200; // Error! (in strict mode)
+console.log(product.price); // 100
+
+// Define multiple properties
+Object.defineProperties(product, {
+    code: { value: "P123", writable: false },
+    stock: { value: 50, writable: true }
+});
+```
+
+## Getters and Setters 🔄
+
+Getters and setters are special functions that control access and modification of object properties:
+
+```javascript
+let account = {
+    _balance: 1000, // Underscore indicates a private variable
+    
+    // Getter - Reading balance
+    get balance() {
+        return this._balance;
+    },
+    
+    // Setter - Updating balance
+    set balance(newValue) {
+        if (newValue < 0) {
+            throw new Error("Balance cannot be negative!");
+        }
+        this._balance = newValue;
+    }
+};
+
+// Using getter
+console.log(account.balance); // 1000
+
+// Using setter
+account.balance = 1500;
+console.log(account.balance); // 1500
+
+// Invalid value
+try {
+    account.balance = -500; // Throws error!
+} catch (e) {
+    console.log(e.message); // "Balance cannot be negative!"
+}
+```
+
+### Computed Properties 🧮
+
+We can create computed properties using getters:
+
+```javascript
+let circle = {
+    radius: 5,
+    
+    get diameter() {
+        return this.radius * 2;
+    },
+    
+    get area() {
+        return Math.PI * this.radius ** 2;
+    },
+    
+    get circumference() {
+        return 2 * Math.PI * this.radius;
+    }
+};
+
+console.log(circle.diameter);      // 10
+console.log(circle.area);          // 78.54...
+console.log(circle.circumference); // 31.42...
+```
+
+## Practical Examples 💡
+
+### 1. Birth Year and Age Calculation
+
+```javascript
+let person = {
+    name: "Alice",
+    _birthYear: 1990,
+    
+    get birthYear() {
+        return this._birthYear;
+    },
+    
+    set birthYear(year) {
+        if (year > new Date().getFullYear()) {
+            throw new Error("Cannot set a future date!");
+        }
+        this._birthYear = year;
+    },
+    
+    get age() {
+        return new Date().getFullYear() - this._birthYear;
+    }
+};
+
+console.log(person.age); // Shows current age
+```
+
+### 2. Secure Data Storage
+
+```javascript
+let secureObject = {
+    _data: null,
+    _password: "1234",
+    
+    set data(newData) {
+        if (!this.checkAuth()) {
+            throw new Error("Access denied!");
+        }
+        this._data = newData;
+    },
+    
+    get data() {
+        if (!this.checkAuth()) {
+            throw new Error("Access denied!");
+        }
+        return this._data;
+    },
+    
+    checkAuth() {
+        // In real applications, use a more secure method
+        return true; // Always returns true for this example
+    }
+};
+```
+
+## Conclusion 🎉
+
+Customizing object properties is an important part of writing powerful and secure code in JavaScript. With property flags, you can protect your data, and with getters and setters, you can control data access.
+
+Using these features, you can develop more secure, maintainable, and flexible applications. Through practice, you'll better understand these concepts and effectively use them in your projects.
+
+Keep coding! 🚀

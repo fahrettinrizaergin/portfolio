@@ -1,0 +1,205 @@
+# Prototypes and Inheritance in JavaScript 🧬
+
+Hello fellow developers! Today we'll explore prototype-based inheritance, one of JavaScript's most powerful features. We'll cover this topic with practical examples and a friendly approach. Let's begin! 👋
+
+## Prototypes and Inheritance Basics 🌱
+
+In JavaScript, every object is linked to another object and inherits its properties. This link is called a "prototype":
+
+```javascript
+// Create a simple object
+let animal = {
+    isAlive: true,
+    eat() {
+        console.log("Eating...");
+    }
+};
+
+// Create a new object using animal as prototype
+let cat = Object.create(animal);
+cat.meow = function() {
+    console.log("Meow!");
+};
+
+cat.eat(); // "Eating..." (inherited from animal)
+cat.meow(); // "Meow!"
+console.log(cat.isAlive); // true (inherited from animal)
+```
+
+## Prototypal Inheritance 🔄
+
+We can create prototype chains between objects to implement inheritance:
+
+```javascript
+// Base class
+let Vehicle = {
+    wheels: 4,
+    start() {
+        console.log("Engine started!");
+    }
+};
+
+// Car inherits from Vehicle
+let Car = Object.create(Vehicle);
+Car.passengerCapacity = 5;
+Car.openTrunk = function() {
+    console.log("Trunk opened!");
+};
+
+// SportsCar inherits from Car
+let SportsCar = Object.create(Car);
+SportsCar.maxSpeed = 300;
+SportsCar.activateTurbo = function() {
+    console.log("Turbo activated!");
+};
+
+// Prototype chain works
+SportsCar.start(); // "Engine started!" (from Vehicle)
+SportsCar.openTrunk(); // "Trunk opened!" (from Car)
+SportsCar.activateTurbo(); // "Turbo activated!" (own method)
+```
+
+## F.prototype 🏗️
+
+Constructor functions and the prototype property:
+
+```javascript
+// Constructor function
+function User(name) {
+    this.name = name;
+}
+
+// Adding method to prototype
+User.prototype.sayHello = function() {
+    console.log(`Hello, I'm ${this.name}!`);
+};
+
+// Creating new objects
+let user1 = new User("Alice");
+let user2 = new User("Michael");
+
+user1.sayHello(); // "Hello, I'm Alice!"
+user2.sayHello(); // "Hello, I'm Michael!"
+
+// Check prototype chain
+console.log(user1.__proto__ === User.prototype); // true
+```
+
+## Native Prototypes 🌳
+
+Prototypes of JavaScript's built-in objects:
+
+```javascript
+// Array prototype
+let array = [1, 2, 3];
+console.log(array.__proto__ === Array.prototype); // true
+
+// String prototype
+let text = "Hello";
+console.log(text.__proto__ === String.prototype); // true
+
+// Extending native prototypes (use with caution!)
+String.prototype.greet = function() {
+    return `${this}, Welcome!`;
+};
+
+console.log("John".greet()); // "John, Welcome!"
+```
+
+## Methods and Prototypes 🛠️
+
+Sharing and customizing methods using prototypes:
+
+```javascript
+// Basic calculator
+function Calculator(initialValue = 0) {
+    this.value = initialValue;
+}
+
+// Adding methods to prototype
+Calculator.prototype = {
+    add(x) {
+        this.value += x;
+        return this;
+    },
+    subtract(x) {
+        this.value -= x;
+        return this;
+    },
+    multiply(x) {
+        this.value *= x;
+        return this;
+    },
+    showResult() {
+        console.log(`Result: ${this.value}`);
+        return this;
+    }
+};
+
+// Method chaining
+let calc = new Calculator(10);
+calc.add(5)
+    .multiply(2)
+    .subtract(3)
+    .showResult(); // "Result: 27"
+
+// Advanced calculator
+function AdvancedCalculator(initialValue) {
+    Calculator.call(this, initialValue);
+}
+
+// Inherit from Calculator
+AdvancedCalculator.prototype = Object.create(Calculator.prototype);
+
+// Add new methods
+AdvancedCalculator.prototype.square = function() {
+    this.value = this.value ** 2;
+    return this;
+};
+
+let advCalc = new AdvancedCalculator(4);
+advCalc.square()
+       .add(16)
+       .showResult(); // "Result: 32"
+```
+
+## Practical Tips 💡
+
+1. Examining Prototype Chain:
+
+```javascript
+function showPrototypeChain(obj) {
+    let chain = [];
+    let current = obj;
+    
+    while (current) {
+        chain.push(current);
+        current = Object.getPrototypeOf(current);
+    }
+    
+    console.log("Prototype Chain:", chain);
+}
+
+// Usage example
+let array = [1, 2, 3];
+showPrototypeChain(array);
+// Array → Array.prototype → Object.prototype → null
+```
+
+2. Adding Custom Methods:
+
+```javascript
+// Adding a new method to all arrays
+Array.prototype.sum = function() {
+    return this.reduce((total, num) => total + num, 0);
+};
+
+let numbers = [1, 2, 3, 4, 5];
+console.log(numbers.sum()); // 15
+```
+
+## Conclusion 🎉
+
+Prototypes and inheritance are among JavaScript's most powerful features. Understanding and properly using these structures makes your code more organized and reusable. I recommend practicing by trying out the examples and creating your own prototypes!
+
+Keep coding! 🚀
