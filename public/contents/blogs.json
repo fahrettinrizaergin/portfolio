@@ -129,6 +129,16 @@
             "slug": "javascript-advanced-features",
             "contentFile": "javascript-advanced-features.mdx",
             "isShow": true
+        },
+        {
+            "title": "ReactJS'e Giriş",
+            "excerpt": "ReactJS kullanarak web uygulamalarının geliştirilmesine giriş yapın. ReactJS'nin temel bileşenleri, bileşen yaşam döngüsü ve React Router ile çalışma konularında pratik örneklerle bilgi edinin.",
+            "date": "Feb 28, 2025",
+            "category": "ReactJS",
+            "image": "",
+            "slug": "reactjs-start",
+            "contentFile": "reactjs-start.mdx",
+            "isShow": true
         }
     ],
     "en": [
@@ -260,6 +270,16 @@
             "image": "",
             "slug": "javascript-advanced-features",
             "contentFile": "javascript-advanced-features.mdx",
+            "isShow": true
+        },
+        {
+            "title": "Introduction to ReactJS",
+            "excerpt": "Get started with ReactJS for building web applications. Learn about ReactJS' fundamental components, component lifecycle, and working with React Router for routing.",
+            "date": "Feb 28, 2025",
+            "category": "ReactJS",
+            "image": "",
+            "slug": "reactjs-start",
+            "contentFile": "reactjs-start.mdx",
             "isShow": true
         }
     ]
