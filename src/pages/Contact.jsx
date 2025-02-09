@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { socials } from '../utils/socials';
+import { useTranslation } from 'react-i18next';
 
 const Contact = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(null);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const loadTimer = setTimeout(() => {
@@ -25,15 +27,15 @@ const Contact = () => {
       link: 'mailto:fahrettinriza@gmail.com'
     },
     {
-      title: 'Location',
+      title: t('contact.cards.location.title'),
       value: 'Antalya, Turkey',
       icon: '📍',
       gradient: 'from-red-400 to-red-600',
       link: 'https://maps.google.com/?q=Antalya,Turkey'
     },
     {
-      title: 'Availability',
-      value: 'Open to opportunities',
+      title: t('contact.cards.availability.title'),
+      value: t('contact.cards.availability.sub_title'),
       icon: '🌟',
       gradient: 'from-green-400 to-green-600'
     }
@@ -42,10 +44,10 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact - Fahrettin Rıza Ergin</title>
+        <title>{t('contact.title')} - Fahrettin Rıza Ergin</title>
         <meta
           name="description"
-          content="Get in touch with me for collaboration, opportunities, or just to say hello!"
+          content={t('contact.description')}
         />
       </Helmet>
 
@@ -60,11 +62,10 @@ const Contact = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-5xl font-bold mb-6">
-                <span className="gradient-text">Let's Connect</span>
+                <span className="gradient-text">{t('contact.title')}</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                I'm always interested in hearing about new opportunities, collaborations,
-                or just having a friendly chat about technology and development.
+                {t('contact.sub_title')}
               </p>
             </motion.div>
 
@@ -103,7 +104,7 @@ const Contact = () => {
               transition={{ delay: 0.3 }}
             >
               <h2 className="text-2xl font-bold mb-8 text-center">
-                <span className="gradient-text">Connect with Me</span>
+                <span className="gradient-text">{t('contact.socials_title')}</span>
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {Object.values(socials).map((social, index) => (

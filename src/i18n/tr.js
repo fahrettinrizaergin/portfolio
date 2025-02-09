@@ -13,7 +13,7 @@ export default {
       description: 'Modern teknolojilerle güzel ve fonksiyonel web uygulamaları geliştiriyorum.',
       hero_descs: [
         "Verimli, ölçeklenebilir ve bakımı yapılabilir kod oluşturma konusunda tutkulu.\n",
-        "Modern teknolojilerle full-stack geliştirme konusunda uzmanlaşma."
+        "Modern teknolojilerle full-stack geliştirme konusunda uzmanlaşmaya devam ediyorum.\n",
       ],
       some_use_the_techs: {
         title: "Kullanılan Teknolojilerden Bazıları",
@@ -27,7 +27,79 @@ export default {
         projects: { title: "Projelerim", value: '3+' },
         experience: { title: "Deneyim", value: '5+ yıl' },
         contributions: { title: "Katkılarım", value: '5+' },
-      }
+      },
+      latest_blog_posts: {
+          title: "Son Blog Yazıları",
+          description: "Web geliştirme, programlama ve teknoloji hakkındaki deneyimlerimi ve düşüncelerimi yazıyorum.",
+          no_results: {
+              title: "Blog Yazısı Bulunamadı",
+              description: "Aradığınız sayfada içerik bulunamadı.",
+          }
+      }, 
+      services: {
+          title: "Hizmetlerim",
+          description: "Hedeflerinize ulaşmanıza yardımcı olmak için bir dizi hizmet sunuyorum.",
+          service_web_development: {
+              title: "Web Geliştirme",
+              description: "Modern, duyarlı ve ölçeklenebilir web uygulamalarını en son teknolojilerle geliştirme",
+              properties: [ 
+                 "Özel Web Uygulamaları",
+                 "E-ticaret Çözümleri",
+                 "Progressive Web Uygulamaları",
+                 "API Geliştirme"
+              ]
+          }, 
+          service_mobile_solutions: {
+              title: "Mobil Çözümler",
+              description: "Kesintisiz kullanıcı deneyimi sunan çoklu platform mobil uygulamalar geliştirme",
+              properties: [
+                  "React Native Uygulamaları",
+                  "iOS ve Android",
+                  "Uygulama Optimizasyonu",
+                  "Mobil UI/UX"
+              ]
+          },
+          service_cloud_devops: {
+              title: "Bulut ve DevOps",
+              description: "Bulut çözümleri uygulama ve geliştirme operasyonlarını düzenleme",
+              properties: [
+                  "Docker",
+                  "",
+                  "",
+                  ""
+              ]
+          },
+          service_uiux_design: {
+              title: "UI/UX Tasarım",
+              description: "Modern tasarım prensipleriyle sezgisel ve güzel kullanıcı arayüzleri tasarlama",
+              properties: [
+                  "Duyarlı Tasarım",
+                  "Kullanıcı Araştırması",
+                  "Prototipleme",
+                  "Tasarım Sistemleri"
+              ]
+          },
+          service_backend_development: {
+              title: "Backend Geliştirme",
+              description: "Sağlam ve ölçeklenebilir sunucu tarafı uygulamaları ve API'ler geliştirme",
+              properties: [
+                  "API Tasarımı",
+                  "Veritabanı Tasarımı",
+                  "Mikroservisler",
+                  "Performans Optimizasyonu"
+              ]
+          },
+          service_consulting: {
+              title: "Danışmanlık",
+              description: "Geliştirme ihtiyaçlarınız için teknik uzmanlık ve çözümler sunma",
+              properties: [
+                  "Teknik Danışmanlık",
+                  "Kod İnceleme",
+                  "Mimari Tasarım",
+                  "Takım Eğitimi"
+              ]
+          },
+      },
     },
     about: {
       title: 'Hakkımda',
@@ -83,7 +155,31 @@ export default {
             title: "{{val, string}} - Blog yazısı ",
             description: "",
             keywords: "",
+        }, 
+        back_to_blogs: "Bloglara Dön",
+        share: "Paylaş"
+    },
+    contact: {
+        meta: {
+            title: "İletişim",
+            description: "İletişim sayfasında sizlere yardımcı olabilirim.",
         },
+        // Let's Connect
+        title: "Hadi Bağlantıya Geçelim",
+        sub_title: "Yeni iş teklifleri, işbirliği veya teknoloji ve geliştirme konularında sohbet etmek istiyorsanız, lütfen bana ulaşın.",
+        cards: {
+            email: {
+                title: "Email", 
+            },
+            location: {
+                title: "Lokasyon",
+            },
+            availability: {
+                title: "Mevcutluk Durumu",
+                sub_title: "İş teklifleri ve işbirliği için açık"
+            }
+        },
+        socials_title: "Bana Ulaşın"
     }
   }
 }

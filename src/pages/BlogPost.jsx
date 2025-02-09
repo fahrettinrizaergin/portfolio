@@ -203,8 +203,8 @@ const BlogPost = () => {
                     strokeWidth={2}
                     d="M15 19l-7-7 7-7"
                   />
-                </svg>
-                Back to Blogs
+                </svg> 
+                {t('blog_post.back_to_blogs')}
               </Link>
               <h1 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
                 {post.title}
@@ -263,7 +263,7 @@ const BlogPost = () => {
             <div className="max-w-3xl mx-auto mt-12 pt-8 border-t border-accent/50">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-4">
-                  <span className="text-textSecondary">Share:</span>
+                  <span className="text-textSecondary">{t('blog_post.share')}:</span>
                   <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
                     target="_blank"

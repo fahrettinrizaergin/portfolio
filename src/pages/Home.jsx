@@ -9,21 +9,64 @@ import { useTranslation } from 'react-i18next';
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+  const { t, i18n } = useTranslation();
   const heroRef = useRef(null);
   const featuredRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentText, setCurrentText] = useState('');
-  const { t, i18n } = useTranslation();
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [fullText, setFullText] = useState(`const developer = {
+  name: 'Fahrettin Rıza Ergin',
+  title: '${t('home.title')}',
+  location: 'Turkey',
+  skills: ['JavaScript', 'React', 'Node.js', 'Go'],
+  languages: ['Turkish', 'English'],
+  interests: ['Web Development', 'Open Source', 'DevOps'],
+  currentFocus: '${t('home.description')}',
+  contact: {
+    email: 'contact@fahrettinrizaergin.com',
+    github: 'github.com/fahrettinrizaergin',
+    linkedin: 'linkedin.com/in/fahrettinrizaergin'
+  }
+};`);
   const [stats, setStats] = useState({
     commits: '2,500+',
     projects: '15+',
     experience: '5+ years',
     contributions: '500+'
   });
-  const fullText = "const developer = {\n  name: 'Fahrettin Rıza Ergin',\n  title: '"+t('home.title')+"',\n  skills: ['JavaScript', 'React', 'Node.js', 'Go'],\n  passion: '"+t('home.description')+"'\n};";
 
   const [activeTab, setActiveTab] = useState('all');
   const [isHovered, setIsHovered] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const lang = (i18n.language || 'en').split('-')[0];
+      const [blogsData] = await Promise.all([
+        import('../../public/contents/blogs.json')
+      ]);
+
+      const blogBuildData = blogsData.default[lang]?.filter(blog => blog.isShow === true) || [];
+      const lastThreeBlogs = blogBuildData.slice(-3);
+      setBlogPosts(lastThreeBlogs);
+    }
+    fetchData()
+
+    setFullText(`const developer = {
+  name: 'Fahrettin Rıza Ergin',
+  title: '${t('home.title')}',
+  location: 'Turkey',
+  skills: ['JavaScript', 'React', 'Node.js', 'Go'],
+  languages: ['Turkish', 'English'],
+  interests: ['Web Development', 'Open Source', 'DevOps'],
+  currentFocus: '${t('home.description')}',
+  contact: {
+    email: 'contact@fahrettinrizaergin.com',
+    github: 'github.com/fahrettinrizaergin',
+    linkedin: 'linkedin.com/in/fahrettinrizaergin'
+  }
+};`)
+  }, [i18n.language, t])
 
   useEffect(() => {
     let currentIndex = 0;
@@ -38,7 +81,7 @@ const Home = () => {
 
     const loadTimer = setTimeout(() => {
       setIsLoaded(true);
-    }, 100);
+    }, 100); 
 
     const ctx = gsap.context(() => {
       gsap.to('.hero-gradient', {
@@ -62,7 +105,7 @@ const Home = () => {
       });
 
       const heroTl = gsap.timeline({
-        defaults: { 
+        defaults: {
           ease: 'power3.out',
           duration: 0.8,
           force3D: true
@@ -114,6 +157,8 @@ const Home = () => {
     };
   }, []);
 
+  // Remove the duplicate setFullText call here
+
   const statsVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -126,36 +171,6 @@ const Home = () => {
     }
   };
 
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Modern Web Development with React",
-      date: "March 20, 2024",
-      category: "Frontend",
-      readTime: "5 min read",
-      excerpt: "Exploring the latest features and best practices in React development.",
-      image: "/images/blog1.jpg"
-    },
-    {
-      id: 2,
-      title: "Building Microservices with Go",
-      date: "March 18, 2024",
-      category: "Backend",
-      readTime: "7 min read",
-      excerpt: "A comprehensive guide to building scalable microservices architecture.",
-      image: "/images/blog2.jpg"
-    },
-    {
-      id: 3,
-      title: "DevOps Best Practices",
-      date: "March 15, 2024",
-      category: "DevOps",
-      readTime: "6 min read",
-      excerpt: "Essential DevOps practices for modern development teams.",
-      image: "/images/blog3.jpg"
-    }
-  ];
-
   return (
     <>
       <Helmet>
@@ -166,8 +181,8 @@ const Home = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section 
-        ref={heroRef} 
+      <section
+        ref={heroRef}
         className={`page-section min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-blue-50/30 to-white ${isLoaded ? 'loaded' : 'initial-load'}`}
       >
         <div className="absolute inset-0 overflow-hidden opacity-10">
@@ -186,31 +201,31 @@ const Home = () => {
           ))}
         </div>
 
-        <div className="container relative z-10 px-4">
+        <div className="container relative z-10 px-4 mt-20 lg:mt-0">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-blue-100 overflow-hidden">
-              <div className="terminal-header flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-100">
-                <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                <span className="ml-2 text-sm text-gray-600 font-mono">~/developer-profile</span>
+              <div className="terminal-header flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700">
+                <div className="w-3 h-3 rounded-full bg-red-400 hover:bg-red-500 transition-colors duration-300"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400 hover:bg-yellow-500 transition-colors duration-300"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400 hover:bg-green-500 transition-colors duration-300"></div>
+                <span className="ml-2 text-sm text-gray-400 font-mono">~/developer-profile</span>
               </div>
-              <div className="p-6 bg-gradient-to-br from-white to-blue-50">
-                <div className="flex items-center text-blue-600 mb-2 font-mono">
+              <div className="p-6 bg-gray-900 text-gray-300">
+                <div className="flex items-center text-green-400 mb-2 font-mono">
                   <span className="mr-2">$</span>
                   <span className="typing-cursor">node developer.js</span>
                 </div>
-                <pre className="text-gray-700 whitespace-pre-wrap font-mono">
+                <pre className="text-gray-300 whitespace-pre-wrap font-mono bg-gray-800/50 p-4 rounded-lg overflow-x-auto">
                   {currentText}
                 </pre>
               </div>
             </div>
 
             <div className="mt-12 text-center">
-              <p className="hero-description text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">  
+              <p className="hero-description text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
                 {t('home.hero_descs.0')}
               </p>
-              <p className="hero-description text-lg md:text-xl text-gray-600 mb-20 max-w-2xl mx-auto">  
+              <p className="hero-description text-lg md:text-xl text-gray-600 mb-20 max-w-2xl mx-auto">
                 {t('home.hero_descs.1')}
               </p>
 
@@ -234,7 +249,7 @@ const Home = () => {
                   ))}
                 </div>
               </div>
- 
+
             </div>
           </div>
         </div>
@@ -243,8 +258,8 @@ const Home = () => {
       {/* Stats Section */}
       <section className="pb-20 bg-gradient-to-b from-white to-blue-50/50">
         <div className="container px-4">
-          <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -278,7 +293,7 @@ const Home = () => {
               </motion.div>
             ))}
           </motion.div>
-              </div>
+        </div>
       </section>
 
       {/* Blog Posts Section */}
@@ -286,15 +301,15 @@ const Home = () => {
         <div className="container px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">
-              <span className="gradient-text">Latest Blog Posts</span>
-            </h2> 
-              </div>
+              <span className="gradient-text">{t('home.latest_blog_posts.title')}</span>
+            </h2>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {blogPosts 
+          <div className={blogPosts.length > 0 ? "grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto" : "grid grid-cols-1 max-w-6xl mx-auto"}>
+            {blogPosts.length > 0 ? blogPosts
               .map((post, index) => (
                 <motion.article
-                  key={post.id}
+                  key={index}
                   className="group bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -314,7 +329,7 @@ const Home = () => {
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm text-blue-600 font-semibold">{post.date}</span>
                       <span className="text-xs bg-blue-50 px-3 py-1 rounded-lg text-blue-600 border border-blue-100 font-medium">
-                        {post.readTime}
+                        {post.category}
                       </span>
                     </div>
                     <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
@@ -322,7 +337,7 @@ const Home = () => {
                     </h3>
                     <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
                     <Link
-                      to="/blogs"
+                      to={`/blogs/${post.slug}`}
                       className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all duration-300"
                     >
                       Read More
@@ -338,7 +353,11 @@ const Home = () => {
                     </Link>
                   </div>
                 </motion.article>
-              ))}
+              )) : (
+              <div className="text-center">
+                <p className="bg-red-100 text-red-600 border border-red-600 p-4 rounded-lg w-full">{t('home.latest_blog_posts.no_results.title')}</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -347,55 +366,85 @@ const Home = () => {
       <section className="py-20 bg-gradient-to-b from-white to-blue-50/50">
         <div className="container px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
-            <span className="gradient-text">My Services</span>
+            <span className="gradient-text">{t('home.services.title')}</span>
           </h2>
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Web Development",
-                  description: "Building modern, responsive, and scalable web applications with cutting-edge technologies",
-                  features: ["Custom Web Apps", "E-commerce Solutions", "Progressive Web Apps", "API Development"],
+                  title: t('home.services.service_web_development.title'),
+                  description: t('home.services.service_web_development.description'),
+                  features: [
+                    t('home.services.service_web_development.properties.0'),
+                    t('home.services.service_web_development.properties.1'),
+                    t('home.services.service_web_development.properties.2'),
+                    t('home.services.service_web_development.properties.3'),
+                  ],
                   color: "blue",
                   icon: "💻",
                   gradient: "from-blue-500 to-blue-600"
                 },
                 {
-                  title: "Mobile Solutions",
-                  description: "Creating cross-platform mobile applications that provide seamless user experiences",
-                  features: ["React Native Apps", "iOS & Android", "App Optimization", "Mobile UI/UX"],
+                  title: t('home.services.service_mobile_solutions.title'),
+                  description: t('home.services.service_mobile_solutions.description'),
+                  features: [
+                    t('home.services.service_mobile_solutions.properties.0'),
+                    t('home.services.service_mobile_solutions.properties.1'),
+                    t('home.services.service_mobile_solutions.properties.2'),
+                    t('home.services.service_mobile_solutions.properties.3'),
+                  ],
                   color: "purple",
                   icon: "📱",
                   gradient: "from-purple-500 to-purple-600"
                 },
                 {
-                  title: "Cloud & DevOps",
-                  description: "Implementing cloud solutions and streamlining development operations",
-                  features: ["Docker"],
+                  title: t('home.services.service_cloud_devops.title'),
+                  description: t('home.services.service_cloud_devops.description'),
+                  features: [
+                    t('home.services.service_cloud_devops.properties.0'),
+                    t('home.services.service_cloud_devops.properties.1'),
+                    t('home.services.service_cloud_devops.properties.2'),
+                    t('home.services.service_cloud_devops.properties.3'),
+                  ],
                   color: "indigo",
                   icon: "☁️",
                   gradient: "from-indigo-500 to-indigo-600"
                 },
                 {
-                  title: "UI/UX Design",
-                  description: "Designing intuitive and beautiful user interfaces with modern design principles",
-                  features: ["Responsive Design", "User Research", "Prototyping", "Design Systems"],
+                  title: t('home.services.service_uiux_design.title'),
+                  description: t('home.services.service_uiux_design.description'),
+                  features: [
+                    t('home.services.service_uiux_design.properties.0'),
+                    t('home.services.service_uiux_design.properties.1'),
+                    t('home.services.service_uiux_design.properties.2'),
+                    t('home.services.service_uiux_design.properties.3'),
+                  ],
                   color: "green",
                   icon: "🎨",
                   gradient: "from-green-500 to-green-600"
                 },
                 {
-                  title: "Backend Development",
-                  description: "Building robust and scalable server-side applications and APIs",
-                  features: ["API Design", "Database Design", "Microservices", "Performance Optimization"],
+                  title: t('home.services.service_backend_development.title'),
+                  description: t('home.services.service_backend_development.description'),
+                  features: [
+                    t('home.services.service_backend_development.properties.0'),
+                    t('home.services.service_backend_development.properties.1'),
+                    t('home.services.service_backend_development.properties.2'),
+                    t('home.services.service_backend_development.properties.3'),
+                  ],
                   color: "red",
                   icon: "⚙️",
                   gradient: "from-red-500 to-red-600"
                 },
                 {
-                  title: "Consulting",
-                  description: "Providing technical expertise and solutions for your development needs",
-                  features: ["Tech Consulting", "Code Review", "Architecture Design", "Team Training"],
+                  title: t('home.services.service_consulting.title'),
+                  description: t('home.services.service_consulting.description'),
+                  features: [
+                    t('home.services.service_consulting.properties.0'),
+                    t('home.services.service_consulting.properties.1'),
+                    t('home.services.service_consulting.properties.2'),
+                    t('home.services.service_consulting.properties.3'),
+                  ],
                   color: "yellow",
                   icon: "💡",
                   gradient: "from-yellow-500 to-yellow-600"
@@ -439,7 +488,7 @@ const Home = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                       <motion.button
                         className={`w-full py-2 px-4 rounded-lg bg-gradient-to-r ${service.gradient} text-white font-semibold hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2`}
                         whileHover={{ scale: 1.02 }}
@@ -458,11 +507,11 @@ const Home = () => {
                             strokeWidth={2}
                             d="M17 8l4 4m0 0l-4 4m4-4H3"
                           />
-                  </svg>
+                        </svg>
                       </motion.button>
-                    </div>
-              </div>
-            </motion.div>
+                    </div> */}
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -521,4 +570,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;
