@@ -29,7 +29,7 @@ const Blogs = () => {
 
     const fetchData = async () => {
       try {
-        const lang = i18n.language;
+        const lang = i18n.language || 'en';
         const [blogsData, categoriesData] = await Promise.all([
           import('../../public/contents/blogs.json'),
           import('../../public/contents/categories.json')

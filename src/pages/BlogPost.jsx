@@ -22,9 +22,9 @@ const BlogPost = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      try {
+      try { 
         // get lang
-        const lang = i18n.language;
+        const lang = i18n.language || 'en';
         console.log(lang)
         const blogs = await import('../../public/contents/blogs.json');
         const foundPost = blogs.default[lang].find(p => p.slug === slug);
