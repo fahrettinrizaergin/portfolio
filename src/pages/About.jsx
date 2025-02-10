@@ -83,7 +83,7 @@ const About = () => {
       <GlobalHelmet
         title={t('about.title')}
         description={t('about.description')}
-      />
+      /> 
 
       <div className={`min-h-screen pb-20 pt-32 bg-gradient-to-b from-blue-50/30 to-white ${isLoaded ? 'loaded' : 'initial-load'}`}>
         {/* About Section */}
@@ -98,20 +98,67 @@ const About = () => {
               <h1 className="text-3xl font-bold text-center mb-12">
                 <span className="gradient-text">{t('about.title')}</span>
               </h1>
-              
+ 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <motion.div
                   className="relative rounded-xl overflow-hidden"
-                  initial={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 1, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="aspect-w-4 aspect-h-5 bg-gradient-to-br from-blue-100 to-purple-100">
-                    <div className="absolute inset-0 flex items-center justify-center text-6xl">
+                  <div className="aspect-w-4 aspect-h-5 bg-gradient-to-br from-blue-100 to-purple-100 relative">
+                    <motion.svg
+                      viewBox="0 0 500 500"
+                      className="absolute inset-0 w-full h-full"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <motion.path
+                        d="M250,100 C150,100 100,200 100,300 C100,400 200,450 250,450 C300,450 400,400 400,300 C400,200 350,100 250,100"
+                        fill="#3B82F6"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.1 }}
+                        transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+                      />
+                      <motion.circle
+                        cx="250"
+                        cy="200"
+                        r="50"
+                        fill="#1E40AF"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                      />
+                      <motion.rect
+                        x="200"
+                        y="260"
+                        width="100"
+                        height="140"
+                        fill="#60A5FA"
+                        initial={{ scaleY: 0 }}
+                        animate={{ scaleY: 1 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                      />
+                      <motion.path
+                        d="M150,300 L350,300 M150,340 L350,340 M150,380 L350,380"
+                        stroke="#1E40AF"
+                        strokeWidth="8"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 1, delay: 0.6 }}
+                      />
+                    </motion.svg>
+                    <motion.div
+                      className="absolute inset-0 flex items-center justify-center text-6xl"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 1 }}
+                    >
                       👨‍💻
-                    </div>
+                    </motion.div>
                   </div>
-                </motion.div>
+                </motion.div> 
                 
                 <div className="space-y-6">
                   <motion.p
@@ -266,4 +313,4 @@ const About = () => {
   );
 };
 
-export default About; 
+export default About;
