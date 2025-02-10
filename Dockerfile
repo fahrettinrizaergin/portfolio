@@ -17,6 +17,7 @@ COPY . .
 
 # Generate sitemap
 RUN node scripts/sitemap.js
+RUN node scripts/robot.js
 
 # Build the project
 RUN npm run build

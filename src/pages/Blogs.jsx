@@ -174,6 +174,8 @@ const Blogs = () => {
                           <span className="mr-3">📅 {blog.date}</span>
                         </div>
                         <Link 
+                          alt={blog.title}
+                          title={blog.title}
                           to={`/blogs/${blog.slug}`}
                           className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group flex items-center"
                         >

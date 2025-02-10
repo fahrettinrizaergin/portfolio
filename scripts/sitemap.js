@@ -21,7 +21,7 @@ paths.map(p => routes.push(`/blogs/${p.slug}`))
 
 // Generate sitemap.xml for each language
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="URL_ADDRESS.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${routes.map(route => `\n<url>
     <loc>${baseUrl}${route}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
