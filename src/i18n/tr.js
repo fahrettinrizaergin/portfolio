@@ -9,7 +9,7 @@ export default {
     },
     home: {
       greeting: 'Merhaba, Ben Fahrettin Rıza Ergin',
-      title: 'Full Stack Geliştirici',
+      title: 'Full Stack Developer',
       description: 'Modern teknolojilerle güzel ve fonksiyonel web uygulamaları geliştiriyorum.',
       hero_descs: [
         "Verimli, ölçeklenebilir ve bakımı yapılabilir kod oluşturma konusunda tutkulu.\n",
@@ -103,11 +103,11 @@ export default {
     },
     about: {
       title: 'Hakkımda',
-      description: 'Merhaba! Modern web teknolojilerinde güçlü bir altyapıya sahip tutkulu bir full-stack geliştiriciyim. Gerçek dünya problemlerini çözen güzel, fonksiyonel ve kullanıcı dostu uygulamalar geliştirmeyi seviyorum.',
+      description: 'Merhaba! Modern web teknolojilerinde güçlü bir altyapıya sahip tutkulu bir full-stack Developeryim. Gerçek dünya problemlerini çözen güzel, fonksiyonel ve kullanıcı dostu uygulamalar geliştirmeyi seviyorum.',
       experience: 'Profesyonel Deneyim',
       skills: 'Yetenekler & Teknolojiler',
       desc_sections: {
-        section_one: 'Merhaba! Modern web teknolojilerinde güçlü bir temele sahip tutkulu bir full-stack geliştiricisiyim. Gerçek dünyadaki sorunları çözen güzel, işlevsel ve kullanıcı dostu uygulamalar oluşturmayı seviyorum.',
+        section_one: 'Merhaba! Modern web teknolojilerinde güçlü bir temele sahip tutkulu bir full-stack Developersiyim. Gerçek dünyadaki sorunları çözen güzel, işlevsel ve kullanıcı dostu uygulamalar oluşturmayı seviyorum.',
         section_two: 'Sektördeki birkaç yıllık deneyimimle, küçük işletme web sitelerinden büyük ölçekli kurumsal uygulamalara kadar çeşitli projeler üzerinde çalışma fırsatım oldu.',
         section_tree: 'Kodlama yapmadığım zamanlarda beni yeni teknolojileri keşfederken, açık kaynaklı projelere katkıda bulunurken veya teknik yazarlık ve mentorluk yoluyla bilgilerimi paylaşırken bulabilirsiniz.'
       },
@@ -116,7 +116,7 @@ export default {
           title: 'Full Stack Developer',
           company: 'EticSoft A.Ş.',
           date: 'Ocak 2020 - Günümüz',
-          description: 'EticSoft A.Ş. şirketinde full-stack geliştirici olarak çalışıyorum.'
+          description: 'EticSoft A.Ş. şirketinde full-stack Developer olarak çalışıyorum.'
         },
         experience_two: {
           title: 'Full Stack Developer',
@@ -157,7 +157,9 @@ export default {
             keywords: "",
         }, 
         back_to_blogs: "Bloglara Dön",
-        share: "Paylaş"
+        share: "Paylaş",
+        previous: "<p class='!p-0 !m-0 !-mb-1'>Önceki Yazı</p><p class='!p-0 !m-0 !-mb-1'>{{val, string}}</p>",
+        next: "<p class='!p-0 !m-0'>Sonraki Yazı</p><p class='!p-0 !m-0'>{{val, string}}</p>",
     },
     contact: {
         meta: {

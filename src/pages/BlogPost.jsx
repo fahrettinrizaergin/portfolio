@@ -10,6 +10,9 @@ import rehypeRaw from 'rehype-raw';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
+import GlobalHelmet from '../components/GlobalHelmet.jsx';
+
+import content from "../../public/contents/categories/content.js"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,29 +24,29 @@ const BlogPost = () => {
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
+
     const fetchPost = async () => {
-      try { 
+      try {
         // get lang and normalize it to base language code
         const lang = (i18n.language || 'en').split('-')[0];
-        console.log(lang)
-        const blogs = await import('../../public/contents/blogs.json');
-        const foundPost = blogs.default[lang].find(p => p.slug === slug);
+        const blogs = content[lang] || [];
+        const foundPost = blogs.find(p => p.slug === slug);
 
         if (!foundPost) {
           navigate('/404');
           return;
         }
- 
-        // Fetch the markdown content
-        const response = await fetch(`/contents/blogs/${lang}/${foundPost.contentFile}`);
-        const content = await response.text();
 
-        if (content.startsWith('<!DOCTYPE html>')) {
+        // // Fetch the markdown content
+        const response = await fetch(`/contents/blogs/${lang}/${foundPost.contentFile}`);
+        const contentData = await response.text();
+
+        if (contentData.startsWith('<!DOCTYPE html>')) {
           navigate('/404');
           return;
         }
 
-        setPost({ ...foundPost, content });
+        setPost({ ...foundPost, content: contentData });
       } catch (error) {
         console.error('Error loading blog post:', error);
         navigate('/404');
@@ -85,9 +88,11 @@ const BlogPost = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('blog_post.meta.title', {val: post.title})} - Fahrettin Rıza Ergin</title>
-        <meta name="description" content={post.excerpt} />
+      <GlobalHelmet
+        title={t('blog_post.meta.title', { val: post.title })}
+        description={post.excerpt}
+      />
+      <Helmet> 
         <style>
           {`
             .blog-content {
@@ -203,7 +208,7 @@ const BlogPost = () => {
                     strokeWidth={2}
                     d="M15 19l-7-7 7-7"
                   />
-                </svg> 
+                </svg>
                 {t('blog_post.back_to_blogs')}
               </Link>
               <h1 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
@@ -257,6 +262,66 @@ const BlogPost = () => {
               >
                 {post.content}
               </ReactMarkdown>
+
+              {/* Navigation Buttons */}
+              <div className="max-w-3xl mx-auto mt-12 flex justify-between flex-col lg:flex-row">
+                {(() => {
+                  // get lang and normalize it to base language code
+                  const lang = (i18n.language || 'en').split('-')[0];
+                  const blogs = content[lang] || [];
+                  const currentIndex = blogs.findIndex(p => p.slug === slug);
+                  
+                  const prevPost = currentIndex > 0 ? blogs[currentIndex - 1] : null;
+                  const nextPost = currentIndex < blogs.length - 1 ? blogs[currentIndex + 1] : null;
+
+                  return (
+                    <>
+                      {prevPost && (
+                        <Link
+                          to={`/blogs/${prevPost.slug}`}
+                          className="border rounded-lg w-full lg:w-auto mb-4 lg:mb-0 px-4 py-2 flex justify-between items-center space-x-2 text-textSecondary hover:text-secondary transition-colors duration-300 !no-underline"
+                        >
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 19l-7-7 7-7"
+                            />
+                          </svg>
+                          <span dangerouslySetInnerHTML={{__html: t('blog_post.previous', {val: prevPost.title.length > 30 ? prevPost.title.substr(0,30) + "..." : prevPost.title })}}></span>
+                        </Link>
+                      )}
+                      {nextPost && (
+                        <Link
+                          to={`/blogs/${nextPost.slug}`}
+                          className="border rounded-lg w-full lg:w-auto px-4 py-2 flex justify-between items-center space-x-2 text-textSecondary hover:text-secondary transition-colors duration-300 !no-underline"
+                        >
+                          <span dangerouslySetInnerHTML={{__html: t('blog_post.next', {val: nextPost.title.length > 30 ? nextPost.title.substr(0,30) + "..." : nextPost.title })}}></span>
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </Link>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
             </article>
 
             {/* Share and Navigation */}

@@ -160,7 +160,9 @@ export default {
                 keywords: "",
             },
             back_to_blogs: 'Back to Blogs',
-            share: 'Share'
+            share: 'Share',
+            previous: "<p class='!p-0 !m-0 !-mb-1'>Previous Post</p><p class='!p-0 !m-0 !-mb-1'>{{val, string}}</p>",
+            next: "<p class='!p-0 !m-0'>Next Post</p><p class='!p-0 !m-0'>{{val, string}}</p>",
         },
         contact: {
             meta: {

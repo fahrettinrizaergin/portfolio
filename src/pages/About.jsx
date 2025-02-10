@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion'; 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
+import GlobalHelmet from '../components/GlobalHelmet'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,14 +79,11 @@ const About = () => {
   ]
 
   return (
-    <>
-      <Helmet>
-        <title>{t('about.title')} - Fahrettin Rıza Ergin</title>
-        <meta
-          name="description"
-          content="Learn more about my background, skills, and experience as a full-stack developer."
-        />
-      </Helmet>
+    <> 
+      <GlobalHelmet
+        title={t('about.title')}
+        description={t('about.description')}
+      />
 
       <div className={`min-h-screen pb-20 pt-32 bg-gradient-to-b from-blue-50/30 to-white ${isLoaded ? 'loaded' : 'initial-load'}`}>
         {/* About Section */}

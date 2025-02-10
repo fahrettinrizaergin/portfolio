@@ -15,6 +15,9 @@ RUN npm install --legacy-peer-deps
 # Copy project files
 COPY . .
 
+# Generate sitemap
+RUN node scripts/sitemap.js
+
 # Build the project
 RUN npm run build
 

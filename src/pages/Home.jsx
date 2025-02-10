@@ -6,7 +6,10 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
 
-gsap.registerPlugin(ScrollTrigger);
+import content from "../../public/contents/categories/content.js"
+import GlobalHelment from '../components/GlobalHelmet.jsx';
+
+gsap.registerPlugin(ScrollTrigger); 
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -42,12 +45,12 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       const lang = (i18n.language || 'en').split('-')[0];
-      const [blogsData] = await Promise.all([
-        import('../../public/contents/blogs.json')
-      ]);
 
-      const blogBuildData = blogsData.default[lang]?.filter(blog => blog.isShow === true) || [];
+      const blogs = content[lang] || [];
+
+      const blogBuildData = blogs.filter(blog => blog.isShow === true) || [];
       const lastThreeBlogs = blogBuildData.slice(-3);
+       lastThreeBlogs.reverse();
       setBlogPosts(lastThreeBlogs);
     }
     fetchData()
@@ -173,12 +176,7 @@ const Home = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Fahrettin Rıza Ergin | Full Stack Developer</title>
-        <meta name="description" content="Full Stack Developer specializing in React, Node.js, and Go. Building scalable web applications with modern technologies." />
-        <meta name="keywords" content="Full Stack Developer, React, Node.js, Go, JavaScript, Web Development, Software Engineer" />
-        <meta name="author" content="Fahrettin Rıza Ergin" />
-      </Helmet>
+      <GlobalHelment /> 
 
       {/* Hero Section */}
       <section
@@ -360,7 +358,7 @@ const Home = () => {
             )}
           </div>
         </div>
-      </section>
+      </section> 
 
       {/* My Services */}
       <section className="py-20 bg-gradient-to-b from-white to-blue-50/50">

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion'; 
 import { socials } from '../utils/socials';
 import { useTranslation } from 'react-i18next';
+import GlobalHelmet from '../components/GlobalHelmet';
 
 const Contact = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -43,13 +42,10 @@ const Contact = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{t('contact.title')} - Fahrettin Rıza Ergin</title>
-        <meta
-          name="description"
-          content={t('contact.description')}
-        />
-      </Helmet>
+      <GlobalHelmet
+        title={t('contact.title')}
+        description={t('contact.description')}
+      /> 
 
       <div className={`min-h-screen pb-20 pt-32 bg-gradient-to-b from-blue-50/30 to-white ${isLoaded ? 'loaded' : 'initial-load'}`}>
         <div className="container mx-auto px-4">

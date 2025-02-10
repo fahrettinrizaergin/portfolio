@@ -1,0 +1,191 @@
+# NoSQL Veritabanları: Ne Zaman ve Neden Kullanmalısınız? 🎯
+
+Merhaba! 👋 Bu yazıda, NoSQL veritabanlarını keşfedecek, güçlü yönlerini anlayacak ve projeleriniz için ne zaman doğru seçim olduklarını öğreneceğiz. Haydi başlayalım!
+
+## NoSQL Veritabanları Nedir? 📦
+
+NoSQL (Not Only SQL) veritabanları şunları yönetmek için tasarlanmış modern veritabanı sistemleridir:
+- Büyük veri hacimleri 📊
+- Çeşitli veri tipleri ve yapıları 🔄
+- Veri şemalarındaki hızlı değişiklikler 🚀
+- Yüksek hızlı işlemler ⚡
+
+## NoSQL Veritabanı Türleri 🗂️
+
+### 1. Döküman Veritabanları 📄
+Verileri JSON benzeri dokümanlarda saklar
+
+```javascript
+// MongoDB döküman örneği
+{
+    "kullanici_id": "12345",
+    "ad": "Ahmet Yılmaz",
+    "siparisler": [
+        {
+            "siparis_id": "SIP001",
+            "urunler": ["laptop", "mouse"],
+            "toplam": 24999.99
+        }
+    ],
+    "tercihler": {
+        "tema": "koyu",
+        "bildirimler": true
+    }
+}
+```
+
+Popüler seçenekler:
+- MongoDB
+- CouchDB
+- Amazon DocumentDB
+
+### 2. Anahtar-Değer Depoları 🔑
+En basit NoSQL türü, dev bir hashtable gibi
+
+```javascript
+// Redis örneği
+SET kullanici:12345 {"ad":"Ahmet","yas":30}
+GET kullanici:12345
+```
+
+Popüler seçenekler:
+- Redis
+- Amazon DynamoDB
+- Riak
+
+### 3. Geniş-Sütun Depoları 📊
+Büyük veri setleri üzerindeki sorgular için optimize edilmiş
+
+```sql
+-- Cassandra örneği
+CREATE TABLE kullanicilar (
+    kullanici_id text PRIMARY KEY,
+    ad text,
+    eposta text
+) WITH CLUSTERING ORDER BY (ad ASC);
+```
+
+Popüler seçenekler:
+- Apache Cassandra
+- HBase
+- ScyllaDB
+
+### 4. Graf Veritabanları 🕸️
+Birbirine bağlı veriler için optimize edilmiş
+
+```cypher
+// Neo4j örneği
+CREATE (ahmet:Kisi {ad:"Ahmet"})-[:ARKADAS]->(ayse:Kisi {ad:"Ayşe"})
+```
+
+Popüler seçenekler:
+- Neo4j
+- Amazon Neptune
+- OrientDB
+
+## NoSQL Ne Zaman Kullanılmalı? 🤔
+
+### 1. Büyük Veri Uygulamaları 📈
+- Büyük miktarda veriyi yönetme
+- Yatay ölçeklendirme ihtiyacı
+- Çeşitli veri formatları
+
+### 2. Çevik Geliştirme 🏃‍♂️
+- Veri yapısında hızlı değişiklikler
+- Hızlı iterasyonlar
+- Esnek şema gereksinimleri
+
+### 3. Gerçek Zamanlı Uygulamalar ⚡
+- Sosyal medya akışları
+- Oyun skor tabloları
+- IoT veri toplama
+
+### 4. İçerik Yönetimi 📱
+- Blog platformları
+- Ürün katalogları
+- Kullanıcı tarafından oluşturulan içerik
+
+## NoSQL'in Avantajları 🌟
+
+1. **Ölçeklenebilirlik** 📈
+- Yatay ölçeklendirme (sunucu ekleme)
+- Büyük veri hacimlerini daha iyi yönetme
+- Maliyet-etkin ölçeklendirme
+
+2. **Esneklik** 🔄
+- Şemasız tasarım
+- Değişikliklere kolay uyum
+- Çeşitli veri tipi desteği
+
+3. **Performans** ⚡
+- Belirli kullanım durumları için daha hızlı
+- Yüksek yazma yükleri için optimize
+- Yapılandırılmamış veriyi daha iyi işleme
+
+4. **Kullanılabilirlik** 🔥
+- Yerleşik replikasyon
+- Otomatik yük devretme
+- Dağıtık mimari
+
+## Yaygın Kullanım Alanları 🎯
+
+1. **Sosyal Ağlar**
+- Kullanıcı profilleri
+- İlişkiler
+- Aktivite akışları
+
+2. **E-ticaret**
+- Ürün katalogları
+- Kullanıcı oturumları
+- Alışveriş sepetleri
+
+3. **Oyun Uygulamaları**
+- Oyuncu profilleri
+- Oyun durumları
+- Skor tabloları
+
+4. **IoT Uygulamaları**
+- Sensör verileri
+- Cihaz logları
+- Gerçek zamanlı analitik
+
+## NoSQL Ne Zaman Kullanılmamalı? ⚠️
+
+1. **Karmaşık İşlemler**
+- Bankacılık sistemleri
+- Muhasebe yazılımları
+- Finansal uygulamalar
+
+2. **Güçlü Tutarlılık Gereksinimleri**
+- Sağlık sistemleri
+- Ödeme işlemleri
+- Yasal belge yönetimi
+
+## En İyi Uygulamalar 💡
+
+1. **Veri Modellemesi**
+- Sorgu kalıplarına göre tasarım
+- Gereksiz ilişkilerden kaçınma
+- Ölçeklendirme için planlama
+
+2. **Performans**
+- Uygun indeksler kullanma
+- Sorgu performansını izleme
+- Düzenli bakım
+
+3. **Güvenlik**
+- Kimlik doğrulama uygulama
+- Şifreleme kullanma
+- Düzenli güvenlik denetimleri
+
+## Sonuç 🎉
+
+NoSQL veritabanları, modern uygulama geliştirmede güçlü araçlardır. Şu alanlarda öne çıkarlar:
+- Büyük veriyi yönetme
+- Çevik geliştirmeyi destekleme
+- Esnek ölçeklendirme seçenekleri sunma
+- Çeşitli veri tiplerini yönetme
+
+Projeniz esneklik, ölçeklenebilirlik gerektiriyorsa ve nihai tutarlılık yeterliyse NoSQL'i tercih edin. Ancak, karmaşık işlemler ve güçlü tutarlılık gerektiren uygulamalar için geleneksel SQL veritabanlarının hala daha iyi bir seçim olabileceğini unutmayın.
+
+Kolay gelsin! 🚀 

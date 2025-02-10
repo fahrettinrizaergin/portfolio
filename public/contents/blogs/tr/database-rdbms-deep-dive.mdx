@@ -1,0 +1,133 @@
+# İlişkisel Veritabanı Yönetim Sistemleri (RDBMS) Derinlemesine İnceleme 🎯
+
+Merhaba 👋, Bugün, İlişkisel Veritabanı Yönetim Sistemleri (RDBMS) dünyasını keşfedeceğiz. İster yeni başlayan biri olun, ister bilgilerinizi tazelemek isteyin, bu rehber RDBMS'i dostane ve pratik bir şekilde anlamanıza yardımcı olacak.
+
+## RDBMS Nedir? 🤔
+
+Bir e-ticaret sistemini düşünün. Ürünleriniz, müşterileriniz, siparişleriniz ve ödeme işlemleriniz var. RDBMS, size şunları yapmanıza yardımcı olan süper akıllı bir düzenleyici gibidir:
+- Bu bilgileri tablolarda saklama (elektronik tablolar gibi)
+- İlgili bilgileri birbirine bağlama (siparişleri müşterilerle ve ürünlerle ilişkilendirme gibi)
+- Verilerinizi verimli bir şekilde bulma ve yönetme
+
+## RDBMS'in Temel Bileşenleri 🏗️
+
+### 1. Tablolar (İlişkiler) 📊
+Tablolar, RDBMS'in yapı taşlarıdır. Basit bir örneğe bakalım:
+
+```sql
+CREATE TABLE urunler (
+    id INT PRIMARY KEY,
+    ad VARCHAR(100),
+    fiyat DECIMAL(10,2),
+    stok_miktari INT
+);
+```
+
+### 2. İlişkiler 🔗
+RDBMS, tablolar arasında bağlantılar oluşturmamıza olanak tanır:
+- Bire-Bir (1:1)
+- Bire-Çok (1:N)
+- Çoka-Çok (M:N)
+
+Bir ilişki örneği:
+```sql
+CREATE TABLE siparisler (
+    id INT PRIMARY KEY,
+    musteri_id INT,
+    siparis_tarihi DATE,
+    toplam_tutar DECIMAL(10,2),
+    FOREIGN KEY (musteri_id) REFERENCES musteriler(id)
+);
+```
+
+## RDBMS'in Temel Özellikleri 🌟
+
+### 1. ACID Özellikleri ⚡
+- **Atomiklik**: Ya hep ya hiç işlemleri
+- **Tutarlılık**: Veriler geçerli kalır
+- **İzolasyon**: İşlemler birbirini etkilemez
+- **Dayanıklılık**: Kaydedilen değişiklikler kalıcıdır
+
+### 2. SQL Desteği 💻
+RDBMS, SQL (Yapılandırılmış Sorgu Dili) kullanır:
+```sql
+-- Veri oluşturma
+INSERT INTO urunler (ad, fiyat, stok_miktari)
+VALUES ('Akıllı Telefon', 5999.99, 100);
+
+-- Veri okuma
+SELECT ad, fiyat
+FROM urunler
+WHERE stok_miktari > 0;
+
+-- Veri güncelleme
+UPDATE urunler
+SET fiyat = 5499.99
+WHERE ad = 'Akıllı Telefon';
+
+-- Veri silme
+DELETE FROM urunler
+WHERE stok_miktari = 0;
+```
+
+## Veritabanı Normalizasyonu 📐
+
+Normalizasyon, verileri verimli bir şekilde düzenlemeye yardımcı olur:
+
+1. **Birinci Normal Form (1NF)**
+   - Tekrarlayan gruplar yok
+   - Her hücre tek bir değer içerir
+
+2. **İkinci Normal Form (2NF)**
+   - 1NF gereksinimlerini karşılar
+   - Kısmi bağımlılıklar yok
+
+3. **Üçüncü Normal Form (3NF)**
+   - 2NF gereksinimlerini karşılar
+   - Geçişli bağımlılıklar yok
+
+## Popüler RDBMS Sistemleri 🌐
+
+1. **MySQL** 🐬
+   - Açık kaynak
+   - Harika topluluk desteği
+   - Web uygulamaları için mükemmel
+
+2. **PostgreSQL** 🐘
+   - Gelişmiş özellikler
+   - Karmaşık sorgular için mükemmel
+   - Güçlü veri bütünlüğü
+
+3. **Oracle** ☁️
+   - Kurumsal düzey
+   - Yüksek performans
+   - Kapsamlı özellikler
+
+## En İyi Uygulamalar 🎯
+
+1. **Tasarım İpuçları**
+   - Uygulamadan önce planlama yapın
+   - Uygun veri tiplerini kullanın
+   - Doğru indeksleme yapın
+
+2. **Performans İpuçları**
+   - Sorguları optimize edin
+   - Düzenli bakım yapın
+   - Performansı izleyin
+
+## Sonuç 🎉
+
+RDBMS, modern veri yönetiminin temel taşı olmaya devam ediyor. Bu kavramları anlamak size şu konularda yardımcı olacak:
+- Daha iyi veritabanları tasarlama
+- Verimli sorgular yazma
+- Ölçeklenebilir uygulamalar oluşturma
+
+Unutmayın, pratik yapmak çok önemli! Basit tasarımlarla başlayın ve yavaş yavaş daha karmaşık senaryolara geçin. Mutlu veritabanı tasarımları! 🚀
+
+## Ek Kaynaklar 📚
+
+- Popüler RDBMS'lerin resmi belgeleri
+- Çevrimiçi SQL pratik platformları
+- Veritabanı tasarım araçları
+
+Veritabanlarının harika dünyasını öğrenmeye ve keşfetmeye devam edin! 💪

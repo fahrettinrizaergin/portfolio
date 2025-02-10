@@ -219,3 +219,70 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+/* Custom Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  background: rgba(37, 99, 235, 0.2);
+  border: 2px solid #2563eb;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  transform-origin: center;
+  backdrop-filter: blur(2px);
+}
+
+.custom-cursor.hover {
+  width: 40px;
+  height: 40px;
+  background: rgba(37, 99, 235, 0.1);
+  mix-blend-mode: difference;
+}
+
+/* Magnetic Effect */
+.magnetic-target {
+  transition: transform 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.magnetic-target:hover {
+  transform: translate(var(--x, 0), var(--y, 0));
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glowing Effect */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(37, 99, 235, 0.6); }
+}
+
+.glowing {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Text Gradient Animation */
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-text-animated {
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #2563eb);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 8s linear infinite;
+}

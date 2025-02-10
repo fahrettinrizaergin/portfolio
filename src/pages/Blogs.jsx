@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom'; 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
+import GlobalHelmet from '../components/GlobalHelmet';
+
+import content from "../../public/contents/categories/content.js"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,12 +34,12 @@ const Blogs = () => {
         // const lang = i18n.language || 'en';
         const lang = (i18n.language || 'en').split('-')[0];
         console.log(lang)
-        const [blogsData, categoriesData] = await Promise.all([
-          import('../../public/contents/blogs.json'),
+        const [ categoriesData] = await Promise.all([
           import('../../public/contents/categories.json')
-        ]);
-
-        const blogBuildData = blogsData.default[lang]?.filter(blog => blog.isShow === true) || [];
+        ]); 
+         
+        const blogs = content[lang] || [];
+        const blogBuildData = blogs.filter(blog => blog.isShow === true); 
         setBlogs(blogBuildData);
         
         const items = categoriesData.default || []; 
@@ -78,14 +80,11 @@ const Blogs = () => {
   }
 
   return (
-    <>
-      <Helmet>
-        <title>{t('blogs.meta.title')} - Fahrettin Rıza Ergin</title>
-        <meta
-          name="description"
-          content={t('blogs.meta.description')}
-        />
-      </Helmet>
+    <> 
+      <GlobalHelmet
+        title={t('blogs.meta.title')}
+        description={t('blogs.meta.description')}
+      />
 
       <div className="min-h-screen pb-20 pt-32 bg-gradient-to-b from-blue-50/30 to-white">
         <div className="container mx-auto px-4">
