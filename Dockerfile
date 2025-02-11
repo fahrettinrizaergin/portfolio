@@ -20,7 +20,8 @@ RUN node scripts/sitemap.js
 RUN node scripts/robot.js
 
 # Build the project
-RUN npm run build
+# RUN npm run build 
+RUN npm run ssrbuild
 
 # Production stage
 FROM nginx:alpine
