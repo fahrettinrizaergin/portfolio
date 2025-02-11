@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import GlobalHelmet from '../components/GlobalHelmet';
 
 import content from "../../public/contents/categories/content.js"
+import categoriesLang from "../../public/contents/categories.js"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,18 +33,16 @@ const Blogs = () => {
     const fetchData = async () => {
       try {
         // const lang = i18n.language || 'en';
-        const lang = (i18n.language || 'en').split('-')[0];
-        console.log(lang)
-        const [ categoriesData] = await Promise.all([
-          import('../../public/contents/categories.json')
-        ]); 
+        const lang = (i18n.language || 'en').split('-')[0]; 
          
         const blogs = content[lang] || [];
         const blogBuildData = blogs.filter(blog => blog.isShow === true); 
         setBlogs(blogBuildData);
         
-        const items = categoriesData.default || []; 
-        setCategories([...items.map(item => item.name)]);
+        const items = categoriesLang[lang] || []; 
+        setCategories([...items.map(item => {
+          return {name: item.name, label: item.label}
+        })]);
         const icons = { ...items.reduce((acc, item) => ({ ...acc, [item.name]: item.icon }), {}) };
         const gradients = { ...items.reduce((acc, item) => ({ ...acc, [item.name]: item.gradient }), {}) };
         
@@ -128,13 +127,13 @@ const Blogs = () => {
               {categories.map((category, index) => (
                 <motion.button
                   key={index}
-                  onClick={() => setActiveCategory(category)}
-                  className={`px-4 py-2 rounded-lg flex items-center ${activeCategory === category ? `bg-gradient-to-r ${categoryGradients[category]} text-white shadow-lg` : 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200'} transition-all duration-300`}
+                  onClick={() => setActiveCategory(category.name)}
+                  className={`px-4 py-2 rounded-lg flex items-center ${activeCategory === category.name ? `bg-gradient-to-r ${categoryGradients[category.name]} text-white shadow-lg` : 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200'} transition-all duration-300`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className="mr-2">{categoryIcons[category]}</span>
-                  <span>{category === 'all' ? t('blogs.all_posts') : category}</span>
+                  <span className="mr-2">{categoryIcons[category.name]}</span>
+                  <span>{category === 'all' ? t('blogs.all_posts') : category.label}</span>
                 </motion.button>
               ))}
             </div>

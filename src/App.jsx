@@ -5,8 +5,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 
 import Navbar from './components/Navbar';
-import Footer from './components/Footer'; 
-import Preloader from './components/Preloader';
+import Footer from './components/Footer';  
  
 import Home from './pages/Home';
 import About from './pages/About';
@@ -45,8 +44,7 @@ function App() {
               <Route path="/blogs/:slug" element={<BlogPost />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </main>
-          <Preloader />
+          </main> 
           <Footer /> 
         </div>
         </HelmetProvider>

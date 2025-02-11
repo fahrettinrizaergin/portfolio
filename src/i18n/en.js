@@ -18,6 +18,12 @@ export default {
                 "Passionate about creating efficient, scalable, and maintainable code.\n",
                 "Specializing in full-stack development with modern technologies."
             ],
+            hero_card: {
+                skills: "Skills",
+                interests: "Interests",
+                languages: "Languages",
+                contact: "Contact",
+            },
             some_use_the_techs: {
                 title: "Some of the Technology Stack I Use",
                 frontend: "Frontend",

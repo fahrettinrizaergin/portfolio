@@ -1,0 +1,22 @@
+export default [
+    {
+        "title": "Yazılım Geliştirmeye Giriş",
+        "excerpt": "Yazılım geliştirmenin temellerini öğrenin. Yazılım yaşam döngüsü, tasarım prensipleri, mimari yaklaşımlar ve en iyi uygulamalar hakkında kapsamlı bilgi edinin.",
+        "date": "Feb 11, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-fundamentals",
+        "contentFile": "software-fundamentals.mdx",
+        "isShow": true
+    },
+    {
+        "title": "Front-end, Back-end ve Full Stack Developer: Hangi Alan Size Uygun?",
+        "excerpt": "Farklı yazılım geliştirme alanlarını keşfedin. Front-end, back-end ve full stack geliştirme yollarını karşılaştırarak size en uygun olanı bulun.",
+        "date": "Feb 11, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-developer-paths",
+        "contentFile": "software-developer-paths.mdx",
+        "isShow": true
+    }
+]

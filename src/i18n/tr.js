@@ -15,6 +15,12 @@ export default {
         "Verimli, ölçeklenebilir ve bakımı yapılabilir kod oluşturma konusunda tutkulu.\n",
         "Modern teknolojilerle full-stack geliştirme konusunda uzmanlaşmaya devam ediyorum.\n",
       ],
+      hero_card: {
+          skills: "Yetenekler",
+          interests: "İlgi Alanlarım",
+          languages: "Diller",
+          contact: "İletişim",
+      },
       some_use_the_techs: {
         title: "Kullanılan Teknolojilerden Bazıları",
         frontend: "Frontend",

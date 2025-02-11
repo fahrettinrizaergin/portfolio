@@ -16,29 +16,151 @@ const Home = () => {
   const heroRef = useRef(null);
   const featuredRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [currentText, setCurrentText] = useState('');
   const [blogPosts, setBlogPosts] = useState([]);
+  const [fullText, setFullText] = useState(`const developer = {
+  name: 'Fahrettin Rıza Ergin',
+  title: '${t('home.title')}',
+  location: 'Turkey',
+  skills: ['JavaScript', 'React', 'Node.js', 'Go'],
+  languages: ['Turkish', 'English'],
+  interests: ['Web Development', 'Open Source', 'DevOps'],
+  currentFocus: '${t('home.description')}',
+  contact: {
+    email: 'contact@fahrettinrizaergin.com',
+    github: 'github.com/fahrettinrizaergin',
+    linkedin: 'linkedin.com/in/fahrettinrizaergin'
+  }
+};`);
+  const [stats, setStats] = useState({
+    commits: '2,500+',
+    projects: '15+',
+    experience: '5+ years',
+    contributions: '500+'
+  });
+
   const [activeTab, setActiveTab] = useState('all');
   const [isHovered, setIsHovered] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const lang = (i18n.language || 'en').split('-')[0];
+
       const blogs = content[lang] || [];
+
       const blogBuildData = blogs.filter(blog => blog.isShow === true) || [];
       const lastThreeBlogs = blogBuildData.slice(-3);
-      lastThreeBlogs.reverse();
+       lastThreeBlogs.reverse();
       setBlogPosts(lastThreeBlogs);
     }
-    fetchData();
+    fetchData()
+
+    setFullText(`const developer = {
+  name: 'Fahrettin Rıza Ergin',
+  title: '${t('home.title')}',
+  location: 'Turkey',
+  skills: ['JavaScript', 'React', 'Node.js', 'Go'],
+  languages: ['Turkish', 'English'],
+  interests: ['Web Development', 'Open Source', 'DevOps'],
+  currentFocus: '${t('home.description')}',
+  contact: {
+    email: 'contact@fahrettinrizaergin.com',
+    github: 'github.com/fahrettinrizaergin',
+    linkedin: 'linkedin.com/in/fahrettinrizaergin'
+  }
+};`)
+  }, [i18n.language, t])
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setCurrentText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 50);
 
     const loadTimer = setTimeout(() => {
       setIsLoaded(true);
-    }, 100);
+    }, 100); 
+
+    const ctx = gsap.context(() => {
+      gsap.to('.hero-gradient', {
+        backgroundPosition: '200% center',
+        duration: 20,
+        repeat: -1,
+        ease: 'none',
+        force3D: true
+      });
+
+      gsap.to('.matrix-rain', {
+        y: '100%',
+        opacity: 0.3,
+        duration: 'random(2, 4)',
+        repeat: -1,
+        ease: 'none',
+        stagger: {
+          amount: 2,
+          from: 'random'
+        }
+      });
+
+      const heroTl = gsap.timeline({
+        defaults: {
+          ease: 'power3.out',
+          duration: 0.8,
+          force3D: true
+        }
+      });
+
+      heroTl
+        .fromTo('.terminal-header',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1 }
+        )
+        .fromTo('.terminal-body',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1 },
+          '-=0.6'
+        )
+        .fromTo('.hero-description',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1 },
+          '-=0.4'
+        )
+        .fromTo('.tech-stack',
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1 },
+          '-=0.2'
+        );
+
+      ScrollTrigger.create({
+        trigger: '.featured-section',
+        start: 'top center+=100',
+        onEnter: () => {
+          gsap.to('.project-card', {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: 'power3.out',
+            force3D: true
+          });
+        },
+        once: true
+      });
+    });
 
     return () => {
+      ctx.revert();
       clearTimeout(loadTimer);
+      clearInterval(typingInterval);
     };
-  }, [i18n.language]);
+  }, []);
+
+  // Remove the duplicate setFullText call here
 
   const statsVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -78,119 +200,54 @@ const Home = () => {
         </div>
 
         <div className="container relative z-10 px-4 mt-20 lg:mt-0">
-          <div className="mx-auto">
-            <div className="bg-gradient-to-br from-white/90 to-blue-50/90 backdrop-blur-sm rounded-2xl shadow-xl border border-blue-100/50 overflow-hidden">
-              <div className="p-8 relative">
-                {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-2xl transform translate-x-10 -translate-y-10"></div>
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-green-400/10 to-blue-400/10 rounded-full blur-2xl transform -translate-x-10 translate-y-10"></div>
-
-                {/* Header Section */}
-                <div className="flex flex-col md:flex-row items-center justify-between mb-8 relative">
-                  <div className="text-center md:text-left mb-6 md:mb-0">
-                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 bg-clip-text text-transparent mb-3" 
-                        style={{ fontDisplay: 'swap' }}>
-                      {t('home.greeting')}
-                    </h1>
-                    <p className="text-xl text-gray-600 font-medium">{t('home.title')}</p>
-                  </div>
-                  <div className="relative">
-                    <div className="w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-400 rounded-2xl rotate-3 transform hover:rotate-6 transition-transform duration-300">
-                      <div className="w-full h-full bg-white rounded-2xl -rotate-3 flex items-center justify-center text-3xl transform hover:-rotate-6 transition-transform duration-300">
-                        👨‍💻
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Skills Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div className="space-y-4">
-                    <div className="bg-white/50 p-6 rounded-xl border border-blue-100/50 hover:shadow-lg transition-all duration-300">
-                      <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span className="text-blue-500">⚡</span> {t('home.hero_card.skills')}
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {['JavaScript', 'React', 'Node.js', 'Go', 'Php'].map((skill, index) => (
-                          <span key={index} 
-                                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="bg-white/50 p-6 rounded-xl border border-green-100/50 hover:shadow-lg transition-all duration-300">
-                      <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span className="text-green-500">🌍</span> {t('home.hero_card.languages')}
-                      </h3>
-                      <div className="flex gap-3">
-                        {['Turkish', 'English'].map((lang, index) => (
-                          <span key={index} 
-                                className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
-                            {lang}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="bg-white/50 p-6 rounded-xl border border-purple-100/50 hover:shadow-lg transition-all duration-300">
-                      <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span className="text-purple-500">🚀</span> {t('home.hero_card.interests')}
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {['Web Development', 'Open Source', 'DevOps'].map((interest, index) => (
-                          <span key={index} 
-                                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
-                            {interest}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="bg-white/50 p-6 rounded-xl border border-gray-100/50 hover:shadow-lg transition-all duration-300">
-                      <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span className="text-gray-500">📫</span> {t('home.hero_card.contact')}
-                      </h3>
-                      <div className="space-y-3">
-                        <a href="mailto:contact@fahrettinrizaergin.com" 
-                           className="flex items-center gap-3 text-gray-600 hover:text-blue-600 transition-colors duration-300">
-                          <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                          </div>
-                          <span className="font-medium">contact@fahrettinrizaergin.com</span>
-                        </a>
-                        <a href="https://github.com/fahrettinrizaergin" target="_blank" rel="noopener noreferrer"
-                           className="flex items-center gap-3 text-gray-600 hover:text-blue-600 transition-colors duration-300">
-                          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                          </div>
-                          <span className="font-medium">github.com/fahrettinrizaergin</span>
-                        </a>
-                        <a href="https://linkedin.com/in/fahrettinrizaergin" target="_blank" rel="noopener noreferrer"
-                           className="flex items-center gap-3 text-gray-600 hover:text-blue-600 transition-colors duration-300">
-                          <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                          </div>
-                          <span className="font-medium">linkedin.com/in/fahrettinrizaergin</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-gray-600 text-center text-lg">{t('home.description')}</p>
-                <p className="text-gray-600 text-center text-lg">{t('home.hero_descs.0')}</p>
-                <p className="text-gray-600 text-center text-lg">{t('home.hero_descs.1')}</p>
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-blue-100 overflow-hidden">
+              <div className="terminal-header flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700">
+                <div className="w-3 h-3 rounded-full bg-red-400 hover:bg-red-500 transition-colors duration-300"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400 hover:bg-yellow-500 transition-colors duration-300"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400 hover:bg-green-500 transition-colors duration-300"></div>
+                <span className="ml-2 text-sm text-gray-400 font-mono">~/developer-profile</span>
               </div>
+              <div className="p-6 bg-gray-900 text-gray-300">
+                <div className="flex items-center text-green-400 mb-2 font-mono">
+                  <span className="mr-2">$</span>
+                  <span className="typing-cursor">node developer.js</span>
+                </div>
+                <pre className="text-gray-300 whitespace-pre-wrap font-mono bg-gray-800/50 p-4 rounded-lg overflow-x-auto">
+                  {currentText}
+                </pre>
+              </div>
+            </div>
+
+            <div className="mt-12 text-center">
+              <p className="hero-description text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                {t('home.hero_descs.0')}
+              </p>
+              <p className="hero-description text-lg md:text-xl text-gray-600 mb-20 max-w-2xl mx-auto">
+                {t('home.hero_descs.1')}
+              </p>
+
+              <div className="tech-stack space-y-6">
+                <h3 className="text-gray-800 font-semibold mb-4">{t('home.some_use_the_techs.title')}</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { title: t('home.some_use_the_techs.frontend'), tech: 'React, Vue, Next.js', color: 'blue' },
+                    { title: t('home.some_use_the_techs.backend'), tech: 'Node.js, Go, Python', color: 'indigo' },
+                    { title: t('home.some_use_the_techs.database'), tech: 'PostgreSQL, MongoDB', color: 'purple' },
+                    { title: t('home.some_use_the_techs.devops'), tech: 'Docker', color: 'green' }
+                  ].map((stack, index) => (
+                    <motion.div
+                      key={index}
+                      className={`p-4 rounded-lg bg-white shadow-sm border border-${stack.color}-100 hover:shadow-md transition-all duration-300`}
+                      whileHover={{ y: -5 }}
+                    >
+                      <h4 className={`text-${stack.color}-600 mb-2 font-semibold`}>{stack.title}</h4>
+                      <div className="text-sm text-gray-600">{stack.tech}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
