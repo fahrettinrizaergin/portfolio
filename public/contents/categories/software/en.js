@@ -18,5 +18,25 @@ export default [
         "slug": "software-developer-paths",
         "contentFile": "software-developer-paths.mdx",
         "isShow": true
+    },
+    {
+        "title": "Effective Learning Techniques in Software",
+        "excerpt": "Discover effective learning methods in the software world. Learn about active learning, Pomodoro technique, Feynman technique, and spaced repetition strategies.",
+        "date": "Feb 11, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-learning-techniques",
+        "contentFile": "software-learning-techniques.mdx",
+        "isShow": true
+    },
+    {
+        "title": "Everything You Need to Know About APIs",
+        "excerpt": "Learn what APIs are, their types, and how to use them with practical examples. Deep dive into REST, SOAP, and GraphQL APIs.",
+        "date": "Feb 11, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-api-guide",
+        "contentFile": "software-api-guide.mdx",
+        "isShow": true
     }
 ]

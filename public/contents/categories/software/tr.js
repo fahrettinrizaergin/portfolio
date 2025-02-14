@@ -18,5 +18,25 @@ export default [
         "slug": "software-developer-paths",
         "contentFile": "software-developer-paths.mdx",
         "isShow": true
+    },
+    {
+        "title": "Yazılımda Etkili Öğrenme Teknikleri",
+        "excerpt": "Yazılım dünyasında daha etkili öğrenme yöntemlerini keşfedin. Aktif öğrenme, Pomodoro tekniği, Feynman tekniği ve aralıklı tekrar gibi etkili öğrenme stratejilerini öğrenin.",
+        "date": "Feb 11, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-learning-techniques",
+        "contentFile": "software-learning-techniques.mdx",
+        "isShow": true
+    },
+    {
+        "title": "API'ler Hakkında Bilmen Gereken Her Şey",
+        "excerpt": "API'lerin ne olduğunu, türlerini ve nasıl kullanılacağını pratik örneklerle öğrenin. REST, SOAP ve GraphQL API'lerini derinlemesine inceleyin.",
+        "date": "Feb 11, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-api-guide",
+        "contentFile": "software-api-guide.mdx",
+        "isShow": true
     }
 ]

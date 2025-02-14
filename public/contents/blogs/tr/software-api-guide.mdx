@@ -1,0 +1,59 @@
+# API'ler Hakkında Bilmen Gereken Her Şey 🚀
+
+## API Nedir? 🤔
+
+Hadi API'nin ne olduğunu günlük hayattan bir örnekle açıklayalım. Bir restorana gittiğini düşün. Sen (müşteri) masadasın ve garson (API) mutfakla (sistem) senin arandaki iletişimi sağlıyor. Yemek siparişi vermek istediğinde, doğrudan mutfağa girmiyorsun, değil mi? İşte API de aynen böyle çalışır!
+
+API (Application Programming Interface), farklı yazılımların birbiriyle güvenli ve düzenli bir şekilde iletişim kurmasını sağlayan bir arayüzdür. Yani bir nevi yazılım dünyasının garsonu gibidir! 😊
+
+## API Türleri Nelerdir? 🌈
+
+API'lerin farklı türleri vardır, tıpkı farklı restoran türleri gibi. İşte en yaygın olanları:
+
+### 1. REST API 🌐
+- En yaygın kullanılan API türü
+- HTTP protokolünü kullanır
+- Basit ve anlaşılır yapıya sahip
+- GET, POST, PUT, DELETE gibi standart metodları kullanır
+
+### 2. SOAP API 📦
+- Daha katı kurallara sahip
+- Genellikle kurumsal uygulamalarda kullanılır
+- XML formatını kullanır
+- Yüksek güvenlik sunar
+
+### 3. GraphQL API 📊
+- Modern ve esnek bir yapı
+- Tam olarak istediğin veriyi alabilirsin
+- Tek endpoint üzerinden çalışır
+- Facebook tarafından geliştirildi
+
+## Nasıl Kullanılır? 🛠️
+
+Hadi şimdi bir API'yi nasıl kullanacağını basit bir örnekle açıklayalım:
+
+### 1. Basit Bir API İsteği 📝
+```javascript
+// Hava durumu API'sinden veri çekelim
+fetch('https://api.weather.com/istanbul')
+  .then(response => response.json())
+  .then(data => console.log('Hava durumu:', data))
+```
+
+### 2. API Kullanırken Dikkat Edilmesi Gerekenler 🎯
+- API anahtarını güvende tut
+- İstek limitlerini kontrol et
+- Hata durumlarını yönet
+- Dokümantasyonu dikkatli oku
+
+### 3. İyi Uygulamalar 💡
+- İstekleri cache'le
+- Rate limiting'e dikkat et
+- Güvenlik önlemlerini al
+- Düzgün hata yönetimi yap
+
+## Sonuç 🎉
+
+Gördüğün gibi, API'ler aslında çok karmaşık değil! Sadece iki sistem arasında iletişimi sağlayan arkadaş canlısı aracılar. Başlangıçta biraz kafa karıştırıcı gelebilir, ama zamanla çok seveceksin.
+
+Umarım bu yazı API'leri daha iyi anlamana yardımcı olmuştur. Herhangi bir sorun olursa bana yazmaktan çekinme! 👋
