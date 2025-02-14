@@ -38,5 +38,15 @@ export default [
         "slug": "software-api-guide",
         "contentFile": "software-api-guide.mdx",
         "isShow": true
+    },
+    {
+        "title": "Understanding Open Source Software: A Comprehensive Guide",
+        "excerpt": "Discover what open source software is, its advantages, features, and popular examples. Learn about community support and usage practices.",
+        "date": "Feb 13, 2025",
+        "category": "Software",
+        "image": "",
+        "slug": "software-open-source",
+        "contentFile": "software-open-source.mdx",
+        "isShow": true
     }
 ]

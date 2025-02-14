@@ -1,11 +1,11 @@
 export const socials = {
     github: {
         name: 'Github',
-        url: 'https://github.com/fahrettinrizaergin/',
+        url: 'https://github.com/fahrettinrizaergin',
     },
     linkedin: {
         name: 'LinkedIn',
-        url: 'https://www.linkedin.com/in/fahrettin-riza-ergin/',
+        url: 'https://www.linkedin.com/in/fahrettin-riza-ergin',
     },
     twitter: {
         name: 'Twitter',
@@ -13,11 +13,11 @@ export const socials = {
     },
     instagram: {
         name: 'Instagram',
-        url: '',
+        url: 'https://www.instagram.com/fahrettin_riza_ergin',
     },
     facebook: {
         name: 'Facebook',
-        url: '',
+        url: 'https://www.facebook.com/byfahrettinrizaergin',
     },
     youtube: {
         name: 'YouTube',
